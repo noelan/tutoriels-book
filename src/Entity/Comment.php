@@ -2,11 +2,16 @@
 
 namespace App\Entity;
 
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
+ * @ApiResource(
+ *      normalizationContext={"groups"={"comment_read"}}
+ * )
  */
 class Comment
 {
@@ -14,27 +19,42 @@ class Comment
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"comment_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le commentaire ne peut pas être vide")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 300,
+     *      minMessage = "Votre commentaire faire minimum 1 caractères",
+     *      maxMessage = "Votre commentaire doit faire maximum 300 caractères"
+     * )
+     * @Groups({"comment_read"})
      */
     private $comment;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @Assert\NotBlank(message="Le champ user commentaire ne peut pas être vide")
+     * @Groups({"comment_read"})
      */
     private $user;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="Le champ creadtedAt ne peut pas être vide")
+     * @Groups({"comment_read"})
      */
     private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message="Le commentaire doit apartenir à un poste")
+     * @Groups({"comment_read"})
      */
     private $post;
 

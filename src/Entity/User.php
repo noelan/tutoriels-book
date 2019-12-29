@@ -3,10 +3,18 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ApiResource(
+ *      normalizationContext={"groups"={"user_read"}}
+ * )
+ * @UniqueEntity("email", message="L'email est déja utilisé")
  */
 class User implements UserInterface
 {
@@ -14,11 +22,15 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"user_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message="Veuillez renseigner votre email")
+     * @Assert\Email(message="Veuillez mettre un email valide")
+     * @Groups({"user_read"})
      */
     private $email;
 
@@ -30,11 +42,26 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Le mot de passe ne peut pas être vide")
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 50,
+     *      minMessage = "Votre mot de passe doit faire minimum 5 caractères",
+     *      maxMessage = "Votre mot de passe doit faire maximum 50 caractères"
+     * )
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le pseudo ne peut pas être vide")
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 50,
+     *      minMessage = "Votre pseudo faire minimum {{ limite }} caractères",
+     *      maxMessage = "Votre pseudo doit faire maximum {{ limite }} caractères"
+     * )
+     * @Groups({"user_read"})
      */
     private $pseudo;
 

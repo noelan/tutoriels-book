@@ -2,12 +2,18 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
+ * @ApiResource(
+ *      normalizationContext={"groups"={"post_read"}}
+ * )
  */
 class Post
 {
@@ -15,37 +21,60 @@ class Post
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"post_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner le titre")
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 100,
+     *      minMessage = "Votre titre doit faire minimum 5 caractères",
+     *      maxMessage = "Votre titre doit faire maximum 100 caractères"
+     * )
+     * @Groups({"post_read"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=1000)
+     * @Assert\Length(
+     *      min = null,
+     *      max = 1000,
+     *      maxMessage = "Votre description doit faire maximum 1000 caractères"
+     * )
+     * @Groups({"post_read"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner la difficulté")
+     * @Groups({"post_read"})
      */
     private $difficulty;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez mettre un lien")
+     * @Assert\Url(message="L'url n'est pas valide")
+     * @Groups({"post_read"})
      */
     private $href;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
+     * @Groups({"post_read"})
      */
     private $user;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post")
+     * @Groups({"post_read"})
      */
     private $comments;
 
