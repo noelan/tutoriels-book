@@ -12,6 +12,7 @@ import LoginPage from "./pages/Loginpage";
 import PostePage from "./pages/Postepage";
 import PostesPage from "./pages/Postespage";
 import ShowPage from "./pages/Showpage";
+import MyPostsPage from "./pages/MyPostsPage";
 
 require("../css/app.css");
 
@@ -26,7 +27,8 @@ const App = () => {
   );
   const contextValue = {
     isAuthenticated,
-    setIsAuthenticated
+    setIsAuthenticated,
+    userId: window.localStorage.getItem("userId")
   };
 
   const NavbarWithRouter = withRouter(Navbar);
@@ -38,6 +40,7 @@ const App = () => {
 
         <main className="container pt-5">
           <Switch>
+            <PrivateRoute path="/postes/myposts" component={MyPostsPage} />
             <PrivateRoute path="/postes/show/:id" component={ShowPage} />
             <PrivateRoute path="/postes/:id" component={PostePage} />
             <PrivateRoute path="/postes" component={PostesPage} />

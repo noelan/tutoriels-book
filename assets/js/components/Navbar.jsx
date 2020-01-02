@@ -28,6 +28,11 @@ const Navbar = props => {
               Les postes
             </Link>
           </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/postes/myposts">
+              Mes postes
+            </Link>
+          </li>
         </ul>
         <ul className="navbar-nav ml-auto">
           {(!isAuthenticated && (
@@ -44,11 +49,13 @@ const Navbar = props => {
               </li>
             </>
           )) || (
-            <li className="nav-item">
-              <button className="btn btn-danger" onClick={handleLogout}>
-                Se déconnecter
-              </button>
-            </li>
+            <>
+              <li className="nav-item">
+                <button className="btn btn-danger" onClick={handleLogout}>
+                  Se déconnecter
+                </button>
+              </li>
+            </>
           )}
         </ul>
       </div>

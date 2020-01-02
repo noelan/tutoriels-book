@@ -23,10 +23,17 @@ async function deletePost(id) {
   return Axios.delete(POSTES_API + "/" + id).then(response => response.data);
 }
 
+async function findUserPosts(id) {
+  return Axios.get(POSTES_API + "?user=" + id).then(
+    response => response.data["hydra:member"]
+  );
+}
+
 export default {
   findAll,
   create,
   findById,
   edit,
-  deletePost
+  deletePost,
+  findUserPosts
 };

@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import PosteAPI from "../api/PosteAPI";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import Pagination from "../components/Pagination";
+import AuthContext from "../contexts/AuthContext";
 
 const PostesPage = props => {
   const [postes, setPostes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemPerPage = 15;
+  const { userId } = useContext(AuthContext);
 
   /**
    * Récupération de tous les postes (findAll)
@@ -53,7 +55,6 @@ const PostesPage = props => {
             <th>Titre</th>
             <th>Description</th>
             <th>Difficulté</th>
-            <th>Créateur</th>
           </tr>
         </thead>
         <tbody>
@@ -64,7 +65,6 @@ const PostesPage = props => {
               </td>
               <td>{poste.description}</td>
               <td>{poste.difficulty}</td>
-              <td>{poste.user.pseudo}</td>
             </tr>
           ))}
         </tbody>

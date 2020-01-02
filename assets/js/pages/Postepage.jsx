@@ -12,7 +12,8 @@ const PostePage = props => {
     title: "",
     difficulty: "Facile",
     href: "",
-    description: ""
+    description: "",
+    id: ""
   });
 
   const [editing, setEditing] = useState(false);
@@ -101,6 +102,15 @@ const PostePage = props => {
   return (
     <>
       <h1>{(editing && "Modification d'un poste") || "Création d'un poste"}</h1>
+      {editing && (
+        <>
+          <p>
+            <Link className="btn btn-link" to={"/postes/show/" + id}>
+              Voir le poste
+            </Link>
+          </p>
+        </>
+      )}
 
       <form onSubmit={handleSubmit}>
         <Field
