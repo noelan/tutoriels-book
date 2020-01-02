@@ -61,7 +61,7 @@ class User implements UserInterface
      *      minMessage = "Votre pseudo faire minimum {{ limite }} caractères",
      *      maxMessage = "Votre pseudo doit faire maximum {{ limite }} caractères"
      * )
-     * @Groups({"user_read"})
+     * @Groups({"user_read", "post_read"})
      */
     private $pseudo;
 

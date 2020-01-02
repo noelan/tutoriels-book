@@ -9,9 +9,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
- * @ApiResource(
- *      normalizationContext={"groups"={"comment_read"}}
- * )
+ * @ApiResource( attributes={
+ *      "normalizationContext"={"groups"={"comment_read"}},
+ *      "force_eager"=false
+ * })
  */
 class Comment
 {
@@ -19,7 +20,7 @@ class Comment
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"comment_read"})
+     * @Groups({"comment_read", "post_read"})
      */
     private $id;
 
@@ -32,21 +33,21 @@ class Comment
      *      minMessage = "Votre commentaire faire minimum 1 caractères",
      *      maxMessage = "Votre commentaire doit faire maximum 300 caractères"
      * )
-     * @Groups({"comment_read"})
+     * @Groups({"comment_read", "post_read"})
      */
     private $comment;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User",cascade={"persist"} )
      * @Assert\NotBlank(message="Le champ user commentaire ne peut pas être vide")
-     * @Groups({"comment_read"})
+     * @Groups({"comment_read", "post_read"})
      */
     private $user;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank(message="Le champ creadtedAt ne peut pas être vide")
-     * @Groups({"comment_read"})
+     * @Groups({"comment_read", "post_read"})
      */
     private $createdAt;
 

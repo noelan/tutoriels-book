@@ -45,6 +45,7 @@ class Post
      *      max = 1000,
      *      maxMessage = "Votre description doit faire maximum 1000 caractères"
      * )
+     * @Assert\NotBlank(message="Veuillez mettre une description")
      * @Groups({"post_read"})
      */
     private $description;
@@ -65,7 +66,7 @@ class Post
     private $href;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank
      * @Groups({"post_read"})
@@ -73,8 +74,8 @@ class Post
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post")
-     * @Groups({"post_read"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post",  cascade={"remove"})
+     * @Groups({"post_read", "comment_read"})
      */
     private $comments;
 
