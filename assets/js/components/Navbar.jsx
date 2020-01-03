@@ -25,12 +25,12 @@ const Navbar = props => {
           </li>
           <li className="nav-item pr-3 font-weight-bold">
             <Link to="/postes" className="nav-link workSans">
-              Les postes
+              Les Tutoriels
             </Link>
           </li>
           <li className="nav-item pr-3 font-weight-bold">
             <Link className="nav-link workSans" to="/postes/myposts">
-              Mes postes
+              Mes Tutoriels
             </Link>
           </li>
         </ul>

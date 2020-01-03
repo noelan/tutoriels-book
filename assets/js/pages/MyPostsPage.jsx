@@ -38,12 +38,12 @@ const MyPostsPage = props => {
     <>
       <div className="container pt-5">
         <div className="justify-content-between">
-          <h1 class="text-center workSans">Mes postes</h1>
-          <Link to="/postes/new" className="btn btn-link p-3 fs-2">
-            Créer un poste
-          </Link>
+          <h1 class="text-center workSans">Mes tutoriels</h1><p className="text-center">
+          <Link to="/postes/new" className="btn btn-link p-3 fs-2 ">
+            Créer un tuto
+          </Link></p>
         </div>
-        <div className="row">
+        { (postes.length > 0 &&<div className="row">
           {postes.map(poste => (
             <div
               key={poste.id}
@@ -72,8 +72,8 @@ const MyPostsPage = props => {
                 </li>
               </ul>
             </div>
-          ))}
-        </div>
+          ))} 
+        </div>) || <h2 className="text-center workSans pt-5">Tu n'a pas de tutoriel !</h2>} 
       </div>
     </>
   );

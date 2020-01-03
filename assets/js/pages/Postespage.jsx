@@ -74,7 +74,7 @@ const PostesPage = props => {
   return (
     <>
       <div className="container pt-5">
-        <h1 className="text-center workSans mb-3">Voici les postes</h1>
+        <h1 className="text-center workSans mb-3">Voici les tutoriels</h1>
         <Pagination
           currentPage={currentPage}
           itemPerPage={itemsPerPage}
