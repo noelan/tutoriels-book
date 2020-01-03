@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PosteAPI from "../api/PosteAPI";
 import CommentAPI from "../api/CommentAPI";
 import { toast } from "react-toastify";
 import moment from "moment";
+import AuthContext from "../contexts/AuthContext";
 
 const ShowPage = props => {
+  const { userId } = useContext(AuthContext);
   const { id } = props.match.params;
   // Permet de savoir si le champ textArea du commentaire et vide ou non
   const [isEmpty, setIsEmpty] = useState(true);
@@ -17,12 +19,13 @@ const ShowPage = props => {
     difficulty: "Facile",
     href: "",
     description: "",
-    comments: [{}]
+    comments: []
   });
 
   const fetchPost = async () => {
     try {
       const currentPost = await PosteAPI.findById(id);
+
       const {
         title,
         difficulty,
@@ -31,6 +34,8 @@ const ShowPage = props => {
         user,
         comments
       } = currentPost;
+      // Inversion du tableau de commentaires afin d'afficher les nouveau en premier
+      comments.reverse();
       const hrefValidate = toValidateUrl(href);
       setPoste({
         title,
@@ -43,6 +48,23 @@ const ShowPage = props => {
     } catch (error) {
       console.log(error.response);
     }
+  };
+
+  const dynamicSort = property => {
+    var sortOrder = 1;
+
+    if (property[0] === "-") {
+      sortOrder = -1;
+      property = property.substr(1);
+    }
+
+    return function(a, b) {
+      if (sortOrder == -1) {
+        return b[property].localeCompare(a[property]);
+      } else {
+        return a[property].localeCompare(b[property]);
+      }
+    };
   };
 
   useEffect(() => {
@@ -159,24 +181,24 @@ const ShowPage = props => {
         <h3 className="text-center p-3 workSans">Les commentaires</h3>
         <div>
           <form>
-            {poste.comments.map(comment => (
-              <>
+            {poste.comments &&
+              poste.comments.map(comment => (
                 <div key={comment.id}>
-                  <h4 className="workSans">Pseudo</h4>
+                  <h4 className="workSans">{comment && comment.user.pseudo}</h4>
                   <p className="workSans">{comment.comment}</p>
                   <p>{formatDate(comment.createdAt)}</p>
-                  <button
-                    onClick={handleDelete}
-                    value={comment.id}
-                    className="btn btn-link"
-                  >
-                    Supprimer
-                  </button>
+                  {comment && comment.user.id == userId && (
+                    <button
+                      onClick={handleDelete}
+                      value={comment.id}
+                      className="btn btn-link"
+                    >
+                      Supprimer
+                    </button>
+                  )}
+                  <hr></hr>
                 </div>
-                <p></p>
-                <hr></hr>
-              </>
-            ))}
+              ))}
           </form>
         </div>
       </div>

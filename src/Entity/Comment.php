@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
  * @ApiResource( attributes={
  *      "normalizationContext"={"groups"={"comment_read"}},
- *      "force_eager"=false
+ *      "force_eager"=false,
  * })
  */
 class Comment
