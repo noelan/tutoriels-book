@@ -23,7 +23,7 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"user_read"})
+     * @Groups({"user_read", "post_read"})
      */
     private $id;
 

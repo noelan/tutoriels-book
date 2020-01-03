@@ -13,10 +13,12 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
- * @ApiResource(
- *      normalizationContext={"groups"={"post_read"}}
- * )
- * @ApiFilter(SearchFilter::Class, properties={"user": "exact"})
+ * @ApiResource(attributes={
+ *      "normalization_context"={"groups"={"post_read"}},
+ *      "order"={"id": "DESC"}
+ * })
+ * @ApiFilter(SearchFilter::class, properties={"user": "exact"})
+
  */
 class Post
 {

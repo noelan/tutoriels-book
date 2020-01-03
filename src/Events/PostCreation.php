@@ -36,6 +36,7 @@ class PostCreation implements EventSubscriberInterface
 
         $user = $this->security->getUser();
 
+
         if ($post instanceof Post && $method == "POST") {
             $user = $this->security->getUser();
             $post->setUser($user);

@@ -15,6 +15,9 @@ const HomePage = () => {
               & Api Platform), et un Front-end en react !
             </p>
             <p className="devWeb">Responsive pas encore géré &#128528; </p>
+            <p className="descriptionHome">
+              Site regroupant divers tutoriel ! Venez en créer un !{" "}
+            </p>
           </div>
         </div>
       </div>

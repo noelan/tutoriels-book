@@ -5,7 +5,7 @@ async function findAll() {
   return Axios.get(POSTES_API).then(response => response.data["hydra:member"]);
 }
 
-function create(poste) {
+async function create(poste) {
   return Axios.post(POSTES_API, poste).then(response => response.data);
 }
 

@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Field from "../components/forms/Field";
 import Select from "../components/forms/Select";
 import PosteAPI from "../api/PosteAPI";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import AuthContext from "../contexts/AuthContext";
 
 const PostePage = props => {
+  const { userId } = useContext(AuthContext);
+
   const { id = "new" } = props.match.params;
   // La difficulté est à facile par défaut car l'utilisateur ne déclenche pas forcément le onChange du select de la difficulté
   const [poste, setPoste] = useState({
@@ -28,6 +31,10 @@ const PostePage = props => {
       const currentPost = await PosteAPI.findById(id);
       const { title, difficulty, href, description } = currentPost;
       setPoste({ title, difficulty, href, description });
+      if (userId != currentPost.user.id) {
+        toast.error("Ta pas le droit !");
+        props.history.push("/postes");
+      }
     } catch (error) {
       console.log(error.response.data);
       toast.error("Ce poste n'existe pas");
@@ -51,14 +58,21 @@ const PostePage = props => {
    */
   const handleSubmit = async event => {
     event.preventDefault();
+    const apiErrors = {};
+    if (matchYoutubeUrl(poste.href) == false) {
+      apiErrors.href = "Veuillez metre un lien youtube valide";
+      setErrors(apiErrors);
+      return;
+    }
     try {
-      console.log(poste);
       if (!editing) {
         const data = await PosteAPI.create(poste);
         toast.success("Poste créer");
         setErrors("");
+        props.history.push("/postes");
       } else {
         const data = await PosteAPI.edit(id, poste);
+        setErrors("");
         toast.success("Poste modifiée");
       }
     } catch (error) {
@@ -66,7 +80,6 @@ const PostePage = props => {
       const violations = error.response.data.violations;
       console.log(violations);
       if (violations) {
-        const apiErrors = {};
         violations.forEach(violation => {
           apiErrors[violation.propertyPath] = violation.message;
         });
@@ -101,11 +114,22 @@ const PostePage = props => {
     }
   };
 
+  const matchYoutubeUrl = url => {
+    var p = /^(?:https:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+    if (url.match(p)) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <>
       <div className="container pt-5">
         <h1>
-          {(editing && "Modification d'un poste") || "Création d'un poste"}
+          {(editing && "Modification d'un poste") || "Création d'un poste   "}
+          <span style={{ fontSize: "1.3rem" }}>
+            (Seulement les liens youtube sont gérer 🤦)
+          </span>
         </h1>
         {editing && (
           <>
@@ -147,6 +171,7 @@ const PostePage = props => {
           <Field
             label="Lien de votre vidéo youtube"
             name="href"
+            placeholder="Votre lien youtube"
             error={errors.href}
             onChange={handleChange}
             value={poste.href}

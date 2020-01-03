@@ -27,7 +27,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
             $post->setTitle(ucfirst($faker->sentence()))
                 ->setDescription(ucfirst($faker->sentence()))
                 ->setDifficulty($difficulties[rand(0, count($difficulties) - 1)])
-                ->setHref("https://www.youtube.com/watch?v=GbvwyxW2WOA&list=PLDTlf-v8f7V_MLKfR61mOOLKqQQ2IS6_-&index=195")
+                ->setHref("https://www.youtube.com/watch?v=OpUWqlsLic8")
                 ->setUser($this->getReference('user' . rand(0, 9)));
             $manager->persist($post);
 

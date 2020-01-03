@@ -59,6 +59,17 @@
   font-size: 1.5rem;
   position: absolute;
   white-space: nowrap;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 150%);
+}
+
+.descriptionHome {
+  font-family: "Noto Sans Sc";
+  color: white;
+  font-size: 1.5rem;
+  position: absolute;
+  white-space: nowrap;
   top: 90%;
   left: 50%;
   transform: translate(-50%, 50%);

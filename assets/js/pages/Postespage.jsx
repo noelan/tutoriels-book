@@ -3,14 +3,12 @@ import PosteAPI from "../api/PosteAPI";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import Pagination from "../components/Pagination";
-import AuthContext from "../contexts/AuthContext";
 
 const PostesPage = props => {
   const [postes, setPostes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const itemsPerPage = 12;
-  const { userId } = useContext(AuthContext);
 
   /**
    * Récupération de tous les postes (findAll)
@@ -100,12 +98,14 @@ const PostesPage = props => {
                 key={poste.id}
                 className="card mr-4 mb-4"
                 style={{ width: "22rem" }}
-              ><Link to={"/postes/show/" + poste.id}>
-                <img
-                  src={linkToThumbnail(poste.href)}
-                  className="card-img-top"
-                  alt="..."
-                /></Link>
+              >
+                <Link to={"/postes/show/" + poste.id}>
+                  <img
+                    src={linkToThumbnail(poste.href)}
+                    className="card-img-top"
+                    alt="..."
+                  />
+                </Link>
 
                 <div className="card-body">
                   <h5 className="card-title text-truncate">{poste.title}</h5>

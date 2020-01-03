@@ -31,15 +31,15 @@ const ShowPage = props => {
         user,
         comments
       } = currentPost;
+      const hrefValidate = toValidateUrl(href);
       setPoste({
         title,
         difficulty,
-        href,
+        href: hrefValidate,
         description,
         comments,
         user: user.pseudo
       });
-      console.log(currentPost);
     } catch (error) {
       console.log(error.response);
     }
@@ -110,17 +110,24 @@ const ShowPage = props => {
     return moment(str).format("DD/MM/YYYY");
   };
 
+  // Afin de mettre un lien youtube il faut le convertir dans un format spécifique
+  //  Lien de base -> https://www.youtube.com/watch?v=luXjNItbHC4
+  //  Lien final   -> https://www.youtube.com/embed/luXjNItbHC4
+  const toValidateUrl = link => {
+    const finalUrl = link.replace("watch?v=", "embed/");
+    const Url = finalUrl.match(
+      "^https://www.youtube.com/embed/[a-zA-Z0-9]{11}"
+    );
+    return Url;
+  };
+
   return (
     <>
       <div className="container pt-5">
         <div className="container">
           <div className="row justify-content-between pb-3">
             <div className="col-8">
-              <iframe
-                width="1100"
-                height="630"
-                src="https://www.youtube.com/embed/tgbNymZ7vqY"
-              ></iframe>
+              <iframe width="1100" height="630" src={poste.href}></iframe>
             </div>
           </div>
           <h1 className="text-center workSans pb-3">{poste.title}</h1>
