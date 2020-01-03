@@ -1,3 +1,65 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Work+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Courgette|Didact+Gothic|Fredoka+One|Noto+Sans+SC|Quattrocento&display=swap");
+
+/* Font class and color */
+
 .hidden {
   display: none;
+}
+
+.solid {
+  border: solid;
+}
+
+.fs-2 {
+  font-size: 1.5rem;
+}
+
+.workSans {
+  font-family: "Didact Gothic";
+}
+
+.courgette {
+  font-family: "Courgette";
+}
+
+/* Header Image */
+.headerDiv {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 63rem;
+}
+
+.myImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+}
+
+.myName {
+  z-index: 100;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -70%);
+}
+
+.noelAn {
+  color: white;
+  font-size: 2rem;
+  font-family: "Courgette";
+}
+
+.devWeb {
+  font-family: "Noto Sans Sc";
+  color: white;
+  font-size: 1.5rem;
+  position: absolute;
+  white-space: nowrap;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, 50%);
 }

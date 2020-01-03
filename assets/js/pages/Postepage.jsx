@@ -12,8 +12,7 @@ const PostePage = props => {
     title: "",
     difficulty: "Facile",
     href: "",
-    description: "",
-    id: ""
+    description: ""
   });
 
   const [editing, setEditing] = useState(false);
@@ -29,9 +28,9 @@ const PostePage = props => {
       const currentPost = await PosteAPI.findById(id);
       const { title, difficulty, href, description } = currentPost;
       setPoste({ title, difficulty, href, description });
-      console.log(poste);
     } catch (error) {
-      console.log(error.response);
+      console.log(error.response.data);
+      toast.error("Ce poste n'existe pas");
     }
   };
 
@@ -41,6 +40,7 @@ const PostePage = props => {
   useEffect(() => {
     if (id !== "new") {
       setEditing(true);
+
       fetchPost(id);
     }
   }, [id]);
@@ -52,8 +52,9 @@ const PostePage = props => {
   const handleSubmit = async event => {
     event.preventDefault();
     try {
+      console.log(poste);
       if (!editing) {
-        await PosteAPI.create(poste);
+        const data = await PosteAPI.create(poste);
         toast.success("Poste créer");
         setErrors("");
       } else {
@@ -61,6 +62,7 @@ const PostePage = props => {
         toast.success("Poste modifiée");
       }
     } catch (error) {
+      console.log(error.response);
       const violations = error.response.data.violations;
       console.log(violations);
       if (violations) {
@@ -101,66 +103,70 @@ const PostePage = props => {
 
   return (
     <>
-      <h1>{(editing && "Modification d'un poste") || "Création d'un poste"}</h1>
-      {editing && (
-        <>
-          <p>
-            <Link className="btn btn-link" to={"/postes/show/" + id}>
-              Voir le poste
-            </Link>
-          </p>
-        </>
-      )}
+      <div className="container pt-5">
+        <h1>
+          {(editing && "Modification d'un poste") || "Création d'un poste"}
+        </h1>
+        {editing && (
+          <>
+            <p>
+              <Link className="btn btn-link" to={"/postes/show/" + id}>
+                Voir le poste
+              </Link>
+            </p>
+          </>
+        )}
 
-      <form onSubmit={handleSubmit}>
-        <Field
-          label="Titre"
-          name="title"
-          error={errors.title}
-          onChange={handleChange}
-          value={poste.title}
-        />
-        <Field
-          label="Description"
-          name="description"
-          error={errors.description}
-          onChange={handleChange}
-          value={poste.description}
-        />
-        <Select
-          label="Difficulté"
-          name="difficulty"
-          placeholder="Veuillez choisir une difficulté"
-          error={errors.difficulty}
-          value={poste.difficulty}
-          onChange={handleChange}
-        >
-          <option value="Facile">Facile</option>
-          <option value="Intermédiaire">Intermédiaire</option>
-          <option value="Difficile">Difficile</option>
-        </Select>
-        <Field
-          label="Lien de votre vidéo youtube"
-          name="href"
-          error={errors.href}
-          onChange={handleChange}
-          value={poste.href}
-        />
-        <div className="form-group d-flex justify-content-between">
-          <button className="btn btn-primary">
-            {(editing && "Modifier") || "Créer"}
-          </button>
-          {editing && (
-            <button className="btn btn-danger" onClick={handleClick}>
-              Supprimer le poste
+        <form onSubmit={handleSubmit}>
+          <Field
+            label="Titre"
+            name="title"
+            error={errors.title}
+            onChange={handleChange}
+            value={poste.title}
+          />
+          <Field
+            label="Description"
+            name="description"
+            error={errors.description}
+            onChange={handleChange}
+            value={poste.description}
+          />
+          <Select
+            label="Difficulté"
+            name="difficulty"
+            placeholder="Veuillez choisir une difficulté"
+            error={errors.difficulty}
+            value={poste.difficulty}
+            onChange={handleChange}
+          >
+            <option value="Facile">Facile</option>
+            <option value="Intermédiaire">Intermédiaire</option>
+            <option value="Difficile">Difficile</option>
+          </Select>
+          <Field
+            label="Lien de votre vidéo youtube"
+            name="href"
+            error={errors.href}
+            onChange={handleChange}
+            value={poste.href}
+          />
+          <div className="form-group d-flex justify-content-between">
+            <button className="btn btn-primary">
+              {(editing && "Modifier") || "Créer"}
             </button>
-          )}
-        </div>
-        <hr />
-        <Link className="btn-link" to="/postes">
-          Retour à la liste
-        </Link>
-      </form>
+            {editing && (
+              <button className="btn btn-danger" onClick={handleClick}>
+                Supprimer le poste
+              </button>
+            )}
+          </div>
+          <hr />
+          <Link className="btn-link" to="/postes">
+            Retour à la liste
+          </Link>
+        </form>
+      </div>
     </>
   );
 };

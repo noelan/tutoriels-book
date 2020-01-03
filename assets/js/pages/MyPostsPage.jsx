@@ -19,35 +19,62 @@ const MyPostsPage = props => {
     fetchPosts();
   }, []);
 
+  /**
+   * Transforme un lien youtube en thumbnail
+   * @param {string} link
+   */
+  const linkToThumbnail = link => {
+    const youtubeId = link
+      .match("=[a-zA-Z-0-9]{11}")
+      .toString()
+      .substr(1);
+
+    const thumbnail =
+      "https://img.youtube.com/vi/" + youtubeId + "/hqdefault.jpg";
+    return thumbnail;
+  };
+
   return (
     <>
-      <h1>Mes postes</h1>
-      <table className="table table-hover">
-        <thead>
-          <tr>
-            <th>Titre</th>
-            <th>Description</th>
-            <th>Difficulté</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
+      <div className="container pt-5">
+        <div className="justify-content-between">
+          <h1 class="text-center workSans">Mes postes</h1>
+          <Link to="/postes/new" className="btn btn-link p-3 fs-2">
+            Créer un poste
+          </Link>
+        </div>
+        <div className="row">
           {postes.map(poste => (
-            <tr key={poste.id}>
+            <div
+              key={poste.id}
+              className="card mr-4 mb-4"
+              style={{ width: "22rem" }}
+            >
               <Link to={"/postes/show/" + poste.id}>
-                <th>{poste.title}</th>
+                <img
+                  src={linkToThumbnail(poste.href)}
+                  className="card-img-top"
+                  alt="..."
+                />
               </Link>
-              <th>{poste.description}</th>
-              <th>{poste.difficulty}</th>
-              <th>
-                <Link className="btn btn-info" to={"/postes/" + poste.id}>
-                  Modifier
-                </Link>
-              </th>
-            </tr>
+
+              <div className="card-body">
+                <h5 className="card-title text-truncate text-center">
+                  {poste.title}
+                </h5>
+              </div>
+
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item text-center">
+                  <Link to={"/postes/" + poste.id} className="btn btn-success">
+                    Modifier
+                  </Link>
+                </li>
+              </ul>
+            </div>
           ))}
-        </tbody>
-      </table>
+        </div>
+      </div>
     </>
   );
 };

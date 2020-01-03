@@ -45,28 +45,34 @@ const LoginPage = props => {
 
   return (
     <>
-      <h1>Se connecter</h1>
-      <form onSubmit={handleSubmit}>
-        <Field
-          label="Email"
-          name="username"
-          type="email"
-          onChange={handleChange}
-          placeholder="Votre email"
-          error={error}
-        />
-        <Field
-          label="Mot de passe"
-          name="password"
-          type="password"
-          placeholder="Votre mot de passe"
-          onChange={handleChange}
-          error=""
-        />
-        <div className="form-group">
-          <button className="btn btn-primary">Se connecter</button>
+      <div className="container mt-5">
+        <div className="row justify-content-center">
+          <div className="col-6 card">
+            <h1 className="workSans mb-3 text-center">Se connecter</h1>
+            <form onSubmit={handleSubmit}>
+              <Field
+                label="Email"
+                name="username"
+                type="email"
+                onChange={handleChange}
+                placeholder="Votre email"
+                error={error}
+              />
+              <Field
+                label="Mot de passe"
+                name="password"
+                type="password"
+                placeholder="Votre mot de passe"
+                onChange={handleChange}
+                error=""
+              />
+              <div className="form-group text-center">
+                <button className="btn btn-primary">Se connecter !</button>
+              </div>
+            </form>
+          </div>
         </div>
-      </form>
+      </div>
     </>
   );
 };

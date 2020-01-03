@@ -18,7 +18,7 @@ const Pagination = ({ currentPage, itemPerPage, setCurrentPage, length }) => {
   return (
     <>
       <div className="text-center">
-        <ul className="pagination pagination-sm">
+        <ul className="pagination pagination-sm justify-content-center">
           <li className={"page-item" + (currentPage === 1 && " disabled")}>
             <button
               className="page-link"

@@ -13,6 +13,7 @@ import PostePage from "./pages/Postepage";
 import PostesPage from "./pages/Postespage";
 import ShowPage from "./pages/Showpage";
 import MyPostsPage from "./pages/MyPostsPage";
+import RegisterPage from "./pages/RegisterPage";
 
 require("../css/app.css");
 
@@ -38,13 +39,14 @@ const App = () => {
       <HashRouter>
         <NavbarWithRouter />
 
-        <main className="container pt-5">
+        <main>
           <Switch>
             <PrivateRoute path="/postes/myposts" component={MyPostsPage} />
             <PrivateRoute path="/postes/show/:id" component={ShowPage} />
             <PrivateRoute path="/postes/:id" component={PostePage} />
             <PrivateRoute path="/postes" component={PostesPage} />
 
+            <Route path="/register" component={RegisterPage} />
             <Route path="/login" component={LoginPage} />
             <Route path="/" component={HomePage} />
           </Switch>

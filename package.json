@@ -20,8 +20,12 @@
     "dependencies": {
         "@babel/preset-react": "^7.0.0",
         "axios": "^0.19.0",
+        "jquery": "^3.4.1",
+        "jquery-parallax.js": "^1.5.0",
         "jwt-decode": "^2.2.0",
+        "moment": "^2.24.0",
         "react-router-dom": "^5.1.2",
-        "react-toastify": "^5.4.1"
+        "react-toastify": "^5.4.1",
+        "shortid": "^2.2.15"
     }
 }

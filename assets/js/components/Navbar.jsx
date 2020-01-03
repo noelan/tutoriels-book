@@ -15,21 +15,21 @@ const Navbar = props => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-secondary">
       <div className="collapse navbar-collapse" id="navbarColor02">
         <ul className="navbar-nav mr-auto">
-          <li className="nav-item active">
-            <Link to="/" className="nav-link">
+          <li className="nav-item pr-3 font-weight-bold">
+            <Link to="/" className="nav-link workSans">
               Home
             </Link>
           </li>
-          <li className="nav-item">
-            <Link to="/postes" className="nav-link">
+          <li className="nav-item pr-3 font-weight-bold">
+            <Link to="/postes" className="nav-link workSans">
               Les postes
             </Link>
           </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/postes/myposts">
+          <li className="nav-item pr-3 font-weight-bold">
+            <Link className="nav-link workSans" to="/postes/myposts">
               Mes postes
             </Link>
           </li>
@@ -38,14 +38,14 @@ const Navbar = props => {
           {(!isAuthenticated && (
             <>
               <li className="nav-item">
-                <Link className="btn btn-info mr-3" to="/login">
+                <Link className="btn btn-primary mr-3" to="/login">
                   Se connecter
                 </Link>
               </li>
               <li className="nav-item">
-                <a className="btn btn-info" href="#">
+                <Link className="btn btn-primary" to="/register">
                   S'inscrire
-                </a>
+                </Link>
               </li>
             </>
           )) || (

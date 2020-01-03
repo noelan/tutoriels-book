@@ -6,7 +6,7 @@ async function findAll() {
 }
 
 function create(poste) {
-  return Axios.post(POSTES_API, poste);
+  return Axios.post(POSTES_API, poste).then(response => response.data);
 }
 
 async function findById(id) {

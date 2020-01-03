@@ -15,6 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      normalizationContext={"groups"={"user_read"}}
  * )
  * @UniqueEntity("email", message="L'email est déja utilisé")
+ * @UniqueEntity("pseudo", message="Ce pseudo est déja utilisé")
  */
 class User implements UserInterface
 {
@@ -57,9 +58,9 @@ class User implements UserInterface
      * @Assert\NotBlank(message="Le pseudo ne peut pas être vide")
      * @Assert\Length(
      *      min = 3,
-     *      max = 50,
-     *      minMessage = "Votre pseudo faire minimum {{ limite }} caractères",
-     *      maxMessage = "Votre pseudo doit faire maximum {{ limite }} caractères"
+     *      max = 20,
+     *      minMessage = "Votre pseudo doit contenir minimum 3  caractères",
+     *      maxMessage = "Votre pseudo doit contenir maximum 20 caractères"
      * )
      * @Groups({"user_read", "post_read"})
      */

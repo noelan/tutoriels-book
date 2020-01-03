@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PosteAPI from "../api/PosteAPI";
 import CommentAPI from "../api/CommentAPI";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 const ShowPage = props => {
   const { id } = props.match.params;
@@ -38,6 +39,7 @@ const ShowPage = props => {
         comments,
         user: user.pseudo
       });
+      console.log(currentPost);
     } catch (error) {
       console.log(error.response);
     }
@@ -58,13 +60,14 @@ const ShowPage = props => {
       await CommentAPI.create(comment);
       fetchPost();
       toast.success("Votre commentaire à été ajouté !");
+      setComment({ comment: "", post: "/api/posts/" + id });
+      //reset textArea
     } catch (error) {
-      toast.error("Votre commentaire n'a pas pu être créer");
+      toast.error("Votre commentaire ne peut pas être vide");
     }
   };
 
-  /**
-   * Permet de récuperer les valeurs des inputs du text Area et faire apparaitre le bouton ajouter ou non
+  /** Permet de récuperer les valeurs des inputs du text Area et faire apparaitre le bouton ajouter ou non
    * @param {event} event
    */
   const handleChange = event => {
@@ -85,8 +88,6 @@ const ShowPage = props => {
     const updatedComments = [...poste.comments].filter(
       comment => comment.id != commentId
     );
-    console.log(updatedComments);
-    console.log(commentId);
     const { title, difficulty, href, description, user, comments } = poste;
     setPoste({
       title,
@@ -103,71 +104,74 @@ const ShowPage = props => {
       console.log(error.response);
     }
   };
+
+  // Formate la date
+  const formatDate = str => {
+    return moment(str).format("DD/MM/YYYY");
+  };
+
   return (
     <>
-      <h1>Voici le poste</h1>
-      <div className="container">
-        <div className="row justify-content-between">
-          <div className="col-8">
-            <iframe
-              width="840"
-              height="630"
-              src="https://www.youtube.com/embed/tgbNymZ7vqY"
-            ></iframe>{" "}
-          </div>
-          <div className="col-2">
-            <div className="row">
-              <p>{poste.title}</p>
-            </div>
-            <div className="row">
-              <p>{poste.description}</p>
-            </div>
-            <div className="row">
-              <p>La date</p>
-            </div>
-            <div className="row">
-              <p>{poste.difficulty}</p>
+      <div className="container pt-5">
+        <div className="container">
+          <div className="row justify-content-between pb-3">
+            <div className="col-8">
+              <iframe
+                width="1100"
+                height="630"
+                src="https://www.youtube.com/embed/tgbNymZ7vqY"
+              ></iframe>
             </div>
           </div>
+          <h1 className="text-center workSans pb-3">{poste.title}</h1>
+          <hr></hr>
+          <div>
+            <h2 className="workSans pb-2">{poste.user}</h2>
+            <p className="workSans">{poste.description}</p>
+            <p className="workSans">Difficulté : {poste.difficulty}</p>
+          </div>
         </div>
-      </div>
-      <hr />
-      <h3>Les commentaires</h3>
-      <form onSubmit={handleComment}>
-        <div className="form-group">
-          <label htmlFor="commentaire"></label>
-          <textarea
-            name="comment"
-            className="form-control"
-            id="exampleFormControlTextarea1"
-            rows="3"
-            placeholder="Ajouter un commentaire"
-            onChange={handleChange}
-          ></textarea>
-        </div>
-        <button className={"btn btn-info m-3 " + (isEmpty && "hidden")}>
-          Ajouter le commentaire
-        </button>
-      </form>
-      <div>
-        <form>
-          {poste.comments.map(comment => (
-            <>
-              <p key={"haha" + comment.id + comment.id + comment.id}>
-                {comment.comment}
-              </p>
+        <hr />
 
-              <button
-                key={"hoho" + comment.id + comment.id}
-                onClick={handleDelete}
-                value={comment.id}
-                className="btn btn-link"
-              >
-                Supprimer
-              </button>
-            </>
-          ))}
+        <form onSubmit={handleComment}>
+          <div className="form-group">
+            <label htmlFor="commentaire"></label>
+            <textarea
+              name="comment"
+              className="form-control"
+              rows="3"
+              placeholder="Ajouter un commentaire"
+              onChange={handleChange}
+              value={comment.comment}
+            ></textarea>
+          </div>
+          <button className={"btn btn-info m-3 " + (isEmpty && "hidden")}>
+            Ajouter le commentaire
+          </button>
         </form>
+        <h3 className="text-center p-3 workSans">Les commentaires</h3>
+        <div>
+          <form>
+            {poste.comments.map(comment => (
+              <>
+                <div key={comment.id}>
+                  <h4 className="workSans">Pseudo</h4>
+                  <p className="workSans">{comment.comment}</p>
+                  <p>{formatDate(comment.createdAt)}</p>
+                  <button
+                    onClick={handleDelete}
+                    value={comment.id}
+                    className="btn btn-link"
+                  >
+                    Supprimer
+                  </button>
+                </div>
+                <p></p>
+                <hr></hr>
+              </>
+            ))}
+          </form>
+        </div>
       </div>
     </>
   );
