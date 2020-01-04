@@ -25,7 +25,7 @@ const MyPostsPage = props => {
    */
   const linkToThumbnail = link => {
     const youtubeId = link
-      .match("=[a-zA-Z-0-9]{11}")
+      .match("=[a-zA-Z-0-9-_]{11}")
       .toString()
       .substr(1);
 
@@ -38,42 +38,53 @@ const MyPostsPage = props => {
     <>
       <div className="container pt-5">
         <div className="justify-content-between">
-          <h1 class="text-center workSans">Mes tutoriels</h1><p className="text-center">
-          <Link to="/postes/new" className="btn btn-link p-3 fs-2 ">
-            Créer un tuto
-          </Link></p>
+          <h1 class="text-center workSans">Mes tutoriels</h1>
+          <p className="text-center">
+            <Link to="/postes/new" className="btn btn-link p-3 fs-2 ">
+              Créer un tuto
+            </Link>
+          </p>
         </div>
-        { (postes.length > 0 &&<div className="row">
-          {postes.map(poste => (
-            <div
-              key={poste.id}
-              className="card mr-4 mb-4"
-              style={{ width: "22rem" }}
-            >
-              <Link to={"/postes/show/" + poste.id}>
-                <img
-                  src={linkToThumbnail(poste.href)}
-                  className="card-img-top"
-                  alt="..."
-                />
-              </Link>
+        {(postes.length > 0 && (
+          <div className="row">
+            {postes.map(poste => (
+              <div
+                key={poste.id}
+                className="card mr-4 mb-4"
+                style={{ width: "22rem" }}
+              >
+                <Link to={"/postes/show/" + poste.id}>
+                  <img
+                    src={linkToThumbnail(poste.href)}
+                    className="card-img-top"
+                    alt="..."
+                  />
+                </Link>
 
-              <div className="card-body">
-                <h5 className="card-title text-truncate text-center">
-                  {poste.title}
-                </h5>
+                <div className="card-body">
+                  <h5 className="card-title text-truncate text-center">
+                    {poste.title}
+                  </h5>
+                </div>
+
+                <ul className="list-group list-group-flush">
+                  <li className="list-group-item text-center">
+                    <Link
+                      to={"/postes/" + poste.id}
+                      className="btn btn-success"
+                    >
+                      Modifier
+                    </Link>
+                  </li>
+                </ul>
               </div>
-
-              <ul className="list-group list-group-flush">
-                <li className="list-group-item text-center">
-                  <Link to={"/postes/" + poste.id} className="btn btn-success">
-                    Modifier
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          ))} 
-        </div>) || <h2 className="text-center workSans pt-5">Tu n'a pas de tutoriel !</h2>} 
+            ))}
+          </div>
+        )) || (
+          <h2 className="text-center workSans pt-5">
+            Tu n'a pas de tutoriel !
+          </h2>
+        )}
       </div>
     </>
   );
