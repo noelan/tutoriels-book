@@ -11,16 +11,17 @@ class JwtTokenOnCreation
 
     public function onJwtcreated(JWTCreatedEvent $event)
     {
-        $data = $event->getData();
-        $user = $event->getUser();
+        //     $data = $event->getData();
+        //     $user = $event->getUser();
 
 
-        if (!$user instanceof UserInterface) {
-            return;
-        }
+        //     if (!$user instanceof UserInterface) {
+        //         return;
+        //     }
 
-        // $data['id'] = $user->getId();
+        //     // $data['id'] = $user->getId();
 
-        $event->setData($data);
+        //     $event->setData($data);
+        // }
     }
 }
