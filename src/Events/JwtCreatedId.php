@@ -3,18 +3,19 @@
 namespace App\Events;
 
 
-use Symfony\Component\Security\Core\User\UserInterface;
+use App\Entity\User;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 
-class JwtTokenOnCreation
+class JwtCreatedId
 {
 
-    public function onJwtcreated(JWTCreatedEvent $event)
+    public function updateJwtData(JWTCreatedEvent $event)
     {
-        $data = $event->getData();
         $user = $event->getUser();
 
+        $data = $event->getData();
         $data['id'] = $user->getId();
+
 
         $event->setData($data);
     }
