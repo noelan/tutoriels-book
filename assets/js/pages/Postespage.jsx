@@ -3,6 +3,7 @@ import PosteAPI from "../api/PosteAPI";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import Pagination from "../components/Pagination";
+import UrlFilter from "../services/UrlFilter";
 
 const PostesPage = props => {
   const [postes, setPostes] = useState([]);
@@ -31,21 +32,6 @@ const PostesPage = props => {
   const toPaginate = (currentPage, itemsPerPage, postes) => {
     const start = currentPage * itemsPerPage - itemsPerPage;
     return postes.slice(start, start + itemsPerPage);
-  };
-
-  /**
-   * Transforme un lien youtube en thumbnail
-   * @param {string} link
-   */
-  const linkToThumbnail = link => {
-    const youtubeId = link
-      .match("=[a-zA-Z-0-9-_]{11}")
-      .toString()
-      .substr(1);
-
-    const thumbnail =
-      "https://img.youtube.com/vi/" + youtubeId + "/hqdefault.jpg";
-    return thumbnail;
   };
 
   const handleSearch = event => {
@@ -101,7 +87,7 @@ const PostesPage = props => {
               >
                 <Link to={"/postes/show/" + poste.id}>
                   <img
-                    src={linkToThumbnail(poste.href)}
+                    src={UrlFilter.ytUrlToThumbnail(poste.href)}
                     className="card-img-top"
                     alt="..."
                   />

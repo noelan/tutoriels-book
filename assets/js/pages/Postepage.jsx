@@ -5,6 +5,7 @@ import PosteAPI from "../api/PosteAPI";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import AuthContext from "../contexts/AuthContext";
+import UrlFilter from "../services/UrlFilter";
 
 const PostePage = props => {
   const { userId } = useContext(AuthContext);
@@ -47,7 +48,6 @@ const PostePage = props => {
   useEffect(() => {
     if (id !== "new") {
       setEditing(true);
-
       fetchPost(id);
     }
   }, [id]);
@@ -59,7 +59,7 @@ const PostePage = props => {
   const handleSubmit = async event => {
     event.preventDefault();
     const apiErrors = {};
-    if (matchYoutubeUrl(poste.href) == false) {
+    if (UrlFilter.isYoutubeUrl(poste.href) == false) {
       apiErrors.href = "Veuillez metre un lien youtube valide";
       setErrors(apiErrors);
       return;
@@ -112,14 +112,6 @@ const PostePage = props => {
     } catch (error) {
       console.log(error.response);
     }
-  };
-
-  const matchYoutubeUrl = url => {
-    var p = /^(?:https:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
-    if (url.match(p)) {
-      return true;
-    }
-    return false;
   };
 
   return (

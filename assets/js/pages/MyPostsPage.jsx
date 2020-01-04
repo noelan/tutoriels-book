@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import PosteAPI from "../api/PosteAPI";
 import AuthContext from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
+import UrlFilter from "../services/UrlFilter";
 
 const MyPostsPage = props => {
   const [postes, setPostes] = useState([]);
@@ -19,26 +20,11 @@ const MyPostsPage = props => {
     fetchPosts();
   }, []);
 
-  /**
-   * Transforme un lien youtube en thumbnail
-   * @param {string} link
-   */
-  const linkToThumbnail = link => {
-    const youtubeId = link
-      .match("=[a-zA-Z-0-9-_]{11}")
-      .toString()
-      .substr(1);
-
-    const thumbnail =
-      "https://img.youtube.com/vi/" + youtubeId + "/hqdefault.jpg";
-    return thumbnail;
-  };
-
   return (
     <>
       <div className="container pt-5">
         <div className="justify-content-between">
-          <h1 class="text-center workSans">Mes tutoriels</h1>
+          <h1 className="text-center workSans">Mes tutoriels</h1>
           <p className="text-center">
             <Link to="/postes/new" className="btn btn-link p-3 fs-2 ">
               Créer un tuto
@@ -55,7 +41,7 @@ const MyPostsPage = props => {
               >
                 <Link to={"/postes/show/" + poste.id}>
                   <img
-                    src={linkToThumbnail(poste.href)}
+                    src={UrlFilter.ytUrlToThumbnail(poste.href)}
                     className="card-img-top"
                     alt="..."
                   />

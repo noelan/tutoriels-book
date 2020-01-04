@@ -14,7 +14,7 @@ const HomePage = () => {
               Site réalisé par Noël AN afin de mettre en place une api ( Symfony
               & Api Platform), et un Front-end en react !
             </p>
-            <p className="devWeb">Responsive pas encore géré &#128528; </p>
+            <p className="devWeb">Vu mobile pas encore géré &#128528; </p>
             <p className="descriptionHome">
               Site regroupant divers tutoriel ! Venez en créer un !{" "}
             </p>
