@@ -39,7 +39,7 @@ const PostesPage = props => {
    */
   const linkToThumbnail = link => {
     const youtubeId = link
-      .match("=[a-zA-Z-0-9]{11}")
+      .match("=[a-zA-Z-0-9-_]{11}")
       .toString()
       .substr(1);
 

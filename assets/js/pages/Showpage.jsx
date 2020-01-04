@@ -137,6 +137,7 @@ const ShowPage = props => {
   //  Lien final   -> https://www.youtube.com/embed/luXjNItbHC4
   const toValidateUrl = link => {
     const finalUrl = link.replace("watch?v=", "embed/");
+    console.log(link);
     const Url = finalUrl.match(
       "^https://www.youtube.com/embed/[a-zA-Z0-9-_]{11}"
     );
