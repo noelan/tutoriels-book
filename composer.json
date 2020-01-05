@@ -72,8 +72,7 @@
       "assets:install %PUBLIC_DIR%": "symfony-cmd",
       "doctrine:database:drop --force --no-interaction": "symfony-cmd",
       "doctrine:database:create": "symfony-cmd",
-      "doctrine:schema:update --force --no-interaction": "symfony-cmd",
-      "doctrine:fixtures:load --no-interaction": "symfony-cmd"
+      "doctrine:schema:update --force --no-interaction": "symfony-cmd"
     },
     "post-install-cmd": [
       "@auto-scripts"
