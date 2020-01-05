@@ -25,6 +25,7 @@ class EncodePassword implements EventSubscriberInterface
         ];
     }
 
+    //set default picture to user should be not here
     public function encodePassword(ViewEvent $event)
     {
         $user = $event->getControllerResult();
@@ -33,6 +34,7 @@ class EncodePassword implements EventSubscriberInterface
         if ($user instanceof User && $method == "POST") {
             $encodedPassword = $this->encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($encodedPassword);
+            $user->setPicture("image.shutterstock.com/image-vector/woman-avatar-default-anonymous-user-260nw-1229876215.jpg");
         }
     }
 }
