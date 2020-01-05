@@ -51,6 +51,11 @@ const Navbar = props => {
           )) || (
             <>
               <li className="nav-item">
+                <Link className="btn btn-primary" to="/MonCompte">
+                  Mon compte
+                </Link>
+              </li>
+              <li className="nav-item">
                 <button className="btn btn-danger" onClick={handleLogout}>
                   Se déconnecter
                 </button>

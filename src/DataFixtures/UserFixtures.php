@@ -30,7 +30,8 @@ class UserFixtures extends Fixture
         $encodedPassword = $this->encoder->encodePassword($user, "password");
         $user->setPseudo($faker->firstName())
             ->setEmail("test@test.test")
-            ->setPassword($encodedPassword);
+            ->setPassword($encodedPassword)
+            ->setPicture("https://i.pinimg.com/originals/3b/10/a8/3b10a845ad9843b25552eb957728d47e.jpg");
         $manager->persist($user);
 
         for ($i = 0; $i < 10; $i++) {
@@ -38,7 +39,8 @@ class UserFixtures extends Fixture
             $encodedPassword = $this->encoder->encodePassword($user, "password");
             $user->setPseudo($faker->firstName())
                 ->setEmail($faker->email())
-                ->setPassword($encodedPassword);
+                ->setPassword($encodedPassword)
+                ->setPicture("https://i.pinimg.com/originals/3b/10/a8/3b10a845ad9843b25552eb957728d47e.jpg");
             $this->addReference('user' . $i, $user);
             $manager->persist($user);
         }

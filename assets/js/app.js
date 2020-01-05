@@ -14,6 +14,7 @@ import PostesPage from "./pages/Postespage";
 import ShowPost from "./pages/ShowPost";
 import MyPostsPage from "./pages/MyPostsPage";
 import RegisterPage from "./pages/RegisterPage";
+import UserPage from "./pages/UserPage";
 
 require("../css/app.css");
 
@@ -45,6 +46,7 @@ const App = () => {
             <PrivateRoute path="/postes/show/:id" component={ShowPost} />
             <PrivateRoute path="/postes/:id" component={PostePage} />
             <PrivateRoute path="/postes" component={PostesPage} />
+            <PrivateRoute path="/MonCompte" component={UserPage} />
 
             <Route path="/register" component={RegisterPage} />
             <Route path="/login" component={LoginPage} />
