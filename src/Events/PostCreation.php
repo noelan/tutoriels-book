@@ -40,6 +40,7 @@ class PostCreation implements EventSubscriberInterface
         if ($post instanceof Post && $method == "POST") {
             $user = $this->security->getUser();
             $post->setUser($user);
+            $post->setCreatedAt(new \DateTime('now'));
         }
     }
 }

@@ -14,7 +14,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $difficulties = ['Facile', 'Intermédiaire', 'Diffcile'];
-        $categories = ['Bien être', 'Food', 'Coding', 'Drawing', 'Musique'];
+        $categories = ['Sport', 'Food', 'Coding', 'Dessin', 'Musique'];
         $faker = Factory::create('fr_FR');
         /**
          * Création des postes
@@ -30,7 +30,8 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
                 ->setDifficulty($difficulties[rand(0, count($difficulties) - 1)])
                 ->setHref("https://www.youtube.com/watch?v=OpUWqlsLic8")
                 ->setUser($this->getReference('user' . rand(0, 9)))
-                ->setCategory($categories[rand(0, count($categories) - 1)]);
+                ->setCategory($categories[rand(0, count($categories) - 1)])
+                ->setCreatedAt($faker->dateTimeBetween('-1 years'));
             $manager->persist($post);
 
             $this->addReference("post" . $j, $post);

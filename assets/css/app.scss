@@ -1,4 +1,31 @@
 @import "usefull.scss";
+/* Globals */
+
+body {
+  padding-top: 3.5rem;
+}
+
+/* Postes pages */
+
+.postesContainer {
+  margin-left: 8rem !important;
+  margin-right: 5rem !important;
+}
+
+.userPicture {
+  max-width: 4rem;
+  border-radius: 50%;
+}
+
+.cardTitle {
+  height: 5rem;
+  font-size: 1.2rem;
+}
+.headerCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 /* Header Image */
 .headerDiv {

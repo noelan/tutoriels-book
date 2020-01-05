@@ -168,7 +168,7 @@ const ShowPage = props => {
         <div className="container">
           <div className="row justify-content-between pb-3">
             <div className="col-8">
-              <iframe width="1100" height="0" src={poste.href}></iframe>
+              <iframe width="1100" height="600" src={poste.href}></iframe>
             </div>
           </div>
           <h1 className="text-center workSans pb-3">{poste.title}</h1>

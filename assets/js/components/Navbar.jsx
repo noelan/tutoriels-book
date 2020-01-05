@@ -8,16 +8,15 @@ const Navbar = props => {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const handleLogout = () => {
     AuthAPI.logout();
-    console.log("ok");
     setIsAuthenticated(false);
     props.history.push("/login");
     toast.success("Vous êtes déconnecté");
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-secondary">
+    <nav className="navbar navbar-expand-lg navbar-dark myBlue fixed-top">
       <div className="collapse navbar-collapse" id="navbarColor02">
-        <ul className="navbar-nav mr-auto">
+        <ul className="navbar-nav m-left-10">
           <li className="nav-item pr-3 font-weight-bold">
             <Link to="/" className="nav-link workSans">
               Home
@@ -34,16 +33,16 @@ const Navbar = props => {
             </Link>
           </li>
         </ul>
-        <ul className="navbar-nav ml-auto">
+        <ul className="navbar-nav ml-auto m-right-10">
           {(!isAuthenticated && (
             <>
               <li className="nav-item">
-                <Link className="btn btn-primary mr-3" to="/login">
+                <Link className="btn btn-success mr-5 " to="/login">
                   Se connecter
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="btn btn-primary" to="/register">
+                <Link className="btn btn-danger" to="/register">
                   S'inscrire
                 </Link>
               </li>
@@ -51,7 +50,7 @@ const Navbar = props => {
           )) || (
             <>
               <li className="nav-item">
-                <Link className="btn btn-primary" to="/MonCompte">
+                <Link className="btn btn-success mr-5" to="/MonCompte">
                   Mon compte
                 </Link>
               </li>

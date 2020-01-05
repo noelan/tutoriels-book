@@ -17,7 +17,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *      "normalization_context"={"groups"={"post_read"}},
  *      "order"={"id": "DESC"}
  * })
- * @ApiFilter(SearchFilter::class, properties={"user": "exact"})
+ * @ApiFilter(SearchFilter::class, properties={"user": "exact", "category" :"exact"})
 
  */
 class Post
@@ -90,6 +90,13 @@ class Post
      * @Assert\NotBlank(message="Veuillez mettre une categorie")
      */
     private $category;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="Le champ creadtedAt ne peut pas être vide")
+     * @Groups({"comment_read", "post_read"})
+     */
+    private $CreatedAt;
 
     public function __construct()
     {
@@ -201,6 +208,18 @@ class Post
     public function setCategory(string $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->CreatedAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $CreatedAt): self
+    {
+        $this->CreatedAt = $CreatedAt;
 
         return $this;
     }

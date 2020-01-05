@@ -29,11 +29,18 @@ async function findUserPosts(id) {
   );
 }
 
+async function findByFilter(filter) {
+  return Axios.get(POSTES_API + "?category=" + filter).then(
+    response => response.data["hydra:member"]
+  );
+}
+
 export default {
   findAll,
   create,
   findById,
   edit,
   deletePost,
-  findUserPosts
+  findUserPosts,
+  findByFilter
 };
