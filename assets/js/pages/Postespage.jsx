@@ -18,6 +18,7 @@ const PostesPage = props => {
     try {
       const data = await PosteAPI.findAll();
       setPostes(data);
+      console.log(data[0]);
     } catch (error) {
       toast.error("Erreur lors du chargement des postes !");
     }
@@ -102,6 +103,11 @@ const PostesPage = props => {
                 <ul className="list-group list-group-flush">
                   <li className="list-group-item text-center">
                     <button className="btn btn-info">{poste.difficulty}</button>
+                  </li>
+                </ul>
+                <ul className="list-group list-group-flush">
+                  <li className="list-group-item text-center">
+                    <button className="btn btn-info">{poste.category}</button>
                   </li>
                 </ul>
               </div>

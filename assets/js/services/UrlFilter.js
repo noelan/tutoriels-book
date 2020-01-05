@@ -20,7 +20,19 @@ function isYoutubeUrl(url) {
   return false;
 }
 
+// Afin de mettre un lien youtube dans une balise <iframe> il faut le convertir dans un format spécifique
+//  Lien de base -> https://www.youtube.com/watch?v=luXjNItbHC4
+//  Lien final   -> https://www.youtube.com/embed/luXjNItbHC4
+function toValideUrl(link) {
+  const finalUrl = link.replace("watch?v=", "embed/");
+  const Url = finalUrl.match(
+    "^https://www.youtube.com/embed/[a-zA-Z0-9-_]{11}"
+  );
+  return Url;
+}
+
 export default {
   ytUrlToThumbnail,
-  isYoutubeUrl
+  isYoutubeUrl,
+  toValideUrl
 };

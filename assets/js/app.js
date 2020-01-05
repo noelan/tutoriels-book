@@ -11,7 +11,7 @@ import HomePage from "./pages/Homepage";
 import LoginPage from "./pages/Loginpage";
 import PostePage from "./pages/Postepage";
 import PostesPage from "./pages/Postespage";
-import ShowPage from "./pages/Showpage";
+import ShowPost from "./pages/ShowPost";
 import MyPostsPage from "./pages/MyPostsPage";
 import RegisterPage from "./pages/RegisterPage";
 
@@ -42,7 +42,7 @@ const App = () => {
         <main>
           <Switch>
             <PrivateRoute path="/postes/myposts" component={MyPostsPage} />
-            <PrivateRoute path="/postes/show/:id" component={ShowPage} />
+            <PrivateRoute path="/postes/show/:id" component={ShowPost} />
             <PrivateRoute path="/postes/:id" component={PostePage} />
             <PrivateRoute path="/postes" component={PostesPage} />
 

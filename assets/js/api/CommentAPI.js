@@ -9,7 +9,13 @@ async function deleteComment(id) {
   return Axios.delete(COMMENT_API + "/" + id).then(response => response.data);
 }
 
+async function edit(comment, id) {
+  return Axios.put(COMMENT_API + "/" + id, comment).then(
+    response => response.data
+  );
+}
 export default {
   create,
-  deleteComment
+  deleteComment,
+  edit
 };

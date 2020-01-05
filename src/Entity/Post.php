@@ -84,6 +84,13 @@ class Post
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"post_read"})
+     * @Assert\NotBlank(message="Veuillez mettre une categorie")
+     */
+    private $category;
+
     public function __construct()
     {
         $this->likes = new ArrayCollection();
@@ -182,6 +189,18 @@ class Post
                 $comment->setPost(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(string $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

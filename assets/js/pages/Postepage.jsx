@@ -16,7 +16,8 @@ const PostePage = props => {
     title: "",
     difficulty: "Facile",
     href: "",
-    description: ""
+    description: "",
+    category: "Food"
   });
 
   const [editing, setEditing] = useState(false);
@@ -24,14 +25,15 @@ const PostePage = props => {
     title: "",
     difficulty: "",
     href: "",
-    description: ""
+    description: "",
+    category: ""
   });
 
   const fetchPost = async id => {
     try {
       const currentPost = await PosteAPI.findById(id);
-      const { title, difficulty, href, description } = currentPost;
-      setPoste({ title, difficulty, href, description });
+      const { title, difficulty, href, description, category } = currentPost;
+      setPoste({ title, difficulty, href, description, category });
       if (userId != currentPost.user.id) {
         toast.error("Ta pas le droit !");
         props.history.push("/postes");
@@ -66,6 +68,7 @@ const PostePage = props => {
     }
     try {
       if (!editing) {
+        console.log(poste);
         const data = await PosteAPI.create(poste);
         toast.success("Poste créer");
         setErrors("");
@@ -76,7 +79,6 @@ const PostePage = props => {
         toast.success("Poste modifiée");
       }
     } catch (error) {
-      console.log(error.response);
       const violations = error.response.data.violations;
       console.log(violations);
       if (violations) {
@@ -141,12 +143,15 @@ const PostePage = props => {
             onChange={handleChange}
             value={poste.title}
           />
-          <Field
+          <label htmlFor="description">Description</label>
+          <textarea
             label="Description"
             name="description"
             error={errors.description}
             onChange={handleChange}
             value={poste.description}
+            className="form-control"
+            rows="3"
           />
           <Select
             label="Difficulté"
@@ -159,6 +164,20 @@ const PostePage = props => {
             <option value="Facile">Facile</option>
             <option value="Intermédiaire">Intermédiaire</option>
             <option value="Difficile">Difficile</option>
+          </Select>
+          <Select
+            label="Categorie"
+            name="category"
+            placeholder="Veuillez choisir une categorie"
+            error={errors.category}
+            value={poste.category}
+            onChange={handleChange}
+          >
+            <option value="Food">Food</option>
+            <option value="Sport">Sport</option>
+            <option value="Coding">Coding</option>
+            <option value="Bien être">Bien être</option>
+            <option value="Dessin">Dessin</option>
           </Select>
           <Field
             label="Lien de votre vidéo youtube"
