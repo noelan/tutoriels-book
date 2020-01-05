@@ -1,28 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Work+Sans&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Courgette|Didact+Gothic|Fredoka+One|Noto+Sans+SC|Quattrocento&display=swap");
-
-/* Font class and color */
-
-.hidden {
-  display: none;
-}
-
-.solid {
-  border: solid;
-}
-
-.fs-2 {
-  font-size: 1.5rem;
-}
-
-.workSans {
-  font-family: "Didact Gothic";
-}
-
-.courgette {
-  font-family: "Courgette";
-}
+@import "usefull.scss";
 
 /* Header Image */
 .headerDiv {
@@ -73,4 +49,27 @@
   top: 90%;
   left: 50%;
   transform: translate(-50%, 50%);
+}
+
+/* AboutUs Section */
+.aboutUs {
+  min-height: 800px;
+}
+
+.containerImg {
+  width: 8rem;
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.imgTemoignage {
+  width: 10rem;
+  height: auto;
+  border-radius: 50%;
+}
+
+.topTuto {
+  min-height: 800px;
 }

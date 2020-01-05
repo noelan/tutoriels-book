@@ -16,7 +16,8 @@ import MyPostsPage from "./pages/MyPostsPage";
 import RegisterPage from "./pages/RegisterPage";
 import UserPage from "./pages/UserPage";
 
-require("../css/app.css");
+require("../css/app.scss");
+require("../css/usefull.scss");
 
 AuthAPI.isTokenValid();
 
