@@ -34,7 +34,7 @@ class EncodePassword implements EventSubscriberInterface
         if ($user instanceof User && $method == "POST") {
             $encodedPassword = $this->encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($encodedPassword);
-            $user->setPicture("image.shutterstock.com/image-vector/woman-avatar-default-anonymous-user-260nw-1229876215.jpg");
+            $user->setPicture("https://st3.depositphotos.com/6672868/13801/v/450/depositphotos_138013506-stock-illustration-user-profile-group.jpg");
         }
     }
 }

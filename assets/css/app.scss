@@ -27,8 +27,14 @@ body {
   margin-right: 5rem !important;
 }
 
+.imgPostesContainer {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+}
+
 .userPicture {
-  max-width: 4rem;
+  object-fit: contain;
   border-radius: 50%;
 }
 

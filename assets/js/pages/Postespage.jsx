@@ -168,7 +168,12 @@ const PostesPage = props => {
                       className="fas fa-utensils fs-2 mr-4"
                       style={{ color: "red" }}
                     ></i> */}
-                    <img className="userPicture" src={poste.user.picture} />
+                    <div className="imgPostesContainer">
+                      <img
+                        className="img-fluid userPicture"
+                        src={poste.user.picture}
+                      />
+                    </div>
                     <h5 className="card-title text-truncate pl-2 userPseudo underline roboto fs-1-5">
                       {poste.user.pseudo}
                     </h5>

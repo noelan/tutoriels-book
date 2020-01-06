@@ -46,9 +46,9 @@ class User implements UserInterface
      * @Assert\NotBlank(message="Le mot de passe ne peut pas être vide")
      * @Assert\Length(
      *      min = 5,
-     *      max = 50,
+     *      max = 100,
      *      minMessage = "Votre mot de passe doit faire minimum 5 caractères",
-     *      maxMessage = "Votre mot de passe doit faire maximum 50 caractères"
+     *      maxMessage = "Votre mot de passe doit faire maximum 100 caractères"
      * )
      */
     private $password;

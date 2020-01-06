@@ -10,13 +10,10 @@ const UserPage = props => {
   const [user, setUser] = useState({
     pseudo: "",
     email: "",
-    password: "",
     image: ""
   });
   const [errors, setErrors] = useState({
     email: "",
-    password: "",
-    confirmPassword: "",
     pseudo: "",
     image: ""
   });
@@ -40,19 +37,28 @@ const UserPage = props => {
     setUser({ ...user, [name]: value });
   };
 
+  const isImageUrl = require("is-image-url");
+
   const handleSubmit = async event => {
     event.preventDefault();
     const ApiErrors = {};
+    if (isImageUrl(user.picture) == false) {
+      toast.error("Veuillez mettre une image valide");
+      return;
+    }
+
     if (user.password !== user.confirmPassword) {
       ApiErrors.confirmPassword =
         "Votre mot de passe est différent du mot de passe de confirmation";
       setErrors(ApiErrors);
       return;
     }
+
     try {
       await userAPI.edit(user, userId);
       toast.success("Vos identifiants ont bien été modifié");
     } catch (error) {
+      console.log(error.response);
       toast.error("Une erreure est survenue");
       const violations = error.response.data.violations;
       violations.forEach(violation => {
@@ -87,7 +93,7 @@ const UserPage = props => {
               value={user.email}
               error={errors.email}
             />
-            <Field
+            {/* <Field
               name="password"
               placeholder="Votre mot de passe"
               label="Mot de passe"
@@ -101,7 +107,7 @@ const UserPage = props => {
               placeholder="Votre mot de passe"
               onChange={handleChange}
               error={errors.confirmPassword}
-            />
+            /> */}
             <Field
               label="Photo de profil"
               name="picture"
