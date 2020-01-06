@@ -43,6 +43,8 @@ const ShowPage = props => {
    * affiche les postes suggérés
    */
   const fetchSuggestedPost = async () => {
+    // Set l'id du poste pour insérer le comentaire dans le bon poste
+    setComment({ ...comment, post: "/api/posts/" + id });
     try {
       const data = await PosteAPI.findByLimit(10);
       shuffleArray(data);
@@ -196,8 +198,15 @@ const ShowPage = props => {
     }
   };
 
+  const handleClicka = event => {
+    console.log(id);
+    console.log("salut");
+  };
   return (
     <>
+      <p className="mt-5 btn btn-info" onClick={handleClicka}>
+        salut
+      </p>
       <div className="showContainer pt-5">
         <div className="row justify-content-between pb-3">
           <div className="col-8 border-right">
