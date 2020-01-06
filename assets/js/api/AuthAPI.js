@@ -18,8 +18,9 @@ async function authenticate(credentials) {
     .then(response => response.data.token)
     .then(token => {
       // je stock l'id du user dans mon storage
-      const { id: id } = JwtDecode(token);
+      const { id: id, email: email } = JwtDecode(token);
       window.localStorage.setItem("userId", id);
+      window.localStorage.setItem("userEmail", email);
       // je stock le token dans mon local storage
       window.localStorage.setItem("authToken", token);
       // On prévient Axios qu'on a maintenant un header par défaut sur toutes nos futures requetes http

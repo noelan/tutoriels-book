@@ -15,6 +15,7 @@ class JwtCreatedId
 
         $data = $event->getData();
         $data['id'] = $user->getId();
+        $data['email'] = $user->getEmail();
 
 
         $event->setData($data);

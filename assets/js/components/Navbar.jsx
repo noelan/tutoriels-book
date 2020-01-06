@@ -5,7 +5,9 @@ import AuthAPI from "../api/AuthAPI";
 import { toast } from "react-toastify";
 
 const Navbar = props => {
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, setIsAuthenticated, userEmail } = useContext(
+    AuthContext
+  );
   const handleLogout = () => {
     AuthAPI.logout();
     setIsAuthenticated(false);
@@ -32,6 +34,13 @@ const Navbar = props => {
               Mes Tutoriels
             </Link>
           </li>
+          {userEmail == "admin@admin.admin" && (
+            <li className="nav-item pr-3 font-weight-bold">
+              <Link className="nav-link workSans" to="/admin">
+                Admin
+              </Link>
+            </li>
+          )}
         </ul>
         <ul className="navbar-nav ml-auto m-right-10">
           {(!isAuthenticated && (

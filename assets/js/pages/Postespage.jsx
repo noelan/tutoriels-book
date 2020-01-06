@@ -20,7 +20,6 @@ const PostesPage = props => {
     try {
       const data = await PosteAPI.findAll();
       setPostes(data);
-      console.log(postes);
     } catch (error) {
       toast.error("Erreur lors du chargement des postes !");
     }
@@ -158,6 +157,7 @@ const PostesPage = props => {
                       category =>
                         category[0] == poste.category && (
                           <i
+                            key={category[2]}
                             className={
                               "fs-3 mr-4 " + category[2] + " " + category[1]
                             }

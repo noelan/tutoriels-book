@@ -28,9 +28,9 @@ class UserFixtures extends Fixture
          * Création des users
          */
         $user = new User();
-        $encodedPassword = $this->encoder->encodePassword($user, "password");
+        $encodedPassword = $this->encoder->encodePassword($user, "adminadmin");
         $user->setPseudo($faker->firstName())
-            ->setEmail("test@test.test")
+            ->setEmail("admin@admin.admin")
             ->setPassword($encodedPassword)
             ->setPicture("https://i.pinimg.com/originals/3b/10/a8/3b10a845ad9843b25552eb957728d47e.jpg");
         $manager->persist($user);

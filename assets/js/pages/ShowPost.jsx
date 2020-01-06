@@ -189,6 +189,7 @@ const ShowPage = props => {
     });
   };
 
+  // mélanger pour donner de l'illusion sur les suggested videos
   const shuffleArray = array => {
     for (var i = array.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
@@ -198,15 +199,8 @@ const ShowPage = props => {
     }
   };
 
-  const handleClicka = event => {
-    console.log(id);
-    console.log("salut");
-  };
   return (
     <>
-      <p className="mt-5 btn btn-info" onClick={handleClicka}>
-        salut
-      </p>
       <div className="showContainer pt-5">
         <div className="row justify-content-between pb-3">
           <div className="col-8 border-right">

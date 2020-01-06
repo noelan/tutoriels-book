@@ -14,8 +14,13 @@ async function edit(comment, id) {
     response => response.data
   );
 }
+
+async function findAll() {
+  return Axios.get(COMMENT_API).then(response => response.data["hydra:member"]);
+}
 export default {
   create,
   deleteComment,
-  edit
+  edit,
+  findAll
 };

@@ -13,8 +13,13 @@ async function edit(user, id) {
   return Axios.put(USERS_API + "/" + id, user).then(response => response.data);
 }
 
+async function findAll() {
+  return Axios.get(USERS_API).then(response => response.data["hydra:member"]);
+}
+
 export default {
   create,
   findById,
-  edit
+  edit,
+  findAll
 };
