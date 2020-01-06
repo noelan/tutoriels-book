@@ -47,6 +47,7 @@ const ShowPage = props => {
         user,
         comments
       } = currentPost;
+      console.log(currentPost);
       // Inversion du tableau de commentaires afin d'afficher les nouveau en premier
       comments.reverse();
       // Afin de mettre un lien youtube dans une balise <iframe> il faut le convertir dans un format spécifique
@@ -57,7 +58,8 @@ const ShowPage = props => {
         href: hrefValidate,
         description,
         comments,
-        user: user.pseudo
+        userPseudo: user.pseudo,
+        userPicture: user.picture
       });
     } catch (error) {
       console.log(error.response);
@@ -75,6 +77,7 @@ const ShowPage = props => {
       fetchPost();
       toast.success("Votre commentaire à été ajouté !");
       setComment({ comment: "", post: "/api/posts/" + id });
+      scroll();
       //reset textArea
     } catch (error) {
       toast.error("Votre commentaire ne peut pas être vide");
@@ -91,12 +94,8 @@ const ShowPage = props => {
     const updatedComments = [...poste.comments].filter(
       comment => comment.id != commentId
     );
-    const { title, difficulty, href, description, user, comments } = poste;
     setPoste({
-      title,
-      difficulty,
-      href,
-      description,
+      ...poste,
       comments: updatedComments
     });
     try {
@@ -127,7 +126,6 @@ const ShowPage = props => {
     }
     //event.currentTarget.value < 1 ? setIsEmpty(true) : setIsEmpty(false);
   };
-
   /**
    * Permet d'éditer un commentaire
    * @param {event} event
@@ -162,104 +160,259 @@ const ShowPage = props => {
     }
   };
 
+  // Scroll après avoir ajouter un commentaire
+  const scroll = () => {
+    window.scrollTo({
+      top: 1250,
+      behavior: "smooth"
+    });
+  };
+
   return (
     <>
-      <div className="container pt-5">
-        <div className="container">
-          <div className="row justify-content-between pb-3">
-            <div className="col-8">
-              <iframe width="1100" height="600" src={poste.href}></iframe>
+      <div className="showContainer pt-5">
+        <div className="row justify-content-between pb-3">
+          <div className="col-8 border-right">
+            <div className="row pb-3">
+              <iframe width="1250" height="640" src={poste.href}></iframe>
+            </div>
+
+            <p className="text-center sourceSans pb-3 fs-2">{poste.title}</p>
+            <div className="row">
+              <div className="col-6 border-right">
+                <p className="workSans pb-2 fs-1-5">
+                  <img className="userPicture mr-3" src={poste.userPicture} />
+                  {poste.userPseudo}
+                </p>
+                <p className="workSans">{poste.description}</p>
+                <p className="workSans">Difficulté : {poste.difficulty}</p>
+              </div>
+              <div className="col-6">
+                <p className="text-center">Pré requis</p>
+                <ul className="ulRequire">
+                  <li>Arpege</li>
+                  <li>Bonne volonté</li>
+                  <li>Piano</li>
+                  <li>Casque</li>
+                  <li>Du sucre</li>
+                </ul>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-12 pb-5">
+                <form onSubmit={handleCreateComment}>
+                  <div className="form-group">
+                    <label htmlFor="commentaire"></label>
+                    <textarea
+                      name="comment"
+                      className="form-control"
+                      rows="3"
+                      placeholder="Ajouter un commentaire"
+                      onChange={handleChange}
+                      value={comment.comment}
+                    ></textarea>
+                  </div>
+                  <div className="text-center">
+                    <button
+                      className={
+                        "btn btn-info m-3 " + (isEmpty == true && "hidden")
+                      }
+                    >
+                      Ajouter le commentaire
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <hr></hr>
+            <div className="row">
+              <div className="col-12">
+                <form>
+                  {poste.comments &&
+                    poste.comments.map(comment => (
+                      <div key={comment.id}>
+                        <h4 className="workSans pb-3">
+                          <img
+                            className="userPicture mr-4"
+                            src={comment.user.picture}
+                          />
+                          {comment.user.pseudo}
+                        </h4>
+                        {/* Si l'id du user dans le commentaire est égale a l'id du commentaire et que je suis en editComment */}
+                        {(editingComment != comment.id && (
+                          <>
+                            <p className="workSans">{comment.comment}</p>
+                            <p className="opacity-semi">
+                              {DateFilter.formatDate(comment.createdAt)}
+                            </p>
+                          </>
+                        )) || (
+                          <>
+                            <textarea
+                              className="form-control"
+                              rows="3"
+                              name="comment"
+                              onChange={handleChange}
+                              value={editedComment.comment}
+                              id={comment.id}
+                            ></textarea>
+                            <button
+                              onClick={handleSubmitComment}
+                              id="edit"
+                              className="btn btn-success"
+                            >
+                              Valider
+                            </button>
+                            <button
+                              onClick={handleWhichComment}
+                              id="annuler"
+                              className="btn btn-warning"
+                            >
+                              Annuler
+                            </button>
+                          </>
+                        )}
+                        {comment && comment.user.id == userId && (
+                          <div className="text-center">
+                            <button
+                              onClick={handleDeleteComment}
+                              value={comment.id}
+                              className="btn btn-danger"
+                            >
+                              Supprimer
+                            </button>
+                            <button
+                              onClick={handleWhichComment}
+                              className="btn btn-info"
+                              value={comment.id}
+                              id="edit"
+                            >
+                              Modifier
+                            </button>
+                          </div>
+                        )}
+                        <hr></hr>
+                      </div>
+                    ))}
+                </form>
+              </div>
             </div>
           </div>
-          <h1 className="text-center workSans pb-3">{poste.title}</h1>
-          <hr></hr>
-          <div>
-            <h2 className="workSans pb-2">{poste.user}</h2>
-            <p className="workSans">{poste.description}</p>
-            <p className="workSans">Difficulté : {poste.difficulty}</p>
-          </div>
-        </div>
-        <hr />
 
-        <form onSubmit={handleCreateComment}>
-          <div className="form-group">
-            <label htmlFor="commentaire"></label>
-            <textarea
-              name="comment"
-              className="form-control"
-              rows="3"
-              placeholder="Ajouter un commentaire"
-              onChange={handleChange}
-              value={comment.comment}
-            ></textarea>
+          {/* Videos suggestion */}
+          <div className="col-4 pl-4">
+            <div className="row">
+              <div className="containerSuggest col-6">
+                <img
+                  src="https://img.youtube.com/vi/2erCU87gCJE/hqdefault.jpg"
+                  className="imgSuggest"
+                  alt="..."
+                />
+              </div>
+              <div className="col-6">
+                <p>
+                  Aute magna eiusmod Lorem adipisicing et aliqua tempor occaecat
+                  ea quis ex laborum minim Lorem.
+                </p>
+                <p className="underline fs-2 roboto">Jean john</p>
+                <p>20/06/2519</p>
+              </div>
+            </div>
+            <hr></hr>
+            <div className="row">
+              <div className="containerSuggest col-6">
+                <img
+                  src="https://img.youtube.com/vi/2erCU87gCJE/hqdefault.jpg"
+                  className="imgSuggest"
+                  alt="..."
+                />
+              </div>
+              <div className="col-6">
+                <p>
+                  Aute magna eiusmod Lorem adipisicing et aliqua tempor occaecat
+                  ea quis ex laborum minim Lorem.
+                </p>
+                <p className="underline fs-2 roboto">Jean john</p>
+                <p>20/06/2519</p>
+              </div>
+            </div>
+            <hr></hr>
+            <div className="row">
+              <div className="containerSuggest col-6">
+                <img
+                  src="https://img.youtube.com/vi/2erCU87gCJE/hqdefault.jpg"
+                  className="imgSuggest"
+                  alt="..."
+                />
+              </div>
+              <div className="col-6">
+                <p>
+                  Aute magna eiusmod Lorem adipisicing et aliqua tempor occaecat
+                  ea quis ex laborum minim Lorem.
+                </p>
+                <p className="underline fs-2 roboto">Jean john</p>
+                <p>20/06/2519</p>
+              </div>
+            </div>
+            <hr></hr>
+            <div className="row">
+              <div className="containerSuggest col-6">
+                <img
+                  src="https://img.youtube.com/vi/2erCU87gCJE/hqdefault.jpg"
+                  className="imgSuggest"
+                  alt="..."
+                />
+              </div>
+              <div className="col-6">
+                <p>
+                  Aute magna eiusmod Lorem adipisicing et aliqua tempor occaecat
+                  ea quis ex laborum minim Lorem.
+                </p>
+                <p className="underline fs-2 roboto">Jean john</p>
+                <p>20/06/2519</p>
+              </div>
+            </div>
+            <hr></hr>
+            <div className="row">
+              <div className="containerSuggest col-6">
+                <img
+                  src="https://img.youtube.com/vi/2erCU87gCJE/hqdefault.jpg"
+                  className="imgSuggest"
+                  alt="..."
+                />
+              </div>
+              <div className="col-6">
+                <p>
+                  Aute magna eiusmod Lorem adipisicing et aliqua tempor occaecat
+                  ea quis ex laborum minim Lorem.
+                </p>
+                <p className="underline fs-2 roboto">Jean john</p>
+                <p>20/06/2519</p>
+              </div>
+            </div>
+            <hr></hr>
+            <div className="row">
+              <div className="containerSuggest col-6">
+                <img
+                  src="https://img.youtube.com/vi/2erCU87gCJE/hqdefault.jpg"
+                  className="imgSuggest"
+                  alt="..."
+                />
+              </div>
+              <div className="col-6">
+                <p>
+                  Aute magna eiusmod Lorem adipisicing et aliqua tempor occaecat
+                  ea quis ex laborum minim Lorem.
+                </p>
+                <p className="underline fs-2 roboto">Jean john</p>
+                <p>20/06/2519</p>
+              </div>
+            </div>
+            <hr></hr>
           </div>
-          <button className={"btn btn-info m-3 " + (isEmpty && "hidden")}>
-            Ajouter le commentaire
-          </button>
-        </form>
-        <h3 className="text-center p-3 workSans">Les commentaires</h3>
-        <div>
-          <form>
-            {poste.comments &&
-              poste.comments.map(comment => (
-                <div key={comment.id}>
-                  <h4 className="workSans">{comment && comment.user.pseudo}</h4>
-                  {/* Si l'id du user dans le commentaire est égale a l'id du commentaire et que je suis en editComment */}
-                  {(editingComment != comment.id && (
-                    <>
-                      <p className="workSans">{comment.comment}</p>
-                      <p>{DateFilter.formatDate(comment.createdAt)}</p>
-                    </>
-                  )) || (
-                    <>
-                      <textarea
-                        className="form-control"
-                        rows="3"
-                        name="comment"
-                        onChange={handleChange}
-                        value={editedComment.comment}
-                        id={comment.id}
-                      ></textarea>
-                      <button
-                        onClick={handleWhichComment}
-                        id="annuler"
-                        className="btn btn-link"
-                      >
-                        Annuler
-                      </button>
-                      <button
-                        onClick={handleSubmitComment}
-                        id="edit"
-                        className="btn btn-link"
-                      >
-                        modifier
-                      </button>
-                    </>
-                  )}
-                  {comment && comment.user.id == userId && (
-                    <div>
-                      <button
-                        onClick={handleDeleteComment}
-                        value={comment.id}
-                        className="btn btn-link"
-                      >
-                        Supprimer
-                      </button>
-                      <button
-                        onClick={handleWhichComment}
-                        className="btn btn-link"
-                        value={comment.id}
-                        id="edit"
-                      >
-                        Edit
-                      </button>
-                    </div>
-                  )}
-                  <hr></hr>
-                </div>
-              ))}
-          </form>
         </div>
+
+        <hr />
       </div>
     </>
   );

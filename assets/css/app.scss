@@ -42,6 +42,24 @@ body {
   align-items: center;
 }
 
+/* Show one */
+.showContainer {
+  margin-left: 8rem !important;
+  margin-right: 5rem !important;
+}
+
+.imgSuggest {
+  width: 18rem;
+  height: 12rem;
+}
+
+.ulRequire {
+  list-style-type: disc;
+
+  .child {
+    font-family: "Roboto";
+  }
+}
 /* Header Image */
 .headerDiv {
   position: relative;

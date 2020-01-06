@@ -103,7 +103,7 @@ $directions: "top", "bottom", "left", "right";
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .opacity-semi {
@@ -116,6 +116,11 @@ $directions: "top", "bottom", "left", "right";
 
 .underline {
   text-decoration: underline;
+}
+
+.right-border {
+  border-right: solid;
+  border-width: thin;
 }
 
 // Gallery

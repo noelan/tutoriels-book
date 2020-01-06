@@ -89,6 +89,7 @@ const PostesPage = props => {
     ["Musique", "text-myPink", "fab fa-itunes-note"]
   ];
 
+  // Scroll après avoir clicker sur la pagination
   const scroll = () => {
     console.log("haha");
     window.scrollTo({
