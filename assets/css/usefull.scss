@@ -20,7 +20,7 @@ $fonts: "pt sans" serif, "lora" serif, "notosans" sans-serif,
   font-family: "Bad Script", cursive;
 }
 
-.Roboto {
+.roboto {
   font-family: "Roboto", sans-serif;
 }
 
@@ -40,11 +40,24 @@ $fonts: "pt sans" serif, "lora" serif, "notosans" sans-serif,
 }
 
 /* Color */
-$colors: "myGrey" #9e9e9e, "myBlue" #4285f4, "myPink" #ce76c8;
+$colors: "myGrey" #9e9e9e, "myBlue" #4285f4, "myPink" #ce76c8, "myGreen" #007e33,
+  "myRed" #e53935, "myCyan" #00bcd4;
 
 @each $color in $colors {
   .#{nth($color, 1)} {
     background-color: nth($color, 2);
+  }
+}
+
+@each $color in $colors {
+  .#{nth($color, 1)} {
+    background-color: nth($color, 2);
+  }
+}
+
+@each $color in $colors {
+  .text-#{nth($color, 1)} {
+    color: nth($color, 2);
   }
 }
 

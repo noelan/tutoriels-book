@@ -10,13 +10,15 @@ const UserPage = props => {
   const [user, setUser] = useState({
     pseudo: "",
     email: "",
-    password: ""
+    password: "",
+    image: ""
   });
   const [errors, setErrors] = useState({
     email: "",
     password: "",
     confirmPassword: "",
-    pseudo: ""
+    pseudo: "",
+    image: ""
   });
 
   useEffect(() => {
@@ -100,11 +102,19 @@ const UserPage = props => {
               onChange={handleChange}
               error={errors.confirmPassword}
             />
+            <Field
+              label="Photo de profil"
+              name="picture"
+              type="text"
+              placeholder="Votre photo de profil"
+              value={user.picture}
+              onChange={handleChange}
+              error={errors.Image}
+            />
             <p className="text-center">
               <button className="btn btn-info">Modifier !</button>
             </p>
           </form>
-          <img src={user.picture} alt="..." class="img-thumbnail"></img>
         </div>
       </div>
     </>

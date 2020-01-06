@@ -11,6 +11,7 @@ const PostesPage = props => {
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const itemsPerPage = 12;
+  const [isSelected, setIsSelected] = useState("Tous");
 
   /**
    * Récupération de tous les postes (findAll)
@@ -45,7 +46,8 @@ const PostesPage = props => {
     poste =>
       poste.title.toLowerCase().includes(search.toLowerCase()) ||
       poste.description.toLowerCase().includes(search.toLowerCase()) ||
-      poste.difficulty.toLowerCase().includes(search.toLowerCase())
+      poste.difficulty.toLowerCase().includes(search.toLowerCase()) ||
+      poste.user.pseudo.toLowerCase().includes(search.toLowerCase())
   );
 
   // Pagination des postes
@@ -64,8 +66,9 @@ const PostesPage = props => {
    */
   const handleFilter = async event => {
     event.preventDefault();
-    const filter = event.currentTarget.value;
-    if (filter == "ALL") {
+    const filter = event.currentTarget.id;
+    setIsSelected(filter);
+    if (filter == "Tous") {
       fetchPostes();
       return;
     }
@@ -77,17 +80,30 @@ const PostesPage = props => {
     }
   };
 
+  const categories = [
+    ["Tous", "text-myGrey"],
+    ["Food", "text-myBlue", "fas fa-utensils"],
+    ["Sport", "text-myRed", "fas fa-running"],
+    ["Coding", "text-myGreen", "fas fa-code"],
+    ["Dessin", "text-myCyan", "fas fa-pencil-alt"],
+    ["Musique", "text-myPink", "fab fa-itunes-note"]
+  ];
+
+  const scroll = () => {
+    console.log("haha");
+    window.scrollTo({
+      top: 240,
+      behavior: "smooth"
+    });
+  };
+
   return (
     <>
       <div className="pt-5 postesContainer">
-        <p className="text-center roboto mb-3 fs-4">Voici les tutoriels</p>
-        <Pagination
-          currentPage={currentPage}
-          itemPerPage={itemsPerPage}
-          setCurrentPage={setCurrentPage}
-          length={filteredPostes.length}
-          className="solid"
-        />
+        <p className="text-center montSerrat mb-3 fs-4 sourceSans">
+          Voici les tutoriels {isSelected == "Tous" ? "" : isSelected}
+        </p>
+
         <div className="row justify-content-center pb-5">
           <div className="col-4">
             <input
@@ -97,23 +113,27 @@ const PostesPage = props => {
               onChange={handleSearch}
               value={search}
             />
-          </div>
-          <div className="col-4">
-            <select
-              className="form-control"
-              name="filter"
-              placeholder="Veuillez choisir une categorie"
-              onChange={handleFilter}
-            >
-              <option value="ALL">Tous</option>
-              <option value="Food">Food</option>
-              <option value="Sport">Sport</option>
-              <option value="Coding">Coding</option>
-              <option value="Musique">Bien être</option>
-              <option value="Dessin">Dessin</option>
-            </select>
+          </div>{" "}
+        </div>
+        <div className="row justify-content-center">
+          <div className="d-flex">
+            {categories.map(category => (
+              <p
+                id={category[0]}
+                key={category[0]}
+                className={
+                  (isSelected == category[0] && "underline font-weight-bold ") +
+                  "montSerrat myCat " +
+                  category[1]
+                }
+                onClick={handleFilter}
+              >
+                {category[0]}
+              </p>
+            ))}
           </div>
         </div>
+        <hr></hr>
         <div className="row justify-content-center">
           {(paginatedPostes.length > 0 &&
             paginatedPostes.map(poste => (
@@ -132,7 +152,20 @@ const PostesPage = props => {
 
                 <div className="card-body">
                   <div className="headerCard">
-                    <i className="fas fa-utensils fs-2 mr-4"></i>
+                    {categories.map(
+                      category =>
+                        category[0] == poste.category && (
+                          <i
+                            className={
+                              "fs-3 mr-4 " + category[2] + " " + category[1]
+                            }
+                          ></i>
+                        )
+                    )}
+                    {/* <i
+                      className="fas fa-utensils fs-2 mr-4"
+                      style={{ color: "red" }}
+                    ></i> */}
                     <img className="userPicture" src={poste.user.picture} />
                     <h5 className="card-title text-truncate pl-2 userPseudo underline roboto fs-1-5">
                       {poste.user.pseudo}
@@ -161,12 +194,14 @@ const PostesPage = props => {
             </p>
           )}
         </div>
-        <Pagination
-          currentPage={currentPage}
-          itemPerPage={itemsPerPage}
-          setCurrentPage={setCurrentPage}
-          length={filteredPostes.length}
-        />
+        <div onClick={scroll}>
+          <Pagination
+            currentPage={currentPage}
+            itemPerPage={itemsPerPage}
+            setCurrentPage={setCurrentPage}
+            length={filteredPostes.length}
+          />
+        </div>
       </div>
     </>
   );

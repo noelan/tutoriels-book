@@ -7,6 +7,21 @@ body {
 
 /* Postes pages */
 
+.myCat {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 3.5rem;
+  font-size: 1.5rem;
+  border: solid;
+  line-height: 7rem;
+  text-align: center;
+  margin-right: 3rem;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .postesContainer {
   margin-left: 8rem !important;
   margin-right: 5rem !important;
