@@ -3,7 +3,7 @@ import React from "react";
 const HomePage = () => {
   return (
     <>
-      <div className="container-fluid p-0 m-0">
+      <div className="container-fluid p-0 m-0 hideSm">
         <div className="headerDiv">
           <img
             className="myImg"
@@ -25,7 +25,7 @@ const HomePage = () => {
       </div>
       <hr></hr>
 
-      <div className="topTuto p-top-7 container-fluid">
+      <div className="topTuto p-top-7 container-fluid hideSm">
         <h1 className="lora text-center ">
           Apprenez avec la plus grande ressource d'informations aux mondes : le
           web !
@@ -76,7 +76,7 @@ const HomePage = () => {
       </div>
       <hr></hr>
       {/* Avis */}
-      <div className="aboutUs myGrey pt-5">
+      <div className="aboutUs myGrey pt-5 hideSm">
         <div className="row justify-content-center">
           <div className="col-3 m-right-8">
             <div className="containerImg">
@@ -146,6 +146,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+      <h1 className="hideXl text-center">Vue mobile pas gérer !</h1>
     </>
   );
 };
