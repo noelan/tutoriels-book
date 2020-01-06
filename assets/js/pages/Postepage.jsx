@@ -17,7 +17,8 @@ const PostePage = props => {
     difficulty: "Facile",
     href: "",
     description: "",
-    category: "Food"
+    category: "Food",
+    prerequis: ""
   });
 
   const [editing, setEditing] = useState(false);
@@ -26,14 +27,22 @@ const PostePage = props => {
     difficulty: "",
     href: "",
     description: "",
-    category: ""
+    category: "",
+    prerequis: ""
   });
 
   const fetchPost = async id => {
     try {
       const currentPost = await PosteAPI.findById(id);
-      const { title, difficulty, href, description, category } = currentPost;
-      setPoste({ title, difficulty, href, description, category });
+      const {
+        title,
+        difficulty,
+        href,
+        description,
+        category,
+        prerequis
+      } = currentPost;
+      setPoste({ title, difficulty, href, description, category, prerequis });
       if (userId != currentPost.user.id) {
         toast.error("Ta pas le droit !");
         props.history.push("/postes");
@@ -68,12 +77,12 @@ const PostePage = props => {
     }
     try {
       if (!editing) {
-        console.log(poste);
         const data = await PosteAPI.create(poste);
         toast.success("Poste créer");
         setErrors("");
         props.history.push("/postes");
       } else {
+        console.log(poste.prerequis);
         const data = await PosteAPI.edit(id, poste);
         setErrors("");
         toast.success("Poste modifiée");
@@ -120,22 +129,23 @@ const PostePage = props => {
     <>
       <div className="container pt-5">
         <h1>
-          {(editing && "Modification d'un poste") || "Création d'un poste   "}
+          {(editing && "Modification d'un poste     ") ||
+            "Création d'un poste   "}
           <span style={{ fontSize: "1.3rem" }}>
-            (Seulement les liens youtube sont gérer 🤦)
+            (Seulement les liens youtube sont gérer :'[ )
           </span>
         </h1>
         {editing && (
           <>
             <p>
-              <Link className="btn btn-link" to={"/postes/show/" + id}>
+              <Link className="btn btn-info" to={"/postes/show/" + id}>
                 Voir le poste
               </Link>
             </p>
           </>
         )}
 
-        <form onSubmit={handleSubmit}>
+        <form className="card p-3" onSubmit={handleSubmit}>
           <Field
             label="Titre"
             name="title"
@@ -150,7 +160,19 @@ const PostePage = props => {
             error={errors.description}
             onChange={handleChange}
             value={poste.description}
-            className="form-control"
+            className="form-control mb-5"
+            rows="3"
+          />
+          <label htmlFor="description">Prérequis</label>
+          <textarea
+            label="Prérequis"
+            name="prerequis"
+            ward="hard"
+            placeholder="Veuillez mettre les prérequis necessaires pour réaliser le tutoriel laisser vide si il n'y en pas"
+            error={errors.prerequis}
+            onChange={handleChange}
+            value={poste.prerequis}
+            className="form-control  mb-5"
             rows="3"
           />
           <Select
@@ -164,6 +186,7 @@ const PostePage = props => {
             <option value="Facile">Facile</option>
             <option value="Intermédiaire">Intermédiaire</option>
             <option value="Difficile">Difficile</option>
+            <option value="Pour tous">Pour tous</option>
           </Select>
           <Select
             label="Categorie"
@@ -173,6 +196,7 @@ const PostePage = props => {
             value={poste.category}
             onChange={handleChange}
           >
+            <option value="Autres">Autres</option>
             <option value="Food">Food</option>
             <option value="Sport">Sport</option>
             <option value="Coding">Coding</option>

@@ -3,6 +3,7 @@ import PosteAPI from "../api/PosteAPI";
 import AuthContext from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import UrlFilter from "../services/UrlFilter";
+import DateFilter from "../services/DateFilter";
 
 const MyPostsPage = props => {
   const [postes, setPostes] = useState([]);
@@ -22,7 +23,7 @@ const MyPostsPage = props => {
 
   return (
     <>
-      <div className="container pt-5">
+      <div className="container-fluid pt-5">
         <div className="justify-content-between">
           <h1 className="text-center workSans">Mes tutoriels</h1>
           <p className="text-center">
@@ -31,45 +32,68 @@ const MyPostsPage = props => {
             </Link>
           </p>
         </div>
+
         {(postes.length > 0 && (
-          <div className="row">
-            {postes.map(poste => (
-              <div
-                key={poste.id}
-                className="card mr-4 mb-4"
-                style={{ width: "22rem" }}
-              >
-                <Link to={"/postes/show/" + poste.id}>
-                  <img
-                    src={UrlFilter.ytUrlToThumbnail(poste.href)}
-                    className="card-img-top"
-                    alt="..."
-                  />
-                </Link>
+          <div className="container">
+            <div className="row">
+              {postes.map(poste => (
+                <div
+                  key={poste.id}
+                  className="card mr-4 mb-4"
+                  style={{ width: "22rem" }}
+                >
+                  <Link to={"/postes/show/" + poste.id}>
+                    <img
+                      src={UrlFilter.ytUrlToThumbnail(poste.href)}
+                      className="card-img-top"
+                      alt="..."
+                    />
+                  </Link>
 
-                <div className="card-body">
-                  <h5 className="card-title text-truncate text-center">
-                    {poste.title}
-                  </h5>
+                  <div className="card-body">
+                    <h5 className="card-title text-truncate text-center">
+                      {poste.title}
+                    </h5>
+                  </div>
+                  <hr></hr>
+                  <div className="text-center">
+                    <p className="card-text workSans">
+                      Poster le: {DateFilter.formatDate(poste.creadtedAt)}
+                    </p>
+                  </div>
+
+                  <ul className="list-group list-group-flush">
+                    <li className="list-group-item text-center">
+                      <Link
+                        to={"/postes/" + poste.id}
+                        className="btn btn-danger"
+                      >
+                        Modifier
+                      </Link>
+                    </li>
+                  </ul>
                 </div>
-
-                <ul className="list-group list-group-flush">
-                  <li className="list-group-item text-center">
-                    <Link
-                      to={"/postes/" + poste.id}
-                      className="btn btn-success"
-                    >
-                      Modifier
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         )) || (
-          <h2 className="text-center workSans pt-5">
-            Tu n'a pas de tutoriel !
-          </h2>
+          <>
+            <div className="headerDiv">
+              <img
+                className="myImg"
+                src="https://images.pexels.com/photos/7477/night-trees-stars.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+              />
+              <div className="myName">
+                <p className="noelAn text-center text-nowrap">
+                  Tu n'a pas encore créer de tutoriel n'hésite pas à en créer un
+                  !
+                </p>
+                <p className="devWeb fs-3 roboto">
+                  <Link to="/postes/new">Créer un tuto !</Link>
+                </p>
+              </div>
+            </div>
+          </>
         )}
       </div>
     </>

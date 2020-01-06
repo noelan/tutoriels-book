@@ -25,13 +25,13 @@ class Comment
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=1000)
      * @Assert\NotBlank(message="Le commentaire ne peut pas être vide")
      * @Assert\Length(
      *      min = 1,
-     *      max = 300,
+     *      max = 1000,
      *      minMessage = "Votre commentaire faire minimum 1 caractères",
-     *      maxMessage = "Votre commentaire doit faire maximum 300 caractères"
+     *      maxMessage = "Votre commentaire doit faire maximum 1000 caractères"
      * )
      * @Groups({"comment_read", "post_read"})
      */

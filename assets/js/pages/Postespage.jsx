@@ -20,6 +20,7 @@ const PostesPage = props => {
     try {
       const data = await PosteAPI.findAll();
       setPostes(data);
+      console.log(postes);
     } catch (error) {
       toast.error("Erreur lors du chargement des postes !");
     }

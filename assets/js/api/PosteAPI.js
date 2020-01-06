@@ -35,6 +35,11 @@ async function findByFilter(filter) {
   );
 }
 
+async function findByLimit(limit) {
+  return Axios.get(POSTES_API + "?pagination=true&limit=" + limit).then(
+    response => response.data["hydra:member"]
+  );
+}
 export default {
   findAll,
   create,
@@ -42,5 +47,6 @@ export default {
   edit,
   deletePost,
   findUserPosts,
-  findByFilter
+  findByFilter,
+  findByLimit
 };

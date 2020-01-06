@@ -31,6 +31,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
                 ->setHref("https://www.youtube.com/watch?v=OpUWqlsLic8")
                 ->setUser($this->getReference('user' . rand(0, 9)))
                 ->setCategory($categories[rand(0, count($categories) - 1)])
+                ->setPreRequis("Du pain, Du sel, De la confiture")
                 ->setCreatedAt($faker->dateTimeBetween('-1 years'));
             $manager->persist($post);
 

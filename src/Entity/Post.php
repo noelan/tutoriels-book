@@ -15,10 +15,9 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
  * @ApiResource(attributes={
  *      "normalization_context"={"groups"={"post_read"}},
- *      "order"={"id": "DESC"}
+ *      "order"={"id": "DESC"},
  * })
  * @ApiFilter(SearchFilter::class, properties={"user": "exact", "category" :"exact"})
-
  */
 class Post
 {
@@ -97,6 +96,12 @@ class Post
      * @Groups({"comment_read", "post_read"})
      */
     private $CreatedAt;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups({"comment_read", "post_read"})
+     */
+    private $prerequis;
 
     public function __construct()
     {
@@ -220,6 +225,18 @@ class Post
     public function setCreatedAt(\DateTimeInterface $CreatedAt): self
     {
         $this->CreatedAt = $CreatedAt;
+
+        return $this;
+    }
+
+    public function getPrerequis(): ?string
+    {
+        return $this->prerequis;
+    }
+
+    public function setPrerequis(?string $prerequis): self
+    {
+        $this->prerequis = $prerequis;
 
         return $this;
     }

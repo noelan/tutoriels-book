@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import AuthContext from "../contexts/AuthContext";
 import UrlFilter from "../services/UrlFilter";
 import DateFilter from "../services/DateFilter";
+import { Link } from "react-router-dom";
 
 const ShowPage = props => {
   // State
@@ -13,6 +14,8 @@ const ShowPage = props => {
   const { id } = props.match.params;
   // Permet de savoir si le champ textArea du commentaire et vide ou non
   const [isEmpty, setIsEmpty] = useState(true);
+  const [suggestedPostes, setSuggestedPostes] = useState([]);
+  // nombre de vidéos suggérer en fonction du scrolling
   // state pour savoir si nous modifier un commentaire
   const [editingComment, setEditingComment] = useState("");
   const [comment, setComment] = useState({
@@ -33,7 +36,21 @@ const ShowPage = props => {
 
   useEffect(() => {
     fetchPost();
-  }, []);
+    fetchSuggestedPost();
+  }, [id]);
+
+  /**
+   * affiche les postes suggérés
+   */
+  const fetchSuggestedPost = async () => {
+    try {
+      const data = await PosteAPI.findByLimit(10);
+      shuffleArray(data);
+      setSuggestedPostes(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // Récupère le poste actuelle
   const fetchPost = async () => {
@@ -45,9 +62,9 @@ const ShowPage = props => {
         href,
         description,
         user,
-        comments
+        comments,
+        prerequis
       } = currentPost;
-      console.log(currentPost);
       // Inversion du tableau de commentaires afin d'afficher les nouveau en premier
       comments.reverse();
       // Afin de mettre un lien youtube dans une balise <iframe> il faut le convertir dans un format spécifique
@@ -58,6 +75,7 @@ const ShowPage = props => {
         href: hrefValidate,
         description,
         comments,
+        prerequis,
         userPseudo: user.pseudo,
         userPicture: user.picture
       });
@@ -80,7 +98,8 @@ const ShowPage = props => {
       scroll();
       //reset textArea
     } catch (error) {
-      toast.error("Votre commentaire ne peut pas être vide");
+      toast.error("Votre commentaire doit contenir 1000 caractères maximum");
+      console.log(error.response);
     }
   };
 
@@ -140,7 +159,7 @@ const ShowPage = props => {
       setEditingComment("");
       fetchPost();
     } catch (error) {
-      toast.success("Votre commentaire n'a pas pu être modifié");
+      toast.success("Votre commentaire doit contenir 1000 caractères maximum");
       console.log(error.response);
     }
   };
@@ -163,9 +182,18 @@ const ShowPage = props => {
   // Scroll après avoir ajouter un commentaire
   const scroll = () => {
     window.scrollTo({
-      top: 1250,
+      top: 850,
       behavior: "smooth"
     });
+  };
+
+  const shuffleArray = array => {
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
   };
 
   return (
@@ -176,7 +204,6 @@ const ShowPage = props => {
             <div className="row pb-3">
               <iframe width="1250" height="640" src={poste.href}></iframe>
             </div>
-
             <p className="text-center sourceSans pb-3 fs-2">{poste.title}</p>
             <div className="row">
               <div className="col-6 border-right">
@@ -187,16 +214,12 @@ const ShowPage = props => {
                 <p className="workSans">{poste.description}</p>
                 <p className="workSans">Difficulté : {poste.difficulty}</p>
               </div>
-              <div className="col-6">
-                <p className="text-center">Pré requis</p>
-                <ul className="ulRequire">
-                  <li>Arpege</li>
-                  <li>Bonne volonté</li>
-                  <li>Piano</li>
-                  <li>Casque</li>
-                  <li>Du sucre</li>
-                </ul>
-              </div>
+              {poste.prerequis && (
+                <div className="col-6">
+                  <p className="text-center roboto fs-2">Pré requis</p>
+                  <p>{poste.prerequis}</p>
+                </div>
+              )}
             </div>
             <div className="row">
               <div className="col-12 pb-5">
@@ -241,7 +264,9 @@ const ShowPage = props => {
                         {/* Si l'id du user dans le commentaire est égale a l'id du commentaire et que je suis en editComment */}
                         {(editingComment != comment.id && (
                           <>
-                            <p className="workSans">{comment.comment}</p>
+                            <p className="workSans text-justify">
+                              {comment.comment}
+                            </p>
                             <p className="opacity-semi">
                               {DateFilter.formatDate(comment.createdAt)}
                             </p>
@@ -301,114 +326,27 @@ const ShowPage = props => {
 
           {/* Videos suggestion */}
           <div className="col-4 pl-4">
-            <div className="row">
-              <div className="containerSuggest col-6">
-                <img
-                  src="https://img.youtube.com/vi/2erCU87gCJE/hqdefault.jpg"
-                  className="imgSuggest"
-                  alt="..."
-                />
+            {suggestedPostes.map(poste => (
+              <div key={poste.id}>
+                <div className="row">
+                  <div className="containerSuggest col-6">
+                    <Link to={"/postes/show/" + poste.id}>
+                      <img
+                        src={UrlFilter.ytUrlToThumbnail(poste.href)}
+                        className="imgSuggest"
+                        alt="..."
+                      />
+                    </Link>
+                  </div>
+                  <div className="col-6">
+                    <p className="underline fs-2 roboto">{poste.user.pseudo}</p>
+                    <p>{poste.description}</p>
+                    <p>{DateFilter.formatDate(poste.createdAt)}</p>
+                  </div>
+                </div>
+                <hr></hr>
               </div>
-              <div className="col-6">
-                <p>
-                  Aute magna eiusmod Lorem adipisicing et aliqua tempor occaecat
-                  ea quis ex laborum minim Lorem.
-                </p>
-                <p className="underline fs-2 roboto">Jean john</p>
-                <p>20/06/2519</p>
-              </div>
-            </div>
-            <hr></hr>
-            <div className="row">
-              <div className="containerSuggest col-6">
-                <img
-                  src="https://img.youtube.com/vi/2erCU87gCJE/hqdefault.jpg"
-                  className="imgSuggest"
-                  alt="..."
-                />
-              </div>
-              <div className="col-6">
-                <p>
-                  Aute magna eiusmod Lorem adipisicing et aliqua tempor occaecat
-                  ea quis ex laborum minim Lorem.
-                </p>
-                <p className="underline fs-2 roboto">Jean john</p>
-                <p>20/06/2519</p>
-              </div>
-            </div>
-            <hr></hr>
-            <div className="row">
-              <div className="containerSuggest col-6">
-                <img
-                  src="https://img.youtube.com/vi/2erCU87gCJE/hqdefault.jpg"
-                  className="imgSuggest"
-                  alt="..."
-                />
-              </div>
-              <div className="col-6">
-                <p>
-                  Aute magna eiusmod Lorem adipisicing et aliqua tempor occaecat
-                  ea quis ex laborum minim Lorem.
-                </p>
-                <p className="underline fs-2 roboto">Jean john</p>
-                <p>20/06/2519</p>
-              </div>
-            </div>
-            <hr></hr>
-            <div className="row">
-              <div className="containerSuggest col-6">
-                <img
-                  src="https://img.youtube.com/vi/2erCU87gCJE/hqdefault.jpg"
-                  className="imgSuggest"
-                  alt="..."
-                />
-              </div>
-              <div className="col-6">
-                <p>
-                  Aute magna eiusmod Lorem adipisicing et aliqua tempor occaecat
-                  ea quis ex laborum minim Lorem.
-                </p>
-                <p className="underline fs-2 roboto">Jean john</p>
-                <p>20/06/2519</p>
-              </div>
-            </div>
-            <hr></hr>
-            <div className="row">
-              <div className="containerSuggest col-6">
-                <img
-                  src="https://img.youtube.com/vi/2erCU87gCJE/hqdefault.jpg"
-                  className="imgSuggest"
-                  alt="..."
-                />
-              </div>
-              <div className="col-6">
-                <p>
-                  Aute magna eiusmod Lorem adipisicing et aliqua tempor occaecat
-                  ea quis ex laborum minim Lorem.
-                </p>
-                <p className="underline fs-2 roboto">Jean john</p>
-                <p>20/06/2519</p>
-              </div>
-            </div>
-            <hr></hr>
-            <div className="row">
-              <div className="containerSuggest col-6">
-                <img
-                  src="https://img.youtube.com/vi/2erCU87gCJE/hqdefault.jpg"
-                  className="imgSuggest"
-                  alt="..."
-                />
-              </div>
-              <div className="col-6">
-                <p>
-                  Aute magna eiusmod Lorem adipisicing et aliqua tempor occaecat
-                  ea quis ex laborum minim Lorem.
-                </p>
-                <p className="underline fs-2 roboto">Jean john</p>
-                <p>20/06/2519</p>
-              </div>
-            </div>
-            <hr></hr>
+            ))}
           </div>
         </div>
 
