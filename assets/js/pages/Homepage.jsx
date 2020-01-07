@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import Fade from "react-reveal/Fade";
 import { Parallax } from "react-parallax";
+import Modali, { useModali } from "modali";
+import Field from "../components/forms/Field";
+import userAPI from "../api/userAPI";
+import { toast } from "react-toastify";
 
-const HomePage = () => {
+const HomePage = props => {
+  const [exampleModal, toggleExampleModal] = useModali({
+    animated: true,
+    centered: true
+  });
+
   const catPictures = [
     "https://images.pexels.com/photos/89625/pexels-photo-89625.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
     "https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg?cs=srgb&dl=abstract-business-code-coder-270348.jpg&fm=jpg",
@@ -10,8 +19,96 @@ const HomePage = () => {
     "https://images.pexels.com/photos/277253/pexels-photo-277253.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
     "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=500&h=500&fit=crop"
   ];
+
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    pseudo: ""
+  });
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    pseudo: ""
+  });
+
+  const handleSubmit = async event => {
+    event.preventDefault();
+    const apiErrors = {};
+    console.log(user);
+    if (user.password !== user.confirmPassword) {
+      apiErrors.confirmPassword =
+        "Votre mot de passe est différent du mot de passe de confirmation";
+      setErrors(apiErrors);
+      return;
+    }
+    try {
+      const data = await userAPI.create(user);
+      toast.success("Vous êtes bien inscrit !");
+      props.history.push("/login");
+    } catch (error) {
+      const violations = error.response.data.violations;
+      console.log(error.response);
+      violations.forEach(violation => {
+        apiErrors[violation.propertyPath] = violation.message;
+      });
+      setErrors(apiErrors);
+      console.log(apiErrors);
+      toast.error("Une erreur est survenue");
+    }
+  };
+  const handleChange = event => {
+    const name = event.currentTarget.name;
+    const value = event.currentTarget.value;
+    setUser({ ...user, [name]: value });
+  };
+
   return (
     <>
+      <Modali.Modal {...exampleModal}>
+        <div className="p-3">
+          <h1 className="workSans mb-3 text-center">Inscription</h1>
+          <form onSubmit={handleSubmit}>
+            <Field
+              label="Email"
+              name="email"
+              type="email"
+              placeholder="Votre email"
+              onChange={handleChange}
+              error={errors.email}
+            />
+            <Field
+              label="Pseudo"
+              name="pseudo"
+              type="text"
+              placeholder="Votre pseudo"
+              onChange={handleChange}
+              error={errors.pseudo}
+            />
+            <Field
+              label="Mot de passe"
+              name="password"
+              type="password"
+              placeholder="Votre mot de passe"
+              onChange={handleChange}
+              error={errors.password}
+            />
+
+            <Field
+              label="Confirmation du mot de passe"
+              name="confirmPassword"
+              type="password"
+              placeholder="Votre mot de passe"
+              onChange={handleChange}
+              error={errors.confirmPassword}
+            />
+            <div className="form-group text-center">
+              <button className="btn btn-primary">S'inscrire !</button>
+            </div>
+          </form>
+        </div>
+      </Modali.Modal>
       <div className="container-fluid p-0 m-0 hideSm">
         <Parallax
           blur={0}
@@ -184,9 +281,14 @@ const HomePage = () => {
       </div>
       <Fade bottom>
         <div className="row justify-content-center">
-          <div className="col-8">
-            <h1 className="lora text-center ">SINCRIRE</h1>
-            <p className="badFt text-center p-5 fs-2 opacity-semi underline">
+          <div className="col-8 text-center">
+            <p
+              onClick={toggleExampleModal}
+              className="lora  underline fs-3 text-myBlue joinUs"
+            >
+              Rejoignez-nous !
+            </p>
+            <p className="badFt  p-5 fs-2 opacity-semi underline">
               Pour tous les gouts et pour tous les domaines venez partager votre
               savoir !
             </p>
