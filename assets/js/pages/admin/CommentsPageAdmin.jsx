@@ -3,6 +3,7 @@ import AuthContext from "../../contexts/AuthContext";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import CommentAPI from "../../api/CommentAPI";
+import { confirmAlert } from "react-confirm-alert";
 const CommentsPageAdmin = props => {
   const { userEmail } = useContext(AuthContext);
   const [comments, setComments] = useState([]);
@@ -27,9 +28,9 @@ const CommentsPageAdmin = props => {
     }
   };
 
-  const handleDelete = async event => {
+  const handleDelete = async id => {
     event.preventDefault();
-    const id = event.currentTarget.value;
+
     try {
       await CommentAPI.deleteComment(id);
       fetchComments();
@@ -38,6 +39,36 @@ const CommentsPageAdmin = props => {
       toast.error("Le commentaire n'a pas pu être supprimé");
       console.log(error.response);
     }
+  };
+
+  const handleConfirm = event => {
+    const id = event.currentTarget.value;
+    console.log(id);
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div className="custom-ui">
+            <h3>Etes vous sur de vouloir faire ça?</h3>
+            <button
+              onClick={() => {
+                toast.error("Operation annulé");
+                onClose();
+              }}
+            >
+              Non
+            </button>
+            <button
+              onClick={() => {
+                handleDelete(id);
+                onClose();
+              }}
+            >
+              Oui, Supprimer!
+            </button>
+          </div>
+        );
+      }
+    });
   };
 
   return (
@@ -62,7 +93,7 @@ const CommentsPageAdmin = props => {
                 <td>
                   <button
                     className="btn btn-danger"
-                    onClick={handleDelete}
+                    onClick={handleConfirm}
                     value={comment.id}
                   >
                     Supprimer

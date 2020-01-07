@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import AuthContext from "../contexts/AuthContext";
 import UrlFilter from "../services/UrlFilter";
+import { confirmAlert } from "react-confirm-alert";
 
 const PostePage = props => {
   const { userId } = useContext(AuthContext);
@@ -114,8 +115,7 @@ const PostePage = props => {
    * Supprimer le poste
    * @param {event} event
    */
-  const handleClick = async event => {
-    event.preventDefault();
+  const handleDelete = async () => {
     try {
       await PosteAPI.deletePost(id);
       toast.success("Le poste à bien été supprimé");
@@ -123,6 +123,34 @@ const PostePage = props => {
     } catch (error) {
       console.log(error.response);
     }
+  };
+
+  const handleConfirm = () => {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div className="custom-ui">
+            <h3>Etes vous sur de vouloir réaliser cette opération?</h3>
+            <button
+              onClick={() => {
+                toast.error("Operation annulé");
+                onClose();
+              }}
+            >
+              Non
+            </button>
+            <button
+              onClick={() => {
+                handleDelete();
+                onClose();
+              }}
+            >
+              Oui, Supprimer!
+            </button>
+          </div>
+        );
+      }
+    });
   };
 
   return (
@@ -216,9 +244,9 @@ const PostePage = props => {
               {(editing && "Modifier") || "Créer"}
             </button>
             {editing && (
-              <button className="btn btn-danger" onClick={handleClick}>
+              <p className="btn btn-danger" onClick={handleConfirm}>
                 Supprimer le poste
-              </button>
+              </p>
             )}
           </div>
           <hr />

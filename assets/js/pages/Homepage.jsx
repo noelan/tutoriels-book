@@ -182,6 +182,18 @@ const HomePage = () => {
         </Fade>
         <hr></hr>
       </div>
+      <Fade bottom>
+        <div className="row justify-content-center">
+          <div className="col-8">
+            <h1 className="lora text-center ">SINCRIRE</h1>
+            <p className="badFt text-center p-5 fs-2 opacity-semi underline">
+              Pour tous les gouts et pour tous les domaines venez partager votre
+              savoir !
+            </p>
+          </div>
+        </div>
+        <hr />
+      </Fade>
 
       {/* Avis */}
       <div className="aboutUs myGrey pt-5 hideSm">

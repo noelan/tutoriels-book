@@ -8,7 +8,6 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 
 const PostsPageAdmin = props => {
   const [postes, setPostes] = useState([]);
-  const [cancel, setCancel] = useState(true);
 
   const { userEmail } = useContext(AuthContext);
   if (userEmail != "admin@admin.admin") {
@@ -42,10 +41,8 @@ const PostsPageAdmin = props => {
     }
   };
 
-  const handleDelete = async event => {
+  const handleDelete = async id => {
     event.preventDefault();
-    const id = event.currentTarget.value;
-
     try {
       await PosteAPI.deletePost(id);
       toast.success("Poste Supprimé");
@@ -53,6 +50,36 @@ const PostsPageAdmin = props => {
     } catch (error) {
       console.log(error.response);
     }
+  };
+
+  const handleConfirm = event => {
+    const id = event.currentTarget.value;
+    console.log(id);
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div className="custom-ui">
+            <h3>Etes vous sur de vouloir faire ça?</h3>
+            <button
+              onClick={() => {
+                toast.error("Operation annulé");
+                onClose();
+              }}
+            >
+              Non
+            </button>
+            <button
+              onClick={() => {
+                handleDelete(id);
+                onClose();
+              }}
+            >
+              Oui, Supprimer!
+            </button>
+          </div>
+        );
+      }
+    });
   };
 
   return (
@@ -79,7 +106,7 @@ const PostsPageAdmin = props => {
                 <td>
                   <button
                     value={poste.id}
-                    onClick={handleDelete}
+                    onClick={handleConfirm}
                     className="btn btn-danger"
                   >
                     Supprimer

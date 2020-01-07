@@ -6,6 +6,7 @@ import AuthContext from "../contexts/AuthContext";
 import UrlFilter from "../services/UrlFilter";
 import DateFilter from "../services/DateFilter";
 import { Link } from "react-router-dom";
+import { confirmAlert } from "react-confirm-alert";
 
 const ShowPage = props => {
   // State
@@ -99,6 +100,7 @@ const ShowPage = props => {
       setComment({ comment: "", post: "/api/posts/" + id });
       scroll();
       //reset textArea
+      setIsEmpty(true);
     } catch (error) {
       toast.error("Votre commentaire doit contenir 1000 caractères maximum");
       console.log(error.response);
@@ -109,9 +111,9 @@ const ShowPage = props => {
    * Permet de supprimer un commentaire et d'actualiser la liste des commentaires avec l'approche optimiste
    * @param {event} event
    */
-  const handleDeleteComment = async event => {
+  const handleDeleteComment = async id => {
     event.preventDefault();
-    const commentId = event.currentTarget.value;
+    const commentId = id;
     const updatedComments = [...poste.comments].filter(
       comment => comment.id != commentId
     );
@@ -197,6 +199,36 @@ const ShowPage = props => {
       array[i] = array[j];
       array[j] = temp;
     }
+  };
+
+  const handleConfirm = event => {
+    const id = event.currentTarget.value;
+    console.log(id);
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div className="custom-ui">
+            <h3>Etes vous sur de vouloir faire ça?</h3>
+            <button
+              onClick={() => {
+                toast.error("Operation annulé");
+                onClose();
+              }}
+            >
+              Non
+            </button>
+            <button
+              onClick={() => {
+                handleDeleteComment(id);
+                onClose();
+              }}
+            >
+              Oui, Supprimer!
+            </button>
+          </div>
+        );
+      }
+    });
   };
 
   return (
@@ -303,7 +335,7 @@ const ShowPage = props => {
                         {comment && comment.user.id == userId && (
                           <div className="text-center">
                             <button
-                              onClick={handleDeleteComment}
+                              onClick={handleConfirm}
                               value={comment.id}
                               className="btn btn-danger"
                             >
