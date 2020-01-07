@@ -130,7 +130,7 @@ const HomePage = props => {
                 Symfony & Api Platform), et un Front-end en react !
               </p>
               <p className="devWeb notosans">
-                Vu mobile pas encore géré &#128528;{" "}
+                Vu non responsive pour le moment &#128528;{" "}
               </p>
               <p className="descriptionHome">
                 Site regroupant divers tutoriels ! Venez en créer un !
@@ -161,7 +161,7 @@ const HomePage = props => {
           <hr />
         </Fade>
         <Fade right>
-          <div className="row justify-content-center">
+          <div className="row justify-content-center hideSm">
             <div className="col col-6 card p-5">
               <div className="containerImg text-center">
                 <img
@@ -192,7 +192,7 @@ const HomePage = props => {
         </Fade>
         <hr />
         <Fade left>
-          <div className="row justify-content-center">
+          <div className="row justify-content-center hideSm">
             <div className="col-4">
               <img alt="" src={catPictures[0]} className="fadeImg" />
             </div>
@@ -223,7 +223,7 @@ const HomePage = props => {
         </Fade>
         <hr />
         <Fade right>
-          <div className="row justify-content-center">
+          <div className="row justify-content-center hideSm">
             <div className="col col-6 card p-5">
               <div className="containerImg text-center">
                 <img
@@ -253,7 +253,7 @@ const HomePage = props => {
           </div>
         </Fade>
         <Fade left>
-          <div className="row justify-content-center p-5">
+          <div className="row justify-content-center p-5 hideSm">
             <div className="col-4">
               <img alt="" src={catPictures[0]} className="fadeImg" />
             </div>
@@ -285,22 +285,22 @@ const HomePage = props => {
       </div>
 
       <Fade bottom>
-        <div className="row justify-content-center">
-          <div className="col-2 text-center mr-5">
+        <div className="row justify-content-center hideSm">
+          <div className="col-2 text-center mr-5 hideSm">
             <i className="fas fa-book tripleIcon mb-3"></i>
             <p className="text-myBlue fs-2 font-weight-bold roboto text-nowrap">
               1000
               <span className="text-myBlack "> TUTORIELS</span>
             </p>
           </div>
-          <div className="col-2 text-center mr-5">
+          <div className="col-2 text-center mr-5 hideSm">
             <i className="fas fa-users tripleIcon mb-3"></i>
             <p className="text-myBlue fs-2 font-weight-bold roboto text-nowrap">
               10000
               <span className="text-myBlack "> MEMBRES</span>
             </p>
           </div>
-          <div className="col-2 text-center">
+          <div className="col-2 text-center hideSm">
             <i className="fas fa-hand-peace tripleIcon mb-3"></i>
             <p className="text-myBlue fs-2 font-weight-bold roboto ">
               100
@@ -309,7 +309,7 @@ const HomePage = props => {
           </div>
         </div>
       </Fade>
-      <div className="footer mt-5">
+      <div className="footer mt-5 hideSm">
         <div className="row justify-content-center p-5">
           <div className="col-1">
             <i
