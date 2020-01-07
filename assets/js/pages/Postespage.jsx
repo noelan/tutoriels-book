@@ -100,12 +100,8 @@ const PostesPage = props => {
   return (
     <>
       <div className="pt-5 postesContainer">
-        <p className="text-center montSerrat mb-3 fs-4 sourceSans">
-          Voici les tutoriels {isSelected == "Tous" ? "" : isSelected}
-        </p>
-
-        <div className="row justify-content-center pb-5">
-          <div className="col-4">
+        <div className="row justify-content-center m-3 ">
+          <div className="col-4  m-3">
             <input
               type="text"
               className="form-control"
@@ -113,22 +109,22 @@ const PostesPage = props => {
               onChange={handleSearch}
               value={search}
             />
-          </div>{" "}
-        </div>
-        <div className="row justify-content-center">
-          <div className="d-flex">
+          </div>
+
+          <div className="categoriesPostes">
             {categories.map(category => (
               <p
                 id={category[0]}
                 key={category[0]}
                 className={
-                  (isSelected == category[0] && "underline font-weight-bold ") +
-                  "montSerrat myCat " +
-                  category[1]
+                  "indie myCat fs-2 " +
+                  category[1] +
+                  " " +
+                  (isSelected == category[0] && "underline font-weight-bold ")
                 }
                 onClick={handleFilter}
               >
-                {category[0]}
+                {category[0].toUpperCase()}
               </p>
             ))}
           </div>
@@ -200,6 +196,7 @@ const PostesPage = props => {
             </p>
           )}
         </div>
+
         <div onClick={scroll}>
           <Pagination
             currentPage={currentPage}

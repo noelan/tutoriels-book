@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Concert+One|Lora|Noto+Sans|Nunito|PT+Sans&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Bad+Script&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Roboto|Source+Sans+Pro&display=swap");
-
+@import url("https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap");
 /* Font */
 $fonts: "pt sans" serif, "lora" serif, "notosans" sans-serif,
   "nunito" sans-serif, "concertone" cursive;
@@ -14,6 +14,10 @@ $fonts: "pt sans" serif, "lora" serif, "notosans" sans-serif,
 
 .fs-1-5 {
   font-size: 1.5rem;
+}
+
+.indie {
+  font-family: "Abril Fatface", cursive;
 }
 
 .badFt  {
@@ -41,7 +45,7 @@ $fonts: "pt sans" serif, "lora" serif, "notosans" sans-serif,
 
 /* Color */
 $colors: "myGrey" #9e9e9e, "myBlue" #4285f4, "myPink" #ce76c8, "myGreen" #007e33,
-  "myRed" #e53935, "myCyan" #00bcd4;
+  "myRed" #e53935, "myCyan" #00bcd4, "myBlack" #000;
 
 @each $color in $colors {
   .#{nth($color, 1)} {

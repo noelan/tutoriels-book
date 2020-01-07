@@ -63,11 +63,18 @@ const HomePage = props => {
     const value = event.currentTarget.value;
     setUser({ ...user, [name]: value });
   };
-
+  //setings caroussel
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  };
   return (
     <>
       <Modali.Modal {...exampleModal}>
-        <div className="p-3">
+        <div className="pr-5 pb-5 pl-5">
           <h1 className="workSans mb-3 text-center">Inscription</h1>
           <form onSubmit={handleSubmit}>
             <Field
@@ -128,13 +135,16 @@ const HomePage = props => {
               <p className="descriptionHome">
                 Site regroupant divers tutoriels ! Venez en créer un !
               </p>
+              <p onClick={toggleExampleModal} className="seConnecter">
+                COMMENCER DES MAINTENANT
+              </p>
             </div>
           </div>
         </Parallax>
       </div>
       <hr></hr>
 
-      <div className="topTuto p-top-7 container-fluid hideSm">
+      <div className="topTuto p-top-4 container-fluid hideSm">
         <Fade bottom>
           <div className="row justify-content-center">
             <div className="col-8">
@@ -150,221 +160,171 @@ const HomePage = props => {
           </div>
           <hr />
         </Fade>
-        <Fade left>
-          <div className="row justify-content-center p-5">
-            <div className="col col-6">
-              <div className="m-right-8">
-                <div className="containerImg text-center">
-                  <img
-                    src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                    className="imgTemoignage"
-                    alt="..."
-                  />
-                </div>
-                <h3 className="text-center lora p-4 underline">Camille63</h3>
-                <p className="text-center sourceSans pb-3 fs-2 opacity-semi">
-                  Je peux transmettre ma passion
-                </p>
-                <p className="text-justify concertone">
-                  Tempor incididunt dolor voluptate non ut ipsum et cillum aute
-                  ad excepteur. Reprehenderit consectetur ipsum enim ipsum dolor
-                  duis. Veniam ipsum aliqua qui fugiat cillum ea adipisicing qui
-                  in proident aliqua elit consequat laborum. Voluptate tempor
-                  magna in excepteur id aliquip proident minim nostrud ad
-                  consequat. Minim Lorem do ex sint est mollit. Ullamco amet
-                  consectetur magna ipsum ut sit id Lorem excepteur sunt sit.
-                </p>
+        <Fade right>
+          <div className="row justify-content-center">
+            <div className="col col-6 card p-5">
+              <div className="containerImg text-center">
+                <img
+                  src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                  className="imgTemoignage"
+                  alt="..."
+                />
               </div>
+              <h3 className="text-center lora p-4 underline">Camille63</h3>
+              <p className="text-center sourceSans pb-3 fs-2 opacity-semi">
+                Je peux transmettre ma passion
+              </p>
+              <p className="text-justify concertone">
+                Tempor incididunt dolor voluptate non ut ipsum et cillum aute ad
+                excepteur. Reprehenderit consectetur ipsum enim ipsum dolor
+                duis. Veniam ipsum aliqua qui fugiat cillum ea adipisicing qui
+                in proident aliqua elit consequat laborum. Voluptate tempor
+                magna in excepteur id aliquip proident minim nostrud ad
+                consequat. Minim Lorem do ex sint est mollit. Ullamco amet
+                consectetur magna ipsum ut sit id Lorem excepteur sunt sit.
+              </p>
             </div>
             <div className="col-4">
               <img alt="" src={catPictures[0]} className="fadeImg" />
             </div>
-          </div>
-        </Fade>
-        <hr></hr>
-        <Fade right>
-          <div className="row justify-content-center p-5">
-            <div className="col-4 ml-5 mr-5">
-              <img alt="" src={catPictures[1]} className="fadeImg" />
-            </div>
-            <div className=" col-6">
-              <div className="m-right-8">
-                <div className="containerImg text-center">
-                  <img
-                    src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                    className="imgTemoignage"
-                    alt="..."
-                  />
-                </div>
-                <h3 className="text-center lora p-4 underline">Camille63</h3>
-                <p className="text-center sourceSans pb-3 fs-2 opacity-semi">
-                  Je peux transmettre ma passion
-                </p>
-                <p className="text-justify concertone">
-                  Tempor incididunt dolor voluptate non ut ipsum et cillum aute
-                  ad excepteur. Reprehenderit consectetur ipsum enim ipsum dolor
-                  duis. Veniam ipsum aliqua qui fugiat cillum ea adipisicing qui
-                  in proident aliqua elit consequat laborum. Voluptate tempor
-                  magna in excepteur id aliquip proident minim nostrud ad
-                  consequat. Minim Lorem do ex sint est mollit. Ullamco amet
-                  consectetur magna ipsum ut sit id Lorem excepteur sunt sit.
-                </p>
-              </div>
-            </div>
+            <div className="bandeau"></div>
           </div>
         </Fade>
         <hr />
         <Fade left>
-          <div className="row justify-content-center p-5">
-            <div className="col col-6">
-              <div className="m-right-8">
-                <div className="containerImg text-center">
-                  <img
-                    src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                    className="imgTemoignage"
-                    alt="..."
-                  />
-                </div>
-                <h3 className="text-center lora p-4 underline">Camille63</h3>
-                <p className="text-center sourceSans pb-3 fs-2 opacity-semi">
-                  Je peux transmettre ma passion
-                </p>
-                <p className="text-justify concertone">
-                  Tempor incididunt dolor voluptate non ut ipsum et cillum aute
-                  ad excepteur. Reprehenderit consectetur ipsum enim ipsum dolor
-                  duis. Veniam ipsum aliqua qui fugiat cillum ea adipisicing qui
-                  in proident aliqua elit consequat laborum. Voluptate tempor
-                  magna in excepteur id aliquip proident minim nostrud ad
-                  consequat. Minim Lorem do ex sint est mollit. Ullamco amet
-                  consectetur magna ipsum ut sit id Lorem excepteur sunt sit.
-                </p>
+          <div className="row justify-content-center">
+            <div className="col-4">
+              <img alt="" src={catPictures[0]} className="fadeImg" />
+            </div>
+            <div className="col col-6 card p-5">
+              <div className="containerImg text-center">
+                <img
+                  src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                  className="imgTemoignage"
+                  alt="..."
+                />
               </div>
+              <h3 className="text-center lora p-4 underline">Camille63</h3>
+              <p className="text-center sourceSans pb-3 fs-2 opacity-semi">
+                Je peux transmettre ma passion
+              </p>
+              <p className="text-justify concertone">
+                Tempor incididunt dolor voluptate non ut ipsum et cillum aute ad
+                excepteur. Reprehenderit consectetur ipsum enim ipsum dolor
+                duis. Veniam ipsum aliqua qui fugiat cillum ea adipisicing qui
+                in proident aliqua elit consequat laborum. Voluptate tempor
+                magna in excepteur id aliquip proident minim nostrud ad
+                consequat. Minim Lorem do ex sint est mollit. Ullamco amet
+                consectetur magna ipsum ut sit id Lorem excepteur sunt sit.
+              </p>
+            </div>
+            <div className="bandeau"></div>
+          </div>
+        </Fade>
+        <hr />
+        <Fade right>
+          <div className="row justify-content-center">
+            <div className="col col-6 card p-5">
+              <div className="containerImg text-center">
+                <img
+                  src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                  className="imgTemoignage"
+                  alt="..."
+                />
+              </div>
+              <h3 className="text-center lora p-4 underline">Camille63</h3>
+              <p className="text-center sourceSans pb-3 fs-2 opacity-semi">
+                Je peux transmettre ma passion
+              </p>
+              <p className="text-justify concertone">
+                Tempor incididunt dolor voluptate non ut ipsum et cillum aute ad
+                excepteur. Reprehenderit consectetur ipsum enim ipsum dolor
+                duis. Veniam ipsum aliqua qui fugiat cillum ea adipisicing qui
+                in proident aliqua elit consequat laborum. Voluptate tempor
+                magna in excepteur id aliquip proident minim nostrud ad
+                consequat. Minim Lorem do ex sint est mollit. Ullamco amet
+                consectetur magna ipsum ut sit id Lorem excepteur sunt sit.
+              </p>
             </div>
             <div className="col-4">
-              <img alt="" src={catPictures[2]} className="fadeImg" />
+              <img alt="" src={catPictures[0]} className="fadeImg" />
             </div>
+            <div className="bandeau"></div>
           </div>
         </Fade>
-        <hr></hr>
-        <Fade right>
+        <Fade left>
           <div className="row justify-content-center p-5">
-            <div className="col-4  ml-5 mr-5">
-              <img alt="" src={catPictures[3]} className="fadeImg" />
+            <div className="col-4">
+              <img alt="" src={catPictures[0]} className="fadeImg" />
             </div>
-            <div className="col col-6">
-              <div className="m-right-8">
-                <div className="containerImg text-center">
-                  <img
-                    src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                    className="imgTemoignage"
-                    alt="..."
-                  />
-                </div>
-                <h3 className="text-center lora p-4 underline">Camille63</h3>
-                <p className="text-center sourceSans pb-3 fs-2 opacity-semi">
-                  Je peux transmettre ma passion
-                </p>
-                <p className="text-justify concertone">
-                  Tempor incididunt dolor voluptate non ut ipsum et cillum aute
-                  ad excepteur. Reprehenderit consectetur ipsum enim ipsum dolor
-                  duis. Veniam ipsum aliqua qui fugiat cillum ea adipisicing qui
-                  in proident aliqua elit consequat laborum. Voluptate tempor
-                  magna in excepteur id aliquip proident minim nostrud ad
-                  consequat. Minim Lorem do ex sint est mollit. Ullamco amet
-                  consectetur magna ipsum ut sit id Lorem excepteur sunt sit.
-                </p>
+            <div className="col col-6 card p-5">
+              <div className="containerImg text-center">
+                <img
+                  src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                  className="imgTemoignage"
+                  alt="..."
+                />
               </div>
+              <h3 className="text-center lora p-4 underline">Camille63</h3>
+              <p className="text-center sourceSans pb-3 fs-2 opacity-semi">
+                Je peux transmettre ma passion
+              </p>
+              <p className="text-justify concertone">
+                Tempor incididunt dolor voluptate non ut ipsum et cillum aute ad
+                excepteur. Reprehenderit consectetur ipsum enim ipsum dolor
+                duis. Veniam ipsum aliqua qui fugiat cillum ea adipisicing qui
+                in proident aliqua elit consequat laborum. Voluptate tempor
+                magna in excepteur id aliquip proident minim nostrud ad
+                consequat. Minim Lorem do ex sint est mollit. Ullamco amet
+                consectetur magna ipsum ut sit id Lorem excepteur sunt sit.
+              </p>
             </div>
+            <div className="bandeau"></div>
           </div>
         </Fade>
-        <hr></hr>
       </div>
+
       <Fade bottom>
         <div className="row justify-content-center">
-          <div className="col-8 text-center">
-            <p
-              onClick={toggleExampleModal}
-              className="lora  underline fs-3 text-myBlue joinUs"
-            >
-              Rejoignez-nous !
+          <div className="col-2 text-center mr-5">
+            <i className="fas fa-book tripleIcon mb-3"></i>
+            <p className="text-myBlue fs-2 font-weight-bold roboto text-nowrap">
+              1000
+              <span className="text-myBlack "> TUTORIELS</span>
             </p>
-            <p className="badFt  p-5 fs-2 opacity-semi underline">
-              Pour tous les gouts et pour tous les domaines venez partager votre
-              savoir !
+          </div>
+          <div className="col-2 text-center mr-5">
+            <i className="fas fa-users tripleIcon mb-3"></i>
+            <p className="text-myBlue fs-2 font-weight-bold roboto text-nowrap">
+              10000
+              <span className="text-myBlack "> MEMBRES</span>
+            </p>
+          </div>
+          <div className="col-2 text-center">
+            <i className="fas fa-hand-peace tripleIcon mb-3"></i>
+            <p className="text-myBlue fs-2 font-weight-bold roboto ">
+              100
+              <span className="text-myBlack "> COACH</span>
             </p>
           </div>
         </div>
-        <hr />
       </Fade>
-
-      {/* Avis */}
-      <div className="aboutUs myGrey pt-5 hideSm">
-        <div className="row justify-content-center">
-          <div className="col-3 m-right-8">
-            <div className="containerImg">
-              <img
-                src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                className="imgTemoignage"
-                alt="..."
-              />
-            </div>
-            <h3 className="text-center lora p-4 underline">Camille63</h3>
-            <p className="text-center sourceSans pb-3 fs-2 opacity-semi">
-              Je peux transmettre ma passion
-            </p>
-            <p className="text-justify concertone">
-              Tempor incididunt dolor voluptate non ut ipsum et cillum aute ad
-              excepteur. Reprehenderit consectetur ipsum enim ipsum dolor duis.
-              Veniam ipsum aliqua qui fugiat cillum ea adipisicing qui in
-              proident aliqua elit consequat laborum. Voluptate tempor magna in
-              excepteur id aliquip proident minim nostrud ad consequat. Minim
-              Lorem do ex sint est mollit. Ullamco amet consectetur magna ipsum
-              ut sit id Lorem excepteur sunt sit.
-            </p>
+      <div className="footer mt-5">
+        <div className="row justify-content-center p-5">
+          <div className="col-1">
+            <i
+              className="fab fa-facebook fs-4"
+              style={{ color: "#4267B2" }}
+            ></i>
           </div>
-          <div className="col-3 m-right-8">
-            <div className="containerImg">
-              <img
-                src="https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                className="imgTemoignage"
-                alt="..."
-              />
-            </div>
-            <h3 className="text-center lora p-4 underline">WebNomade</h3>
-            <p className="text-center badFt pb-3 fs-2 opacity-semi">
-              Je parcours le monde en codant
-            </p>
-            <p className="text-justify concertone">
-              Tempor incididunt dolor voluptate non ut ipsum et cillum aute ad
-              excepteur. Reprehenderit consectetur ipsum enim ipsum dolor duis.
-              Veniam ipsum aliqua qui fugiat cillum ea adipisicing qui in
-              proident aliqua elit consequat laborum. Voluptate tempor magna in
-              excepteur id aliquip proident minim nostrud ad consequat. Minim
-              Lorem do ex sint est mollit. Ullamco amet consectetur magna ipsum
-              ut sit id Lorem excepteur sunt sit.
-            </p>
+          <div className="col-1">
+            <i className="fab fa-twitter fs-4" style={{ color: "#00acee" }}></i>
           </div>
-          <div className="col-3">
-            <div className="containerImg">
-              <img
-                src="https://images.pexels.com/photos/2100063/pexels-photo-2100063.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                className="imgTemoignage"
-                alt="..."
-              />
-            </div>
-            <h3 className="text-center lora p-4 underline">Chris Food</h3>
-            <p className="text-center badFt pb-3 fs-2 opacity-semi">
-              "J'ai pu me redécouvrir"
-            </p>
-            <p className="text-justify concertone">
-              Tempor incididunt dolor voluptate non ut ipsum et cillum aute ad
-              excepteur. Reprehenderit consectetur ipsum enim ipsum dolor duis.
-              Veniam ipsum aliqua qui fugiat cillum ea adipisicing qui in
-              proident aliqua elit consequat laborum. Voluptate tempor magna in
-              excepteur id aliquip proident minim nostrud ad consequat. Minim
-              Lorem do ex sint est mollit. Ullamco amet consectetur magna ipsum
-              ut sit id Lorem excepteur sunt sit.
-            </p>
+          <div className="col-1">
+            <i className="fab fa-youtube fs-4" style={{ color: "#c4302b" }}></i>
+          </div>
+          <div className="col-1">
+            <i className="fab fa-reddit fs-4 " style={{ color: "#FF4301" }}></i>
           </div>
         </div>
       </div>

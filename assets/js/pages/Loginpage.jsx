@@ -47,7 +47,7 @@ const LoginPage = props => {
     <>
       <div className="container mt-5">
         <div className="row justify-content-center">
-          <div className="col-6 card">
+          <div className="col-6 card p-5">
             <h1 className="workSans mb-3 text-center">Se connecter</h1>
             <form onSubmit={handleSubmit}>
               <Field

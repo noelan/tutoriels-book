@@ -16,57 +16,51 @@ const Navbar = props => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark myBlue fixed-top">
+    <nav className="navbar navbar-expand-lg fixed-top">
       <div className="collapse navbar-collapse" id="navbarColor02">
         <ul className="navbar-nav m-left-10">
-          <li className="nav-item pr-3 font-weight-bold">
-            <Link to="/" className="nav-link workSans">
-              Home
-            </Link>
-          </li>
-          <li className="nav-item pr-3 font-weight-bold">
+          <li className="nav-item pr-3 font-weight-bold fs-1-5">
             <Link to="/postes" className="nav-link workSans">
-              Les Tutoriels
+              Nos Tutoriels
             </Link>
           </li>
-          <li className="nav-item pr-3 font-weight-bold">
+          <li className="nav-item pr-3 font-weight-bold fs-1-5">
             <Link className="nav-link workSans" to="/postes/myposts">
               Mes Tutoriels
             </Link>
           </li>
-          {userEmail == "admin@admin.admin" && (
-            <li className="nav-item pr-3 font-weight-bold">
-              <Link className="nav-link workSans" to="/admin">
-                Admin
-              </Link>
-            </li>
-          )}
+        </ul>
+        <ul className="centerNav navbar-nav nav">
+          <li className="nav-item pr-3 font-weight-bold fs-3 lora">
+            <Link to="/" className="nav-link workSans">
+              <i class="fas fa-home"></i>E Learning
+            </Link>
+          </li>
         </ul>
         <ul className="navbar-nav ml-auto m-right-10">
           {(!isAuthenticated && (
             <>
               <li className="nav-item">
-                <Link className="btn btn-success mr-5 " to="/login">
+                <Link className=" mr-5 fs-1-5" to="/login">
                   Se connecter
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="btn btn-danger" to="/register">
-                  S'inscrire
-                </Link>
+              <li className="nav-item fs-1-5">
+                <Link to="/register">S'inscrire</Link>
               </li>
             </>
           )) || (
             <>
               <li className="nav-item">
-                <Link className="btn btn-success mr-5" to="/MonCompte">
-                  Mon compte
+                <Link to="/MonCompte">
+                  <i class="fas fa-user fs-2 mr-5 text-myBlue"></i>
                 </Link>
               </li>
               <li className="nav-item">
-                <button className="btn btn-danger" onClick={handleLogout}>
-                  Se déconnecter
-                </button>
+                <i
+                  onClick={handleLogout}
+                  class="fas fa-power-off fs-2 text-myBlue"
+                ></i>
               </li>
             </>
           )}

@@ -2,25 +2,30 @@
 /* Globals */
 
 body {
-  padding-top: 3.5rem;
+  padding-top: 7rem;
   background-color: fff !important;
+  min-height: 100%;
+  margin: 0;
 }
 
 /* Postes pages */
 
 .myCat {
-  width: 7rem;
-  height: 7rem;
-  border-radius: 3.5rem;
-  font-size: 1.5rem;
-  border: solid;
   line-height: 7rem;
-  text-align: center;
-  margin-right: 3rem;
+
+  margin-right: 5rem;
 
   &:hover {
     text-decoration: underline;
   }
+}
+
+.categoriesPostes {
+  border-top: solid 0.1px;
+  border-bottom: solid 0.1px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .postesContainer {
@@ -126,14 +131,48 @@ body {
   transform: translate(-50%, 50%);
 }
 
-/* AboutUs Section */
-.aboutUs {
-  min-height: 800px;
+.seConnecter {
+  font-family: "lora";
+  color: #4285f4;
+  font-size: 3.5rem;
+  font-weight: bold;
+  position: absolute;
+  white-space: nowrap;
+  padding: 1rem;
+  top: 200%;
+  left: 50%;
+  border: 10px solid #4285f4;
+  transform: translate(-50%, 100%);
+  background-color: rgba($color: #000000, $alpha: 0.5);
+
+  cursor: pointer;
+}
+
+/* triple icon */
+
+.tripleIcon {
+  border: 5px solid #4285f4;
+  border-radius: 50%;
+  line-height: 100rem;
+  width: 13rem;
+  height: 13rem;
+  font-size: 8rem;
+  padding-top: 2rem;
 }
 
 .fadeImg {
-  width: 640px;
-  height: 450px;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.bandeau {
+  height: 200px;
+  width: 100%;
+  position: relative;
+  top: -400px;
+  z-index: -1;
+  background-color: #4285f4;
 }
 
 .imgTemoignage {
@@ -170,4 +209,28 @@ body {
 
 .joinUs {
   cursor: pointer;
+}
+
+/* navbar */
+nav {
+  background-color: white;
+}
+
+.myNav {
+  color: black;
+}
+
+.centerNav {
+  position: relative;
+  left: 18%;
+  text-align: center;
+}
+
+/* footer */
+
+.footer {
+  border-top: 0.5px solid;
+  background-color: grey;
+
+  height: 10rem;
 }
