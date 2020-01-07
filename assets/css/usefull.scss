@@ -204,8 +204,8 @@ body {
 }
 
 /* XL SCREEN */
-@media screen and (max-width: 1000px) {
-  .hideSm {
+@media screen and (min-width: 1000px) {
+  .hideXl {
     display: none;
   }
 }

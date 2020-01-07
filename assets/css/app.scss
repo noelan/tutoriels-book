@@ -3,6 +3,7 @@
 
 body {
   padding-top: 3.5rem;
+  background-color: fff !important;
 }
 
 /* Postes pages */
@@ -34,7 +35,7 @@ body {
 }
 
 .userPicture {
-  object-fit: contain;
+  width: 5rem;
   border-radius: 50%;
 }
 
@@ -79,6 +80,7 @@ body {
   width: 100%;
   height: 100%;
   min-height: 63rem;
+  background: rgba($color: #000000, $alpha: 0.5);
 }
 
 .myImg {
@@ -129,12 +131,9 @@ body {
   min-height: 800px;
 }
 
-.containerImg {
-  width: 8rem;
-  height: auto;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+.fadeImg {
+  width: 640px;
+  height: 450px;
 }
 
 .imgTemoignage {

@@ -91,7 +91,6 @@ const PostesPage = props => {
 
   // Scroll après avoir clicker sur la pagination
   const scroll = () => {
-    console.log("haha");
     window.scrollTo({
       top: 240,
       behavior: "smooth"
