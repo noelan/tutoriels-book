@@ -149,11 +149,11 @@ const HomePage = props => {
           <div className="row justify-content-center">
             <div className="col-8">
               <h1 className="lora text-center ">
-                Apprenez avec la plus grande ressource d'informations aux mondes
-                : le web !
+                Apprenez avec la plus grande ressource d'informations au monde :
+                le <span className="underline">Web </span>!
               </h1>
               <p className="badFt text-center p-5 fs-2 opacity-semi underline">
-                Pour tous les gouts et pour tous les domaines venez partager
+                Pour tous les goûts et pour tous les domaines venez partager
                 votre savoir !
               </p>
             </div>
@@ -194,7 +194,7 @@ const HomePage = props => {
         <Fade left>
           <div className="row justify-content-center hideSm">
             <div className="col-4">
-              <img alt="" src={catPictures[0]} className="fadeImg" />
+              <img alt="" src={catPictures[1]} className="fadeImg" />
             </div>
             <div className="col col-6 card p-5">
               <div className="containerImg text-center">
@@ -247,7 +247,7 @@ const HomePage = props => {
               </p>
             </div>
             <div className="col-4">
-              <img alt="" src={catPictures[0]} className="fadeImg" />
+              <img alt="" src={catPictures[2]} className="fadeImg" />
             </div>
             <div className="bandeau"></div>
           </div>
@@ -255,7 +255,7 @@ const HomePage = props => {
         <Fade left>
           <div className="row justify-content-center p-5 hideSm">
             <div className="col-4">
-              <img alt="" src={catPictures[0]} className="fadeImg" />
+              <img alt="" src={catPictures[3]} className="fadeImg" />
             </div>
             <div className="col col-6 card p-5">
               <div className="containerImg text-center">

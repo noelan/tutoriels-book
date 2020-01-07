@@ -144,8 +144,10 @@ body {
   border: 10px solid #4285f4;
   transform: translate(-50%, 100%);
   background-color: rgba($color: #000000, $alpha: 0.5);
-
   cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 /* triple icon */
