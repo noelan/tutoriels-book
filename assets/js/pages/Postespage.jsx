@@ -99,7 +99,7 @@ const PostesPage = props => {
 
   return (
     <>
-      <div className="pt-5 postesContainer">
+      <div className="pt-2 postesContainer">
         <div className="row justify-content-center m-3 ">
           <div className="col-4  m-3">
             <input
