@@ -29,14 +29,13 @@ const Navbar = props => {
               Mes Tutoriels
             </Link>
           </li>
-        </ul>
-        <ul className="centerNav navbar-nav nav">
-          <li className="nav-item pr-3 font-weight-bold fs-3 lora">
+          <li className="nav-item pr-3 font-weight-bold fs-1-5 lora">
             <Link to="/" className="nav-link workSans">
-              <i class="fas fa-home"></i>E Learning
+              <i className="fas fa-home fs-1-5"></i>E Learning
             </Link>
           </li>
         </ul>
+
         <ul className="navbar-nav ml-auto m-right-10">
           {(!isAuthenticated && (
             <>

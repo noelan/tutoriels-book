@@ -85,7 +85,7 @@ const MyPostsPage = props => {
               />
               <div className="myName">
                 <p className="noelAn text-center text-nowrap">
-                  Tu n'a pas encore créer de tutoriel n'hésite pas à en créer un
+                  Tu n'a pas encore créé de tutoriel n'hésite pas à en créer un
                   !
                 </p>
                 <p className="devWeb fs-3 roboto">

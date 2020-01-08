@@ -185,7 +185,7 @@ const PostesPage = props => {
                 <ul className="list-group list-group-flush">
                   <li className="list-group-item text-center">
                     <p className="card-text workSans">
-                      Poster le: {DateFilter.formatDate(poste.creadtedAt)}
+                      Posté le: {DateFilter.formatDate(poste.creadtedAt)}
                     </p>
                   </li>
                 </ul>

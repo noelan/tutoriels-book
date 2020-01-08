@@ -159,8 +159,11 @@ const PostePage = props => {
         <h1>
           {(editing && "Modification d'un poste     ") ||
             "Création d'un poste   "}
-          <span style={{ fontSize: "1.3rem" }}>
-            (Seulement les liens youtube sont gérer :'[ )
+          <span
+            className="opacity-semi underline"
+            style={{ fontSize: "1.3rem" }}
+          >
+            Seulement les liens youtube sont gérés :'(
           </span>
         </h1>
         {editing && (
@@ -228,7 +231,7 @@ const PostePage = props => {
             <option value="Food">Food</option>
             <option value="Sport">Sport</option>
             <option value="Coding">Coding</option>
-            <option value="Bien être">Bien être</option>
+            <option value="Musique">Musique</option>
             <option value="Dessin">Dessin</option>
           </Select>
           <Field
