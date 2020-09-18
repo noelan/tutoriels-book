@@ -244,10 +244,7 @@ const ShowPage = (props) => {
 
   return (
     <>
-      <div
-        className="show-post-container"
-        onClick={() => console.log(limitSuggest)}
-      >
+      <div className="show-post-container">
         {/* Post part */}
         <div className="wrapper">
           <div className="flex">
