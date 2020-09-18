@@ -73,6 +73,7 @@ const Navbar = (props) => {
   useEffect(() => {
     if (props.location.pathname === "/postes") {
       window.addEventListener("scroll", hideNav);
+      console.log(props.location.pathname);
     }
   });
 
