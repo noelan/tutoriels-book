@@ -20,8 +20,7 @@ import UsersPageAdmin from "./pages/admin/UsersPageAdmin";
 import PostsPageAdmin from "./pages/admin/PostsPageAdmin";
 import CommentsPageAdmin from "./pages/admin/CommentsPageAdmin";
 
-require("../css/app.scss");
-require("../css/usefull.scss");
+require("../scss/main.scss");
 
 AuthAPI.isTokenValid();
 
@@ -36,7 +35,7 @@ const App = () => {
     isAuthenticated,
     setIsAuthenticated,
     userId: window.localStorage.getItem("userId"),
-    userEmail: window.localStorage.getItem("userEmail")
+    userEmail: window.localStorage.getItem("userEmail"),
   };
 
   const NavbarWithRouter = withRouter(Navbar);
@@ -44,9 +43,8 @@ const App = () => {
   return (
     <AuthContext.Provider value={contextValue}>
       <HashRouter>
-        <NavbarWithRouter />
-
         <main>
+          <NavbarWithRouter />
           <Switch>
             <PrivateRoute path="/admin/users" component={UsersPageAdmin} />
             <PrivateRoute path="/admin/posts" component={PostsPageAdmin} />

@@ -1,0 +1,63 @@
+.postes-header {
+  background-color: black;
+  position: fixed;
+  width: 100%;
+  .filters {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include Roboto;
+    color: white;
+
+    .category {
+      margin: 20px;
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+
+    .active {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    .search {
+      width: 35%;
+      position: relative;
+      display: flex;
+    }
+
+    .search-filter {
+      width: 100%;
+      border: 1px solid $grey;
+      border-right: none;
+      padding: 5px;
+      height: 16px;
+      box-sizing: content-box !important;
+      border-radius: 5px 0 0 5px;
+      outline: none;
+      color: #9dbfaf;
+    }
+
+    .searchTerm:focus {
+      color: $grey;
+    }
+
+    .searchButton {
+      width: 40px;
+      height: 28px;
+      border: 1px solid $grey;
+      background: $grey-lighter;
+      text-align: center;
+      color: #fff;
+      border-radius: 0 5px 5px 0;
+      cursor: pointer;
+      font-size: 20px;
+
+      i {
+        color: white;
+      }
+    }
+  }
+}

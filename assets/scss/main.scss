@@ -1,0 +1,22 @@
+/* Utils */
+@import "./utils/colors.scss";
+@import "./utils/fonts.scss";
+@import "./utils/helpers.scss";
+@import "./utils/global.scss";
+@import "./utils/breakpoints.scss";
+
+/* Pages */
+@import "./pages/Homepage.scss";
+@import "./pages/Login.scss";
+@import "./pages/Register.scss";
+@import "./pages/Postespage.scss";
+@import "./pages/My-posts.scss";
+@import "./pages/Postepage.scss";
+@import "./pages/Show-post.scss";
+
+/* Components */
+@import "./components/Cards-container.scss";
+@import "./components/Navbar.scss";
+@import "./components/form.scss";
+@import "./components/pagination.scss";
+@import "./pages/profil.scss";

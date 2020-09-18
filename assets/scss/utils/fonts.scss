@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;600&family=Roboto:wght@300;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap");
+
+$big-title-s: 30pt;
+$title-s: 18pt;
+$main-s: 12pt;
+$sub-s: 8pt;
+
+@mixin Raleway {
+  font-family: "Raleway", sans-serif;
+}
+
+@mixin Roboto {
+  font-family: "Roboto", sans-serif;
+}
+
+@mixin Playfair {
+  font-family: "Playfair Display", serif;
+}
+
+@mixin title {
+  font-weight: bold;
+  color: $grey-light;
+  font-size: $big-title-s;
+}

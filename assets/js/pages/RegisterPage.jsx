@@ -2,22 +2,23 @@ import React, { useState } from "react";
 import Field from "../components/forms/Field";
 import userAPI from "../api/userAPI";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
-const RegisterPage = props => {
+const RegisterPage = (props) => {
   const [user, setUser] = useState({
     email: "",
     password: "",
     confirmPassword: "",
-    pseudo: ""
+    pseudo: "",
   });
   const [errors, setErrors] = useState({
     email: "",
     password: "",
     confirmPassword: "",
-    pseudo: ""
+    pseudo: "",
   });
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const apiErrors = {};
     if (user.password !== user.confirmPassword) {
@@ -33,7 +34,7 @@ const RegisterPage = props => {
     } catch (error) {
       const violations = error.response.data.violations;
       console.log(error.response);
-      violations.forEach(violation => {
+      violations.forEach((violation) => {
         apiErrors[violation.propertyPath] = violation.message;
       });
       setErrors(apiErrors);
@@ -41,31 +42,29 @@ const RegisterPage = props => {
       toast.error("Une erreur est survenue");
     }
   };
-  const handleChange = event => {
+  const handleChange = (event) => {
     const name = event.currentTarget.name;
     const value = event.currentTarget.value;
     setUser({ ...user, [name]: value });
   };
   return (
     <>
-      <div className="container mt-5">
-        <div className="row justify-content-center">
-          <div className="col-6 card">
-            <h1 className="workSans mb-3 text-center">Inscription</h1>
+      <div className="register-page">
+        <div className="register-container">
+          <div className="card">
+            <p className="title">Inscription</p>
             <form onSubmit={handleSubmit}>
               <Field
                 label="Email"
                 name="email"
-                type="email"
+                type="text"
                 onChange={handleChange}
-                placeholder="Votre email"
                 error={errors.email}
               />
               <Field
                 label="Pseudo"
                 name="pseudo"
                 type="text"
-                placeholder="Votre pseudo"
                 onChange={handleChange}
                 error={errors.pseudo}
               />
@@ -73,7 +72,6 @@ const RegisterPage = props => {
                 label="Mot de passe"
                 name="password"
                 type="password"
-                placeholder="Votre mot de passe"
                 onChange={handleChange}
                 error={errors.password}
               />
@@ -82,13 +80,18 @@ const RegisterPage = props => {
                 label="Confirmation du mot de passe"
                 name="confirmPassword"
                 type="password"
-                placeholder="Votre mot de passe"
                 onChange={handleChange}
                 error={errors.confirmPassword}
               />
-              <div className="form-group text-center">
-                <button className="btn btn-primary">S'inscrire !</button>
+              <div className="center-text">
+                <button className="btn">S'inscrire !</button>
               </div>
+              <p className="sub-text">
+                Déja inscrit ?
+                <Link to="/login" className="subscribe">
+                  Se connecter
+                </Link>
+              </p>
             </form>
           </div>
         </div>

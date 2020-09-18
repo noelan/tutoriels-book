@@ -1,0 +1,157 @@
+.login-container {
+  background-color: white;
+  height: 94vh;
+  width: 100vw;
+
+  .login {
+    @include center;
+    @include Raleway;
+    width: 600px;
+    height: 300px;
+
+    .card {
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+        0 10px 10px rgba(0, 0, 0, 0.22);
+      background-color: white;
+
+      .flex {
+        display: flex;
+
+        /** Left **/
+        .left {
+          padding: 30px;
+          width: 60%;
+
+          .title {
+            text-align: center;
+            color: $blue;
+            font-size: $title-s;
+            font-weight: bold;
+          }
+
+          .sub-text {
+            text-align: center;
+            font-size: $sub-s + 2;
+            color: $grey;
+
+            a {
+              color: $blue;
+              padding-left: 3px;
+
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+
+          form {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+
+            .form-group {
+              padding-top: 10px;
+              position: relative;
+              margin-bottom: 20px;
+
+              input {
+                width: 100%;
+                padding-top: 20px;
+                padding-bottom: 8px;
+                border: none;
+                outline: none;
+
+                &:focus + label .label-name {
+                  transform: translateY(-150%);
+                  color: $blue;
+                }
+
+                &:focus + label:after {
+                  transform: translateX(0%);
+                }
+
+                form input:valid + label .label-name {
+                  transform: translateY(-150%);
+                  color: $blue;
+                }
+              }
+
+              label {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border-bottom: 1px solid #9e9e9e;
+
+                pointer-events: none;
+
+                &:after {
+                  content: "";
+                  border-bottom: solid $blue;
+                  position: absolute;
+                  top: 0;
+                  bottom: 0;
+                  left: 0;
+                  width: 100%;
+                  height: 100%;
+                  transition: all 0.3s ease;
+                  transform: translateX(-100%);
+                }
+
+                .label-name {
+                  position: absolute;
+                  color: $grey;
+                  bottom: 5px;
+                  left: 0px;
+                  transition: all 0.3s ease;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .title {
+        text-align: center;
+        color: $blue;
+        font-size: $title-s;
+        font-weight: bold;
+      }
+
+      .sub-text {
+        text-align: center;
+        font-size: $sub-s + 2;
+        color: $grey;
+
+        a {
+          color: $blue;
+          padding-left: 3px;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
+
+.right {
+  width: 40%;
+  height: auto;
+  background-color: $blue;
+  position: relative;
+
+  .img-container {
+    @include center;
+    height: auto;
+    width: 100px;
+
+    img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

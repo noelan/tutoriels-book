@@ -1,0 +1,27 @@
+.homepage {
+  .header {
+    height: 100vh;
+
+    .text-container {
+      @include center;
+      font-size: 32pt;
+      text-align: center;
+      color: white;
+    }
+  }
+
+  .about {
+    height: 100vh;
+
+    .title {
+      @include title;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .text-container {
+      margin: auto;
+      width: 60%;
+    }
+  }
+}

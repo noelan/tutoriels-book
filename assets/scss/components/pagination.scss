@@ -1,0 +1,40 @@
+.pagination {
+  display: inline-block;
+  list-style-type: none;
+
+  .active {
+    button {
+      color: $blue;
+      border: 1px solid $blue;
+      font-weight: bold;
+    }
+  }
+
+  .disabled {
+    pointer-events: none;
+
+    button {
+      color: grey;
+    }
+  }
+}
+
+.pagination li {
+  color: black;
+  float: left;
+
+  button {
+    transition: all 0.5s ease;
+    padding: 8px 12px;
+    background-color: white;
+    font-weight: 600;
+    border: none;
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+    outline: none;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

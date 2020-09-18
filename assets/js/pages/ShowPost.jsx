@@ -8,7 +8,7 @@ import DateFilter from "../services/DateFilter";
 import { Link } from "react-router-dom";
 import { confirmAlert } from "react-confirm-alert";
 
-const ShowPage = props => {
+const ShowPage = (props) => {
   // State
 
   const { userId } = useContext(AuthContext);
@@ -17,27 +17,36 @@ const ShowPage = props => {
   const [isEmpty, setIsEmpty] = useState(true);
   const [suggestedPostes, setSuggestedPostes] = useState([]);
   // nombre de vidéos suggérer en fonction du scrolling
+  let [limit, setLimit] = useState(10);
+  let [previousOffset, setPreviousOffset] = useState(120);
   // state pour savoir si nous modifier un commentaire
   const [editingComment, setEditingComment] = useState("");
   const [comment, setComment] = useState({
     comment: "",
-    post: "/api/posts/" + id
+    post: "/api/posts/" + id,
   });
   const [editedComment, setEditedComment] = useState({
     comment: "",
-    id: ""
+    id: "",
   });
   const [poste, setPoste] = useState({
     title: "",
     difficulty: "Facile",
     href: "",
     description: "",
-    comments: []
+    comments: [],
   });
 
   useEffect(() => {
     fetchPost();
     fetchSuggestedPost();
+
+    window.addEventListener("scroll", () => {
+      if (window.pageYOffset > previousOffset) {
+        setLimit((limit += 1));
+        setPreviousOffset((previousOffset += 160));
+      }
+    });
   }, [id]);
 
   /**
@@ -47,7 +56,7 @@ const ShowPage = props => {
     // Set l'id du poste pour insérer le comentaire dans le bon poste
     setComment({ ...comment, post: "/api/posts/" + id });
     try {
-      const data = await PosteAPI.findByLimit(10);
+      const data = await PosteAPI.findByLimit(100);
       shuffleArray(data);
       setSuggestedPostes(data);
     } catch (error) {
@@ -66,7 +75,7 @@ const ShowPage = props => {
         description,
         user,
         comments,
-        prerequis
+        prerequis,
       } = currentPost;
       // Inversion du tableau de commentaires afin d'afficher les nouveau en premier
       comments.reverse();
@@ -80,7 +89,7 @@ const ShowPage = props => {
         comments,
         prerequis,
         userPseudo: user.pseudo,
-        userPicture: user.picture
+        userPicture: user.picture,
       });
     } catch (error) {
       console.log(error.response);
@@ -91,7 +100,7 @@ const ShowPage = props => {
    * Permet de créer un commentaire
    * @param {event} event
    */
-  const handleCreateComment = async event => {
+  const handleCreateComment = async (event) => {
     event.preventDefault();
     try {
       await CommentAPI.create(comment);
@@ -102,7 +111,7 @@ const ShowPage = props => {
       //reset textArea
       setIsEmpty(true);
     } catch (error) {
-      toast.error("Votre commentaire doit contenir 1000 caractères maximum");
+      toast.error(error.response.data.violations[0].message);
       console.log(error.response);
     }
   };
@@ -111,15 +120,15 @@ const ShowPage = props => {
    * Permet de supprimer un commentaire et d'actualiser la liste des commentaires avec l'approche optimiste
    * @param {event} event
    */
-  const handleDeleteComment = async id => {
+  const handleDeleteComment = async (id) => {
     event.preventDefault();
     const commentId = id;
     const updatedComments = [...poste.comments].filter(
-      comment => comment.id != commentId
+      (comment) => comment.id != commentId
     );
     setPoste({
       ...poste,
-      comments: updatedComments
+      comments: updatedComments,
     });
     try {
       await CommentAPI.deleteComment(commentId);
@@ -133,18 +142,18 @@ const ShowPage = props => {
   /** Permet de récuperer les valeurs des inputs du text Area et faire apparaitre le bouton ajouter ou non
    * @param {event} event
    */
-  const handleChange = event => {
+  const handleChange = (event) => {
     if (!editingComment) {
       setComment({
         ...comment,
-        [event.currentTarget.name]: event.currentTarget.value
+        [event.currentTarget.name]: event.currentTarget.value,
       });
       event.currentTarget.value < 1 ? setIsEmpty(true) : setIsEmpty(false);
     } else {
       setEditedComment({
         ...editedComment,
         [event.currentTarget.name]: event.currentTarget.value,
-        id: event.currentTarget.id
+        id: event.currentTarget.id,
       });
     }
     //event.currentTarget.value < 1 ? setIsEmpty(true) : setIsEmpty(false);
@@ -153,7 +162,7 @@ const ShowPage = props => {
    * Permet d'éditer un commentaire
    * @param {event} event
    */
-  const handleSubmitComment = async event => {
+  const handleSubmitComment = async (event) => {
     event.preventDefault();
     console.log(editedComment);
     try {
@@ -172,7 +181,7 @@ const ShowPage = props => {
    * Permet de savoir quel est le commentaire à modifier lors du click sur le bouton edit ou d'enlever le mode edit "annuler"
    * @param {Event} event
    */
-  const handleWhichComment = async event => {
+  const handleWhichComment = async (event) => {
     console.log(event.currentTarget.value);
     event.preventDefault();
     if (event.currentTarget.id == "annuler") {
@@ -187,12 +196,12 @@ const ShowPage = props => {
   const scroll = () => {
     window.scrollTo({
       top: 850,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   };
 
   // mélanger pour donner de l'illusion sur les suggested videos
-  const shuffleArray = array => {
+  const shuffleArray = (array) => {
     for (var i = array.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
       var temp = array[i];
@@ -201,15 +210,16 @@ const ShowPage = props => {
     }
   };
 
-  const handleConfirm = event => {
+  const handleConfirm = (event) => {
     const id = event.currentTarget.value;
-    console.log(id);
+
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
           <div className="custom-ui">
             <h3>Etes vous sur de vouloir faire ça?</h3>
             <button
+              className="btn"
               onClick={() => {
                 toast.error("Operation annulé");
                 onClose();
@@ -218,6 +228,7 @@ const ShowPage = props => {
               Non
             </button>
             <button
+              className="btn btn-danger modal-btn"
               onClick={() => {
                 handleDeleteComment(id);
                 onClose();
@@ -227,37 +238,46 @@ const ShowPage = props => {
             </button>
           </div>
         );
-      }
+      },
     });
   };
 
   return (
     <>
-      <div className="showContainer pt-5">
-        <div className="row justify-content-between pb-3">
-          <div className="col-8 border-right">
-            <div className="row pb-3">
-              <iframe width="1250" height="640" src={poste.href}></iframe>
-            </div>
-            <p className="text-center sourceSans pb-3 fs-2">{poste.title}</p>
-            <div className="row">
-              <div className="col-6 border-right">
-                <p className="workSans pb-2 fs-1-5">
-                  <img className="userPicture mr-3" src={poste.userPicture} />
-                  {poste.userPseudo}
-                </p>
-                <p className="workSans">{poste.description}</p>
-                <p className="workSans">Difficulté : {poste.difficulty}</p>
+      <div
+        className="show-post-container"
+        onClick={() => console.log(limitSuggest)}
+      >
+        {/* Post part */}
+        <div className="wrapper">
+          <div className="flex">
+            {/* Left part */}
+            <div className="columns-left">
+              <div className="iframe-container">
+                <iframe className="iframe" src={poste.href}></iframe>
               </div>
-              {poste.prerequis && (
-                <div className="col-6">
-                  <p className="text-center roboto fs-2">Pré requis</p>
-                  <p>{poste.prerequis}</p>
+              <div className="description">
+                <div className="title">{poste.title}</div>
+                <div className="createdAt">
+                  {DateFilter.formatDate(poste.creadtedAt)}
                 </div>
-              )}
-            </div>
-            <div className="row">
-              <div className="col-12 pb-5">
+              </div>
+              <div className="detail">
+                <div className="flex-bottom">
+                  <div className="card-right">
+                    <div className="user-picture">
+                      <img src={poste.userPicture} alt="" />
+                    </div>
+                  </div>
+                  <div className="card-left">
+                    <div className="title">{poste.userPseudo}</div>
+                    <div className="show-description">{poste.description}</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Commentaire */}
+              <div className="create-comment">
                 <form onSubmit={handleCreateComment}>
                   <div className="form-group">
                     <label htmlFor="commentaire"></label>
@@ -270,7 +290,7 @@ const ShowPage = props => {
                       value={comment.comment}
                     ></textarea>
                   </div>
-                  <div className="text-center">
+                  <div className="center-text">
                     <button
                       className={
                         "btn btn-info m-3 " + (isEmpty == true && "hidden")
@@ -281,29 +301,31 @@ const ShowPage = props => {
                   </div>
                 </form>
               </div>
-            </div>
-            <hr></hr>
-            <div className="row">
-              <div className="col-12">
+
+              <div className="comments">
                 <form>
                   {poste.comments &&
-                    poste.comments.map(comment => (
+                    poste.comments.map((comment) => (
                       <div key={comment.id}>
-                        <h4 className="workSans pb-3">
-                          <img
-                            className="userPicture mr-4"
-                            src={comment.user.picture}
-                          />
-                          {comment.user.pseudo}
-                        </h4>
+                        <div className="comment-name">
+                          <div className="card-right">
+                            <div className="user-picture">
+                              <img src={comment.user.picture} alt="" />
+                            </div>
+                          </div>
+                          <div className="comment-username">
+                            {comment.user.pseudo}
+                          </div>
+                          <div className="comment-created-at">
+                            {DateFilter.formatDate(comment.createdAt)}
+                          </div>
+                        </div>
+
                         {/* Si l'id du user dans le commentaire est égale a l'id du commentaire et que je suis en editComment */}
                         {(editingComment != comment.id && (
                           <>
                             <p className="workSans text-justify">
                               {comment.comment}
-                            </p>
-                            <p className="opacity-semi">
-                              {DateFilter.formatDate(comment.createdAt)}
                             </p>
                           </>
                         )) || (
@@ -333,14 +355,7 @@ const ShowPage = props => {
                           </>
                         )}
                         {comment && comment.user.id == userId && (
-                          <div className="text-center">
-                            <button
-                              onClick={handleConfirm}
-                              value={comment.id}
-                              className="btn btn-danger"
-                            >
-                              Supprimer
-                            </button>
+                          <div className="space-around">
                             <button
                               onClick={handleWhichComment}
                               className="btn btn-info"
@@ -348,6 +363,13 @@ const ShowPage = props => {
                               id="edit"
                             >
                               Modifier
+                            </button>
+                            <button
+                              onClick={handleConfirm}
+                              value={comment.id}
+                              className="btn btn-danger"
+                            >
+                              Supprimer
                             </button>
                           </div>
                         )}
@@ -357,38 +379,73 @@ const ShowPage = props => {
                 </form>
               </div>
             </div>
-          </div>
+            {/* End Left */}
 
-          {/* Videos suggestion */}
-          <div className="col-4 pl-4">
-            {suggestedPostes.map(poste => (
-              <div key={poste.id}>
-                <div className="row">
-                  <div className="containerSuggest col-6">
-                    <Link to={"/postes/show/" + poste.id}>
-                      <img
-                        src={UrlFilter.ytUrlToThumbnail(poste.href)}
-                        className="imgSuggest"
-                        alt="..."
-                      />
-                    </Link>
-                  </div>
-                  <div className="col-6">
-                    <p className="underline fs-2 roboto">{poste.user.pseudo}</p>
-                    <p>{poste.description}</p>
-                    <p>{DateFilter.formatDate(poste.createdAt)}</p>
-                  </div>
-                </div>
-                <hr></hr>
-              </div>
-            ))}
+            {/* Right part */}
+            <div className="columns-right">
+              {suggestedPostes.map(
+                (poste, index) =>
+                  index < limit && (
+                    <div key={poste.id}>
+                      <div className="suggested">
+                        <div className="suggested-left">
+                          <Link to={"/postes/show/" + poste.id}>
+                            <img
+                              src={UrlFilter.ytUrlToThumbnail(poste.href)}
+                              className="imgSuggest"
+                              alt="..."
+                            />
+                          </Link>
+                        </div>
+                        <div className="suggested-right">
+                          <div className="username-pseudo">
+                            {poste.user.pseudo}
+                          </div>
+                          <div className="description">{poste.description}</div>
+                          <div className="createdAt">
+                            {DateFilter.formatDate(poste.createdAt)}
+                          </div>
+                        </div>
+                      </div>
+                      <hr></hr>
+                    </div>
+                  )
+              )}
+            </div>
           </div>
         </div>
-
-        <hr />
       </div>
     </>
   );
 };
 
 export default ShowPage;
+
+//   {/* Videos suggestion */}
+//   <div className="col-4 pl-4">
+//     {suggestedPostes.map(poste => (
+//       <div key={poste.id}>
+//         <div className="row">
+//           <div className="containerSuggest col-6">
+//             <Link to={"/postes/show/" + poste.id}>
+//               <img
+//                 src={UrlFilter.ytUrlToThumbnail(poste.href)}
+//                 className="imgSuggest"
+//                 alt="..."
+//               />
+//             </Link>
+//           </div>
+//           <div className="col-6">
+//             <p className="underline fs-2 roboto">{poste.user.pseudo}</p>
+//             <p>{poste.description}</p>
+//             <p>{DateFilter.formatDate(poste.createdAt)}</p>
+//           </div>
+//         </div>
+//         <hr></hr>
+//       </div>
+//     ))}
+//   </div>
+// </div>
+
+// <hr />
+// </div> */}

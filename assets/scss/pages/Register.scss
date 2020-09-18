@@ -1,0 +1,35 @@
+.register-page {
+  height: 94vh;
+  width: 100vw;
+  .register-container {
+    @include center;
+    width: 25%;
+    height: auto;
+
+    .card {
+      padding: 30px;
+    }
+
+    .title {
+      text-align: center;
+      color: $blue;
+      font-size: $title-s;
+      font-weight: bold;
+    }
+
+    .sub-text {
+      text-align: center;
+      font-size: $sub-s + 2;
+      color: $grey;
+
+      a {
+        color: $blue;
+        padding-left: 3px;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,159 @@
+$screen-xxs: 360px;
+$screen-xs: 480px;
+$screen-s: 768px;
+$screen-m: 1024px;
+$screen-l: 1280px;
+$screen-xl: 1440px;
+$screen-xxl: 1920px;
+
+@mixin xxs {
+  @media only screen and (min-width: 0) and (max-width: $screen-xxs) {
+    @content;
+  }
+}
+
+@mixin xxs-d {
+  @media only screen and (max-width: $screen-xxs) {
+    @content;
+  }
+}
+
+@mixin xxs-u {
+  @media only screen and (min-width: $screen-xxs) {
+    @content;
+  }
+}
+
+@mixin xs {
+  @media only screen and (max-width: $screen-xxs) and (max-width: $screen-xs) {
+    @content;
+  }
+}
+
+@mixin xs-d {
+  @media only screen and (max-width: $screen-xs) {
+    @content;
+  }
+}
+
+@mixin xs-u {
+  @media only screen and (min-width: $screen-xs) {
+    @content;
+  }
+}
+
+@mixin s {
+  @media only screen and (min-width: $screen-xs) and (max-width: $screen-s) {
+    @content;
+  }
+}
+
+@mixin s-d {
+  @media only screen and (max-width: $screen-s) {
+    @content;
+  }
+}
+
+@mixin s-u {
+  @media only screen and (min-width: $screen-s) {
+    @content;
+  }
+}
+
+@mixin m {
+  @media only screen and (min-width: $screen-s) and (max-width: $screen-m) {
+    @content;
+  }
+}
+
+@mixin m-d {
+  @media only screen and (max-width: $screen-m) {
+    @content;
+  }
+}
+
+@mixin m-u {
+  @media only screen and (min-width: $screen-m) {
+    @content;
+  }
+}
+
+@mixin l {
+  @media only screen and (min-width: $screen-m) and (max-width: $screen-l) {
+    @content;
+  }
+}
+
+@mixin l-d {
+  @media only screen and (max-width: $screen-l) {
+    @content;
+  }
+}
+
+@mixin l-u {
+  @media only screen and (min-width: $screen-l) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media only screen and (min-width: $screen-l) and (max-width: $screen-xl) {
+    @content;
+  }
+}
+
+@mixin xl-u {
+  @media only screen and (min-width: $screen-xl) {
+    @content;
+  }
+}
+
+@mixin xl-d {
+  @media only screen and (max-width: $screen-xl) {
+    /* old : max-width: $screen-xl */
+    @content;
+  }
+}
+
+@mixin xl-mid {
+  @media only screen and (min-width: $screen-xl) and (max-width: 1500px) {
+    @content;
+  }
+}
+
+@mixin xxl {
+  @media only screen and (min-width: $screen-xl) and (max-width: $screen-xxl) {
+    @content;
+  }
+}
+
+@mixin xxl-d {
+  @media only screen and (max-width: 1900px) {
+    /* max-width $screen-xxl */
+    @content;
+  }
+}
+
+@mixin xxl-u {
+  @media only screen and (min-width: $screen-xxl) {
+    @content;
+  }
+}
+
+@mixin s1600-d {
+  @media only screen and (max-width: 1600px) {
+    @content;
+  }
+}
+
+@mixin landscape {
+  @media screen and (orientation: landscape) {
+    @content;
+  }
+}
+
+@mixin portrait {
+  @media screen and (orientation: portrait) {
+    @content;
+  }
+}

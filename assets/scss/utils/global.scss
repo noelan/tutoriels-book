@@ -1,0 +1,54 @@
+body {
+  margin: 0;
+  padding: 0;
+
+  overflow-x: hidden;
+  @include Raleway;
+  padding-top: 6vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+main {
+  width: 100vw;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: none;
+  -webkit-text-fill-color: black;
+  -webkit-box-shadow: none;
+}
+
+.background-top {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 6vh;
+  background-color: black;
+}
+
+select {
+  background-color: white;
+  color: $grey;
+  padding: 6px;
+  width: 150px;
+  border: solid 1px $grey;
+  -webkit-appearance: button;
+  appearance: button;
+  outline: none;
+}

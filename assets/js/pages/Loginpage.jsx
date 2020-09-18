@@ -3,22 +3,24 @@ import Field from "../components/forms/Field";
 import AuthContext from "../contexts/AuthContext";
 import AuthAPI from "../api/AuthAPI";
 import { toast } from "react-toastify";
+import VideoSvg from "../svg/video-svg";
+import { Link } from "react-router-dom";
 
-const LoginPage = props => {
+const LoginPage = (props) => {
   const { setIsAuthenticated } = useContext(AuthContext);
 
   const [error, setError] = useState("");
 
   const [credentials, setCredentials] = useState({
     username: "",
-    password: ""
+    password: "",
   });
 
   /**
    * Test de connexion grâce a la fontion authenticate
    * @param {event} event
    */
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const data = await AuthAPI.authenticate(credentials);
@@ -37,7 +39,7 @@ const LoginPage = props => {
    * onChange event qui insere la valeur des inputs dans le tableau Credentials
    * @param {event} event
    */
-  const handleChange = event => {
+  const handleChange = (event) => {
     const value = event.currentTarget.value;
     const name = event.currentTarget.name;
     setCredentials({ ...credentials, [name]: value });
@@ -45,31 +47,52 @@ const LoginPage = props => {
 
   return (
     <>
-      <div className="container mt-5">
-        <div className="row justify-content-center">
-          <div className="col-6 card p-5">
-            <h1 className="workSans mb-3 text-center">Se connecter</h1>
-            <form onSubmit={handleSubmit}>
-              <Field
-                label="Email"
-                name="username"
-                type="email"
-                onChange={handleChange}
-                placeholder="Votre email"
-                error={error}
-              />
-              <Field
-                label="Mot de passe"
-                name="password"
-                type="password"
-                placeholder="Votre mot de passe"
-                onChange={handleChange}
-                error=""
-              />
-              <div className="form-group text-center">
-                <button className="btn btn-primary">Se connecter !</button>
+      <div className="login-container">
+        <div className="login">
+          <div className="card">
+            <div className="flex">
+              {/* Left */}
+              <div className="left">
+                <p className="title">Se connecter</p>
+                <form onSubmit={handleSubmit}>
+                  <Field
+                    label="Email"
+                    name="username"
+                    type="text"
+                    onChange={handleChange}
+                    placeholder=""
+                    error={error}
+                  />
+                  <Field
+                    label="Mot de passe"
+                    name="password"
+                    type="password"
+                    placeholder=""
+                    onChange={handleChange}
+                    error=""
+                  />
+                  <div className="center-text">
+                    <button className="btn">LOGIN</button>
+                  </div>
+                  <p className="sub-text">
+                    Pas de compte ?
+                    <Link to="/register" className="subscribe">
+                      S'inscrire
+                    </Link>
+                  </p>
+                </form>
               </div>
-            </form>
+
+              {/* Right */}
+              <div className="right">
+                <div className="img-container">
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Android_robot.svg/872px-Android_robot.svg.png"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

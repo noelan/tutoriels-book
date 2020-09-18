@@ -4,18 +4,18 @@ import userAPI from "../api/userAPI";
 import Field from "../components/forms/Field";
 import { toast } from "react-toastify";
 
-const UserPage = props => {
+const UserPage = (props) => {
   const { userId } = useContext(AuthContext);
 
   const [user, setUser] = useState({
     pseudo: "",
     email: "",
-    image: ""
+    image: "",
   });
   const [errors, setErrors] = useState({
     email: "",
     pseudo: "",
-    image: ""
+    image: "",
   });
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const UserPage = props => {
 
   const isImageUrl = require("is-image-url");
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const ApiErrors = {};
     if (isImageUrl(user.picture) == false) {
@@ -54,46 +54,51 @@ const UserPage = props => {
       return;
     }
 
-    try {
-      await userAPI.edit(user, userId);
-      toast.success("Vos identifiants ont bien été modifié");
-    } catch (error) {
-      console.log(error.response);
-      toast.error("Une erreure est survenue");
-      const violations = error.response.data.violations;
-      violations.forEach(violation => {
-        ApiErrors[violation.propertyPath] = violation.message;
-      });
-      setErrors(ApiErrors);
+    if (userId === 1) {
+      try {
+        await userAPI.edit(user, userId);
+        toast.success("Vos identifiants ont bien été modifié");
+      } catch (error) {
+        console.log(error.response);
+        toast.error("Une erreure est survenue");
+        const violations = error.response.data.violations;
+        violations.forEach((violation) => {
+          ApiErrors[violation.propertyPath] = violation.message;
+        });
+        setErrors(ApiErrors);
+      }
+    } else {
+      toast.error("Ce compte n'est pas modifiable");
     }
   };
 
   return (
     <>
-      <div className="container pt-5">
-        <h1 className="text-center">Mon profil</h1>
-      </div>
+      <div className="profil card">
+        <div className="container pt-5">
+          <h1 className="">Mon profil</h1>
+        </div>
 
-      <div className="row justify-content-center">
-        <div className="col-6">
-          <form onSubmit={handleSubmit}>
-            <Field
-              name="pseudo"
-              placeholder="Pseudo"
-              label="Votre pseudo"
-              onChange={handleChange}
-              value={user.pseudo}
-              error={errors.pseudo}
-            />
-            <Field
-              name="email"
-              placeholder="Votre Email"
-              label="Email"
-              onChange={handleChange}
-              value={user.email}
-              error={errors.email}
-            />
-            {/* <Field
+        <div className="row justify-content-center">
+          <div className="col-6">
+            <form onSubmit={handleSubmit}>
+              <Field
+                name="pseudo"
+                placeholder="Pseudo"
+                label="Votre pseudo"
+                onChange={handleChange}
+                value={user.pseudo}
+                error={errors.pseudo}
+              />
+              <Field
+                name="email"
+                placeholder="Votre Email"
+                label="Email"
+                onChange={handleChange}
+                value={user.email}
+                error={errors.email}
+              />
+              {/* <Field
               name="password"
               placeholder="Votre mot de passe"
               label="Mot de passe"
@@ -108,19 +113,20 @@ const UserPage = props => {
               onChange={handleChange}
               error={errors.confirmPassword}
             /> */}
-            <Field
-              label="Photo de profil"
-              name="picture"
-              type="text"
-              placeholder="Votre photo de profil"
-              value={user.picture}
-              onChange={handleChange}
-              error={errors.Image}
-            />
-            <p className="text-center">
-              <button className="btn btn-info">Modifier !</button>
-            </p>
-          </form>
+              <Field
+                label="Photo de profil (url)"
+                name="picture"
+                type="text"
+                placeholder="Votre photo de profil"
+                value={user.picture}
+                onChange={handleChange}
+                error={errors.Image}
+              />
+              <p className="text-center">
+                <button className="btn btn-info">Modifier !</button>
+              </p>
+            </form>
+          </div>
         </div>
       </div>
     </>

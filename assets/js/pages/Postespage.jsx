@@ -1,18 +1,21 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import PosteAPI from "../api/PosteAPI";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import DateFilter from "../services/DateFilter";
 import UrlFilter from "../services/UrlFilter";
+import gsap from "gsap";
 
-const PostesPage = props => {
+const PostesPage = (props) => {
   const [postes, setPostes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const itemsPerPage = 12;
   const [isSelected, setIsSelected] = useState("Tous");
-
+  const subNav = useRef(null);
+  let prevScrollpos = window.pageYOffset;
+  let animationFinished = true;
   /**
    * Récupération de tous les postes (findAll)
    */
@@ -36,14 +39,14 @@ const PostesPage = props => {
     return postes.slice(start, start + itemsPerPage);
   };
 
-  const handleSearch = event => {
+  const handleSearch = (event) => {
     const value = event.currentTarget.value;
     setSearch(value);
     setCurrentPage(1);
   };
 
   const filteredPostes = postes.filter(
-    poste =>
+    (poste) =>
       poste.title.toLowerCase().includes(search.toLowerCase()) ||
       poste.description.toLowerCase().includes(search.toLowerCase()) ||
       poste.difficulty.toLowerCase().includes(search.toLowerCase()) ||
@@ -64,10 +67,12 @@ const PostesPage = props => {
    * Filtrage par catégorie
    * @param {Event} event
    */
-  const handleFilter = async event => {
+  const handleFilter = async (event) => {
     event.preventDefault();
     const filter = event.currentTarget.id;
     setIsSelected(filter);
+    event.currentTarget.classList.add("active");
+    console.log(event.currentTarget);
     if (filter == "Tous") {
       fetchPostes();
       return;
@@ -80,115 +85,115 @@ const PostesPage = props => {
     }
   };
 
-  const categories = [
-    ["Tous", "text-myGrey"],
-    ["Food", "text-myBlue", "fas fa-utensils"],
-    ["Sport", "text-myRed", "fas fa-running"],
-    ["Coding", "text-myGreen", "fas fa-code"],
-    ["Dessin", "text-myCyan", "fas fa-pencil-alt"],
-    ["Musique", "text-myPink", "fab fa-itunes-note"]
-  ];
+  const categories = ["Tous", "Food", "Sport", "Coding", "Dessin", "Musique"];
 
   // Scroll après avoir clicker sur la pagination
-  const scroll = () => {
-    window.scrollTo({
-      top: 240,
-      behavior: "smooth"
-    });
+  const scroll = (event) => {
+    // console.log(event.currentTarget);
+    // window.scrollTo({
+    //   top: 240,
+    //   behavior: "smooth",
+    // });
   };
+
+  // Move subnav to top on scroll
+  const moveSubNav = () => {
+    var currentScrollPos = window.pageYOffset;
+
+    // scroll up
+    if (prevScrollpos > currentScrollPos) {
+      if (animationFinished === true) {
+        gsap.to(subNav.current, 0.3, { top: "6vh" });
+        animationFinished = false;
+        setTimeout(() => {
+          animationFinished = true;
+        }, 500);
+      }
+    } else {
+      // scroll down
+      if (animationFinished) {
+        gsap.to(subNav.current, 0.3, { top: "0px" });
+        animationFinished = false;
+        setTimeout(() => {
+          animationFinished = true;
+        }, 500);
+      }
+    }
+    prevScrollpos = currentScrollPos;
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", moveSubNav);
+  });
 
   return (
     <>
-      <div className="pt-2 postesContainer">
-        <div className="row justify-content-center m-3 ">
-          <div className="col-4  m-3">
+      <div className="postes-header" ref={subNav}>
+        <div className="filters">
+          {/* Categories */}
+
+          {categories.map((category) => (
+            <p
+              id={category}
+              key={category}
+              onClick={handleFilter}
+              className={"category" + (isSelected == category ? " active" : "")}
+            >
+              {category}
+            </p>
+          ))}
+          <div className="search">
             <input
               type="text"
-              className="form-control"
+              className="search-filter"
               placeholder="Recherche..."
               onChange={handleSearch}
               value={search}
             />
-          </div>
-
-          <div className="categoriesPostes">
-            {categories.map(category => (
-              <p
-                id={category[0]}
-                key={category[0]}
-                className={
-                  "indie myCat fs-2 " +
-                  category[1] +
-                  " " +
-                  (isSelected == category[0] && "underline font-weight-bold ")
-                }
-                onClick={handleFilter}
-              >
-                {category[0].toUpperCase()}
-              </p>
-            ))}
+            <button type="submit" className="searchButton">
+              <i className="fa fa-search"></i>
+            </button>
           </div>
         </div>
-        <hr></hr>
-        <div className="row justify-content-center">
+      </div>
+
+      {/* Cards  */}
+      <div className="cards-container">
+        <div className="flex">
           {(paginatedPostes.length > 0 &&
-            paginatedPostes.map(poste => (
+            paginatedPostes.map((poste) => (
               <div
                 key={poste.id}
-                className="card mr-5 mb-4"
-                style={{ width: "25rem" }}
+                className="card-poste"
+                onClick={() => console.log(poste)}
               >
-                <Link to={"/postes/show/" + poste.id}>
-                  <img
-                    src={UrlFilter.ytUrlToThumbnail(poste.href)}
-                    className="card-img-top"
-                    alt="..."
-                  />
-                </Link>
-
-                <div className="card-body">
-                  <div className="headerCard">
-                    {categories.map(
-                      category =>
-                        category[0] == poste.category && (
-                          <i
-                            key={category[2]}
-                            className={
-                              "fs-3 mr-4 " + category[2] + " " + category[1]
-                            }
-                          ></i>
-                        )
-                    )}
-                    {/* <i
-                      className="fas fa-utensils fs-2 mr-4"
-                      style={{ color: "red" }}
-                    ></i> */}
-                    <div className="imgPostesContainer">
-                      <img
-                        className="img-fluid userPicture"
-                        src={poste.user.picture}
-                      />
+                <div className="card-top">
+                  <Link to={"/postes/show/" + poste.id}>
+                    <img
+                      src={UrlFilter.ytUrlToThumbnail(poste.href)}
+                      className="card-img-top"
+                      alt="..."
+                    />
+                  </Link>
+                </div>
+                <div className="card-bottom">
+                  <div className="flex-bottom">
+                    <div className="card-right">
+                      <div className="user-picture">
+                        <img src={poste.user.picture} alt="" />
+                      </div>
                     </div>
-                    <h5 className="card-title text-truncate pl-2 userPseudo underline roboto fs-1-5">
-                      {poste.user.pseudo}
-                    </h5>
+                    <div className="card-left">
+                      <div className="title">{poste.title}</div>
+                      <div className="detail">
+                        <div className="pseudo">{poste.user.pseudo}</div>
+                        <div className="createdAt">
+                          {DateFilter.formatDate(poste.creadtedAt)}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <hr></hr>
-                <ul className="list-group list-group-flush">
-                  <li className="list-group-item text-center">
-                    <p className="card-text workSans cardTitle">
-                      {poste.title}
-                    </p>
-                  </li>
-                </ul>
-                <ul className="list-group list-group-flush">
-                  <li className="list-group-item text-center">
-                    <p className="card-text workSans">
-                      Posté le: {DateFilter.formatDate(poste.creadtedAt)}
-                    </p>
-                  </li>
-                </ul>
               </div>
             ))) || (
             <p className="text-center workSans">
@@ -197,7 +202,7 @@ const PostesPage = props => {
           )}
         </div>
 
-        <div onClick={scroll}>
+        <div onClick={scroll(event)} className="center-text">
           <Pagination
             currentPage={currentPage}
             itemPerPage={itemsPerPage}

@@ -1,10 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../contexts/AuthContext";
 import AuthAPI from "../api/AuthAPI";
 import { toast } from "react-toastify";
+import gsap from "gsap";
 
-const Navbar = props => {
+const Navbar = (props) => {
+  let prevScrollpos = window.pageYOffset;
+  let animationFinished = true;
+  const navbar = useRef(null);
+  const [isActive, setIsActive] = useState(false);
   const { isAuthenticated, setIsAuthenticated, userEmail } = useContext(
     AuthContext
   );
@@ -15,57 +20,113 @@ const Navbar = props => {
     toast.success("Vous êtes déconnecté");
   };
 
+  /** Burger menu toggle **/
+  const handleClick = () => {
+    setIsActive(!isActive);
+    let navLinks = document.querySelectorAll(".nav-menu li");
+    let burger = document.querySelector(".burger");
+    console.log(navLinks);
+
+    navLinks.forEach((link, index) => {
+      if (link.style.animation) {
+        link.style.animation = "";
+      } else {
+        link.style.animation = `navLinkFade 0.5s ease forwards ${
+          index / 7 + 0.5
+        }s`;
+      }
+    });
+
+    if (burger.classList.contains("toggle")) {
+      burger.classList.remove("toggle");
+    } else {
+      burger.classList.add("toggle");
+    }
+  };
+
+  // Hide nav on scroll
+  const hideNav = () => {
+    var currentScrollPos = window.pageYOffset;
+    // scrol up
+    if (prevScrollpos > currentScrollPos) {
+      if (animationFinished === true) {
+        gsap.to(navbar.current, 0.3, { top: "0px" });
+
+        animationFinished = false;
+        setTimeout(() => {
+          animationFinished = true;
+        }, 500);
+      }
+    } else {
+      // scroll down
+      if (animationFinished) {
+        gsap.to(navbar.current, 0.3, { top: "-50px" });
+        animationFinished = false;
+        setTimeout(() => {
+          animationFinished = true;
+        }, 500);
+      }
+    }
+    prevScrollpos = currentScrollPos;
+  };
+
+  useEffect(() => {
+    if (props.location.pathname === "/postes") {
+      window.addEventListener("scroll", hideNav);
+    }
+  });
+
   return (
-    <nav className="navbar navbar-expand-lg fixed-top">
-      <div className="collapse navbar-collapse" id="navbarColor02">
-        <ul className="navbar-nav m-left-10">
-          <li className="nav-item pr-3 font-weight-bold fs-1-5">
-            <Link to="/postes" className="nav-link workSans">
-              Nos Tutoriels
-            </Link>
+    <>
+      <div className="background-top"></div>
+      <nav className="navbar" ref={navbar}>
+        <ul className={"nav-menu" + (isActive ? " nav-active" : "")}>
+          <li>
+            <Link to="/">Home</Link>
           </li>
-          <li className="nav-item pr-3 font-weight-bold fs-1-5">
-            <Link className="nav-link workSans" to="/postes/myposts">
-              Mes Tutoriels
-            </Link>
+          <li>
+            <Link to="/postes">Nos Tutoriels</Link>
           </li>
-          <li className="nav-item pr-3 font-weight-bold fs-1-5 lora">
-            <Link to="/" className="nav-link workSans">
-              <i className="fas fa-home fs-1-5"></i>E Learning
-            </Link>
+          <li>
+            <Link to="/postes/myposts">Mon Studio</Link>
+          </li>
+          <li>
+            <Link to="/">E Learning</Link>
           </li>
         </ul>
 
-        <ul className="navbar-nav ml-auto m-right-10">
+        <ul className="nav-menu">
           {(!isAuthenticated && (
             <>
-              <li className="nav-item">
-                <Link className=" mr-5 fs-1-5" to="/login">
-                  Se connecter
-                </Link>
+              <li>
+                <Link to="/login">Se connecter</Link>
               </li>
-              <li className="nav-item fs-1-5">
-                <Link to="/register">S'inscrire</Link>
+              <li>
+                <Link className="register" to="/register">
+                  S'inscrire
+                </Link>
               </li>
             </>
           )) || (
             <>
-              <li className="nav-item">
-                <Link to="/MonCompte">
-                  <i class="fas fa-user fs-2 mr-5 text-myBlue"></i>
-                </Link>
+              <li>
+                <Link to="/MonCompte">Mon compte</Link>
               </li>
-              <li className="nav-item">
-                <i
-                  onClick={handleLogout}
-                  class="fas fa-power-off fs-2 text-myBlue"
-                ></i>
+              <li>
+                <Link to="/logout" onClick={handleLogout}>
+                  Se déconnecté
+                </Link>
               </li>
             </>
           )}
         </ul>
-      </div>
-    </nav>
+        <div className="burger" onClick={handleClick}>
+          <div className="line1"></div>
+          <div className="line2"></div>
+          <div className="line3"></div>
+        </div>
+      </nav>
+    </>
   );
 };
 
