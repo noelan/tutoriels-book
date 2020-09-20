@@ -398,7 +398,6 @@ const ShowPage = (props) => {
                               </button>
                             </div>
                           )}
-                          <hr></hr>
                         </div>
                       ))}
                     {commentLimit < poste.comments.length && (
@@ -442,7 +441,6 @@ const ShowPage = (props) => {
                             </div>
                           </div>
                         </div>
-                        <hr></hr>
                       </div>
                     )
                 )}

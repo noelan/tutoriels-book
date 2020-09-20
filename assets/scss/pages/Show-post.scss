@@ -179,6 +179,11 @@
           display: flex;
           height: 150px;
           justify-content: space-between;
+          margin: 10px 0px;
+
+          &:first-child {
+            margin-top: 0px;
+          }
 
           .suggested-left {
             width: 45%;
