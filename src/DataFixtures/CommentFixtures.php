@@ -16,7 +16,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
 
 
-        for ($k = 0; $k < 1500; $k++) {
+        for ($k = 0; $k < 1; $k++) {
             $comment = new Comment();
             $comment->setComment($faker->sentence())
                 ->setUser($this->getReference('user' . rand(0, 9)))
