@@ -52,6 +52,7 @@ const HomePage = () => {
                     <Link to="/login" className="invitation">
                       ici
                     </Link>
+                    .
                   </div>
                 </div>
 
