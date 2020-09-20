@@ -11,17 +11,35 @@
   }
 
   .about {
-    height: 100vh;
-
+    margin: 50px 0px;
     .title {
       @include title;
-      text-align: center;
+      font-size: $main-s + 2;
+
       padding: 20px;
     }
 
     .text-container {
       margin: auto;
       width: 60%;
+
+      @include s-d {
+        width: 100%;
+      }
+
+      .text {
+        margin: 15px;
+
+        .invitation {
+          margin: 5px;
+          color: $blue;
+          font-weight: bold;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
     }
   }
 }

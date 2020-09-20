@@ -1,6 +1,15 @@
 .container-poste {
   @include center;
-  width: 70%;
+  width: 50%;
+  margin: 60px 0px;
+
+  @include m-d {
+    width: 70%;
+  }
+  @include s-d {
+    margin: 70px 0px;
+    width: 90%;
+  }
 
   .card-poste {
     padding: 20px;

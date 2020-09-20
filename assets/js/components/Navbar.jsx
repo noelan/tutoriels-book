@@ -8,6 +8,7 @@ import gsap from "gsap";
 const Navbar = (props) => {
   let prevScrollpos = window.pageYOffset;
   let animationFinished = true;
+  let path = props.location.pathname;
   const navbar = useRef(null);
   const [isActive, setIsActive] = useState(false);
   const { isAuthenticated, setIsAuthenticated, userEmail } = useContext(
@@ -47,7 +48,9 @@ const Navbar = (props) => {
   // Hide nav on scroll
   const hideNav = () => {
     var currentScrollPos = window.pageYOffset;
+
     // scrol up
+
     if (prevScrollpos > currentScrollPos) {
       if (animationFinished === true) {
         gsap.to(navbar.current, 0.3, { top: "0px" });
@@ -67,13 +70,15 @@ const Navbar = (props) => {
         }, 500);
       }
     }
+
     prevScrollpos = currentScrollPos;
   };
 
   useEffect(() => {
-    if (props.location.pathname === "/postes") {
-      window.addEventListener("scroll", hideNav);
-      console.log(props.location.pathname);
+    navbar.current.removeEventListener("scroll", hideNav, true);
+
+    if (path === "/postes") {
+      navbar.current.addEventListener("scroll", hideNav, true);
     }
   });
 

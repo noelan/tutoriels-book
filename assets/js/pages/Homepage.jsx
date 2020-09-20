@@ -1,5 +1,6 @@
 import React from "react";
 import { Parallax } from "react-parallax";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
@@ -35,11 +36,9 @@ const HomePage = () => {
           {/* About  */}
           <div className="about">
             <div className="container-fluid">
-              <div className="title"> A propos</div>
               <div className="text-container">
                 <div className="row">
-                  <div className="title">Un titre </div>
-                  <div className="text">
+                  <div className="title">
                     Bonjour je suis Noël AN, ce site à été créer afin de mettre
                     en place une Api ( Api Platform ), un back-end symfony et un
                     rendu en React !
@@ -47,22 +46,42 @@ const HomePage = () => {
                 </div>
 
                 <div className="row">
-                  <div className="title">Un titre </div>
                   <div className="text">
-                    Mise en place de mail automatique lors de l'inscription.
+                    Un compte invité est disponible pour simplifier la
+                    navigation cliquer simplement
+                    <Link to="/login" className="invitation">
+                      ici
+                    </Link>
                   </div>
                 </div>
 
                 <div className="row">
-                  <div className="title">Un titre </div>
                   <div className="text">
-                    CRUD tutoriels, vous pouvez créer,modifié ou supprimer vos
-                    création.
+                    Mise en place d'une Api avec Api-platform pour communiquer
+                    simplement entre le frond-end et le back-end.
                   </div>
                 </div>
 
                 <div className="row">
-                  <div className="title">Un titre </div>
+                  <div className="text">
+                    Compte utilisateur et connexion via Jwt token.
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="text">
+                    Mail automatique lors de l'inscription.
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="text">
+                    Possibilité de voir,créer, modifier ou supprimer vos
+                    créations.
+                  </div>
+                </div>
+
+                <div className="row">
                   <div className="text">
                     Un espace commentaire afin de partagé vos avis sur les
                     autres contenues.
@@ -70,20 +89,9 @@ const HomePage = () => {
                 </div>
 
                 <div className="row">
-                  <div className="title">Un titre </div>
                   <div className="text">
                     Un site qui s'adapte sur différente taille d'écran
-                    mobile,tablette ou laptop.
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="title">Un titre </div>
-                  <div className="text">
-                    Pour simplifier votre navigation je vous est directement
-                    connecté sur un compte utilisateur afin de vous épargner
-                    l'inscription. Mais si vous le souhaiter rien ne vous
-                    empêche de vous déconnecter et d'en créer un !
+                    mobile,tablette ou desktop.
                   </div>
                 </div>
               </div>

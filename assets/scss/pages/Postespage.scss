@@ -1,6 +1,6 @@
 .postes-header {
-  background-color: black;
   position: fixed;
+  background-color: black;
   width: 100%;
   .filters {
     display: flex;
@@ -8,6 +8,14 @@
     justify-content: center;
     @include Roboto;
     color: white;
+    z-index: 100;
+
+    @include s-d {
+      display: none;
+      li {
+        display: none;
+      }
+    }
 
     .category {
       margin: 20px;
@@ -57,6 +65,42 @@
 
       i {
         color: white;
+      }
+    }
+  }
+
+  .filters-sm {
+    display: none;
+    @include s-d {
+      display: flex;
+      justify-content: space-around;
+      transition: all 0.5 ease;
+
+      @include Roboto;
+
+      .dropdown {
+        padding: 20px;
+        &:hover {
+          cursor: pointer;
+        }
+        &:hover li {
+          display: block !important;
+          &:hover {
+            display: block !important;
+          }
+        }
+
+        ul {
+          background-color: black;
+          width: 30%;
+          position: absolute;
+          left: 0;
+          margin: 0;
+          z-index: 100;
+        }
+        // li {
+        //   display: block !important;
+        // }
       }
     }
   }

@@ -3,7 +3,6 @@ import Field from "../components/forms/Field";
 import AuthContext from "../contexts/AuthContext";
 import AuthAPI from "../api/AuthAPI";
 import { toast } from "react-toastify";
-import VideoSvg from "../svg/video-svg";
 import { Link } from "react-router-dom";
 
 const LoginPage = (props) => {
@@ -12,8 +11,8 @@ const LoginPage = (props) => {
   const [error, setError] = useState("");
 
   const [credentials, setCredentials] = useState({
-    username: "",
-    password: "",
+    username: "invite@invite.invite",
+    password: "invite@invite.invite",
   });
 
   /**
@@ -54,6 +53,10 @@ const LoginPage = (props) => {
               {/* Left */}
               <div className="left">
                 <p className="title">Se connecter</p>
+                <p className="sub-title">
+                  un compte invité est à disposition mais rien ne vous empêche
+                  d'avoir votre propre compte !
+                </p>
                 <form onSubmit={handleSubmit}>
                   <Field
                     label="Email"
@@ -62,6 +65,7 @@ const LoginPage = (props) => {
                     onChange={handleChange}
                     placeholder=""
                     error={error}
+                    value={credentials.username}
                   />
                   <Field
                     label="Mot de passe"
@@ -69,6 +73,7 @@ const LoginPage = (props) => {
                     type="password"
                     placeholder=""
                     onChange={handleChange}
+                    value={credentials.password}
                     error=""
                   />
                   <div className="center-text">

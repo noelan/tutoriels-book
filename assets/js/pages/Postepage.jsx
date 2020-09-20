@@ -165,7 +165,7 @@ const PostePage = (props) => {
         </h1>
         {editing && (
           <>
-            <p>
+            <p className="center-text">
               <Link className="btn btn-info" to={"/postes/show/" + id}>
                 Voir le poste
               </Link>

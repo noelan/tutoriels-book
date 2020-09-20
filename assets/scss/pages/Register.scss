@@ -3,8 +3,19 @@
   width: 100vw;
   .register-container {
     @include center;
-    width: 25%;
+    width: 40%;
     height: auto;
+
+    @include m-d {
+      width: 50%;
+    }
+
+    @include s-d {
+      width: 70%;
+    }
+    @include xs-d {
+      width: 90%;
+    }
 
     .card {
       padding: 30px;

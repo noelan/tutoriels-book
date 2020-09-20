@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import PosteAPI from "../api/PosteAPI";
 import CommentAPI from "../api/CommentAPI";
 import { toast } from "react-toastify";
@@ -7,6 +7,7 @@ import UrlFilter from "../services/UrlFilter";
 import DateFilter from "../services/DateFilter";
 import { Link } from "react-router-dom";
 import { confirmAlert } from "react-confirm-alert";
+import gsap from "gsap";
 
 const ShowPage = (props) => {
   // State
@@ -16,9 +17,12 @@ const ShowPage = (props) => {
   // Permet de savoir si le champ textArea du commentaire et vide ou non
   const [isEmpty, setIsEmpty] = useState(true);
   const [suggestedPostes, setSuggestedPostes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   // nombre de vidéos suggérer en fonction du scrolling
   let [limit, setLimit] = useState(10);
+  let [commentLimit, setCommentLimit] = useState(5);
   let [previousOffset, setPreviousOffset] = useState(120);
+  const fade = useRef(null);
   // state pour savoir si nous modifier un commentaire
   const [editingComment, setEditingComment] = useState("");
   const [comment, setComment] = useState({
@@ -37,9 +41,18 @@ const ShowPage = (props) => {
     comments: [],
   });
 
+  const fadeIn = () => {
+    gsap.fromTo(fade.current, 1, { opacity: 0 }, { opacity: 1 });
+  };
+
   useEffect(() => {
+    setIsLoading(true);
     fetchPost();
     fetchSuggestedPost();
+
+    if (window.innerWidth > 1024) {
+      setCommentLimit(300);
+    }
 
     window.addEventListener("scroll", () => {
       if (window.pageYOffset > previousOffset) {
@@ -59,6 +72,8 @@ const ShowPage = (props) => {
       const data = await PosteAPI.findByLimit(100);
       shuffleArray(data);
       setSuggestedPostes(data);
+      setIsLoading(false);
+      fadeIn();
     } catch (error) {
       console.log(error);
     }
@@ -244,170 +259,194 @@ const ShowPage = (props) => {
 
   return (
     <>
-      <div className="show-post-container">
-        {/* Post part */}
-        <div className="wrapper">
-          <div className="flex">
-            {/* Left part */}
-            <div className="columns-left">
-              <div className="iframe-container">
-                <iframe className="iframe" src={poste.href}></iframe>
-              </div>
-              <div className="description">
-                <div className="title">{poste.title}</div>
-                <div className="createdAt">
-                  {DateFilter.formatDate(poste.creadtedAt)}
+      {isLoading && (
+        <div className="loader">
+          <div className="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      )}
+      <div className="fade" ref={fade}>
+        <div className={isLoading ? " hide" : "show-post-container"}>
+          {/* Post part */}
+          <div className="wrapper">
+            <div className="flex">
+              {/* Left part */}
+              <div className="columns-left">
+                <div className="iframe-container">
+                  <iframe className="iframe" src={poste.href}></iframe>
                 </div>
-              </div>
-              <div className="detail">
-                <div className="flex-bottom">
-                  <div className="card-right">
-                    <div className="user-picture">
-                      <img src={poste.userPicture} alt="" />
+                <div className="description">
+                  <div className="title">{poste.title}</div>
+                  <div className="createdAt">
+                    {DateFilter.formatDate(poste.creadtedAt)}
+                  </div>
+                </div>
+                <div className="detail">
+                  <div className="flex-bottom">
+                    <div className="card-right">
+                      <div className="user-picture">
+                        <img src={poste.userPicture} alt="" />
+                      </div>
+                    </div>
+                    <div className="card-left">
+                      <div className="title">{poste.userPseudo}</div>
+                      <div className="show-description">
+                        {poste.description}
+                      </div>
                     </div>
                   </div>
-                  <div className="card-left">
-                    <div className="title">{poste.userPseudo}</div>
-                    <div className="show-description">{poste.description}</div>
-                  </div>
                 </div>
-              </div>
 
-              {/* Commentaire */}
-              <div className="create-comment">
-                <form onSubmit={handleCreateComment}>
-                  <div className="form-group">
-                    <label htmlFor="commentaire"></label>
-                    <textarea
-                      name="comment"
-                      className="form-control"
-                      rows="3"
-                      placeholder="Ajouter un commentaire"
-                      onChange={handleChange}
-                      value={comment.comment}
-                    ></textarea>
-                  </div>
-                  <div className="center-text">
-                    <button
-                      className={
-                        "btn btn-info m-3 " + (isEmpty == true && "hidden")
-                      }
-                    >
-                      Ajouter le commentaire
-                    </button>
-                  </div>
-                </form>
-              </div>
+                {/* Commentaire */}
+                <div className="create-comment">
+                  <form onSubmit={handleCreateComment}>
+                    <div className="form-group">
+                      <label htmlFor="commentaire"></label>
+                      <textarea
+                        name="comment"
+                        className="form-control"
+                        rows="3"
+                        placeholder="Ajouter un commentaire"
+                        onChange={handleChange}
+                        value={comment.comment}
+                      ></textarea>
+                    </div>
+                    <div className="center-text">
+                      <button
+                        className={
+                          "btn btn-info m-3 " + (isEmpty == true && "hidden")
+                        }
+                      >
+                        Ajouter le commentaire
+                      </button>
+                    </div>
+                  </form>
+                </div>
 
-              <div className="comments">
-                <form>
-                  {poste.comments &&
-                    poste.comments.map((comment) => (
-                      <div key={comment.id}>
-                        <div className="comment-name">
-                          <div className="card-right">
-                            <div className="user-picture">
-                              <img src={comment.user.picture} alt="" />
+                <div className="comments">
+                  <form>
+                    {poste.comments &&
+                      poste.comments.slice(0, commentLimit).map((comment) => (
+                        <div key={comment.id}>
+                          <div className="comment-name">
+                            <div className="card-right">
+                              <div className="user-picture">
+                                <img src={comment.user.picture} alt="" />
+                              </div>
+                            </div>
+                            <div className="comment-username">
+                              {comment.user.pseudo}
+                            </div>
+                            <div className="comment-created-at">
+                              {DateFilter.formatDate(comment.createdAt)}
                             </div>
                           </div>
-                          <div className="comment-username">
-                            {comment.user.pseudo}
+
+                          {(editingComment != comment.id && (
+                            <>
+                              <p className="workSans text-justify">
+                                {comment.comment}
+                              </p>
+                            </>
+                          )) || (
+                            <>
+                              <textarea
+                                className="form-control"
+                                rows="3"
+                                name="comment"
+                                onChange={handleChange}
+                                value={editedComment.comment}
+                                id={comment.id}
+                              ></textarea>
+                              <button
+                                onClick={handleSubmitComment}
+                                id="edit"
+                                className="btn btn-success"
+                              >
+                                Valider
+                              </button>
+                              <button
+                                onClick={handleWhichComment}
+                                id="annuler"
+                                className="btn btn-warning"
+                              >
+                                Annuler
+                              </button>
+                            </>
+                          )}
+                          {/* Si l'id du user dans le commentaire est égale a l'id du commentaire et que je suis en editComment */}
+                          {comment && comment.user.id == userId && (
+                            <div className="space-around">
+                              <button
+                                onClick={handleWhichComment}
+                                className="btn btn-info"
+                                value={comment.id}
+                                id="edit"
+                              >
+                                Modifier
+                              </button>
+                              <button
+                                onClick={handleConfirm}
+                                value={comment.id}
+                                className="btn btn-danger"
+                              >
+                                Supprimer
+                              </button>
+                            </div>
+                          )}
+                          <hr></hr>
+                        </div>
+                      ))}
+                    {commentLimit < poste.comments.length && (
+                      <div className="more">
+                        <p
+                          className="btn center-text"
+                          onClick={() => setCommentLimit((commentLimit += 3))}
+                        >
+                          Voir plus
+                        </p>
+                      </div>
+                    )}
+                  </form>
+                </div>
+              </div>
+              {/* End Left */}
+
+              {/* Right part */}
+              <div className="columns-right">
+                {suggestedPostes.map(
+                  (poste, index) =>
+                    index < limit && (
+                      <div key={poste.id}>
+                        <div className="suggested">
+                          <div className="suggested-left">
+                            <Link to={"/postes/show/" + poste.id}>
+                              <img
+                                src={UrlFilter.ytUrlToThumbnail(poste.href)}
+                                className="imgSuggest"
+                                alt="..."
+                              />
+                            </Link>
                           </div>
-                          <div className="comment-created-at">
-                            {DateFilter.formatDate(comment.createdAt)}
+                          <div className="suggested-right">
+                            <div className="username-pseudo">
+                              {poste.user.pseudo}
+                            </div>
+                            <div className="description">{poste.title}</div>
+                            <div className="createdAt">
+                              {DateFilter.formatDate(poste.createdAt)}
+                            </div>
                           </div>
                         </div>
-
-                        {/* Si l'id du user dans le commentaire est égale a l'id du commentaire et que je suis en editComment */}
-                        {(editingComment != comment.id && (
-                          <>
-                            <p className="workSans text-justify">
-                              {comment.comment}
-                            </p>
-                          </>
-                        )) || (
-                          <>
-                            <textarea
-                              className="form-control"
-                              rows="3"
-                              name="comment"
-                              onChange={handleChange}
-                              value={editedComment.comment}
-                              id={comment.id}
-                            ></textarea>
-                            <button
-                              onClick={handleSubmitComment}
-                              id="edit"
-                              className="btn btn-success"
-                            >
-                              Valider
-                            </button>
-                            <button
-                              onClick={handleWhichComment}
-                              id="annuler"
-                              className="btn btn-warning"
-                            >
-                              Annuler
-                            </button>
-                          </>
-                        )}
-                        {comment && comment.user.id == userId && (
-                          <div className="space-around">
-                            <button
-                              onClick={handleWhichComment}
-                              className="btn btn-info"
-                              value={comment.id}
-                              id="edit"
-                            >
-                              Modifier
-                            </button>
-                            <button
-                              onClick={handleConfirm}
-                              value={comment.id}
-                              className="btn btn-danger"
-                            >
-                              Supprimer
-                            </button>
-                          </div>
-                        )}
                         <hr></hr>
                       </div>
-                    ))}
-                </form>
+                    )
+                )}
               </div>
-            </div>
-            {/* End Left */}
-
-            {/* Right part */}
-            <div className="columns-right">
-              {suggestedPostes.map(
-                (poste, index) =>
-                  index < limit && (
-                    <div key={poste.id}>
-                      <div className="suggested">
-                        <div className="suggested-left">
-                          <Link to={"/postes/show/" + poste.id}>
-                            <img
-                              src={UrlFilter.ytUrlToThumbnail(poste.href)}
-                              className="imgSuggest"
-                              alt="..."
-                            />
-                          </Link>
-                        </div>
-                        <div className="suggested-right">
-                          <div className="username-pseudo">
-                            {poste.user.pseudo}
-                          </div>
-                          <div className="description">{poste.description}</div>
-                          <div className="createdAt">
-                            {DateFilter.formatDate(poste.createdAt)}
-                          </div>
-                        </div>
-                      </div>
-                      <hr></hr>
-                    </div>
-                  )
-              )}
             </div>
           </div>
         </div>

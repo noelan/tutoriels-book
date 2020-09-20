@@ -38,3 +38,22 @@
     }
   }
 }
+
+.pagination {
+  @include xs-d {
+    padding: 0;
+  }
+
+  .page-item {
+    @include xs-d {
+      display: none;
+    }
+  }
+}
+
+.pagination .active,
+.disabled {
+  @include xs-d {
+    display: block !important;
+  }
+}

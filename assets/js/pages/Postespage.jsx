@@ -13,9 +13,11 @@ const PostesPage = (props) => {
   const [search, setSearch] = useState("");
   const itemsPerPage = 12;
   const [isSelected, setIsSelected] = useState("Tous");
+  const [isLoading, setIsLoading] = useState(true);
   const subNav = useRef(null);
   let prevScrollpos = window.pageYOffset;
   let animationFinished = true;
+  let fade = useRef(null);
   /**
    * Récupération de tous les postes (findAll)
    */
@@ -23,6 +25,8 @@ const PostesPage = (props) => {
     try {
       const data = await PosteAPI.findAll();
       setPostes(data);
+      setIsLoading(false);
+      fadeIn();
     } catch (error) {
       toast.error("Erreur lors du chargement des postes !");
     }
@@ -60,7 +64,9 @@ const PostesPage = (props) => {
       : filteredPostes;
 
   useEffect(() => {
+    setIsLoading(true);
     fetchPostes();
+    window.addEventListener("scroll", moveSubNav);
   }, []);
 
   /**
@@ -122,93 +128,142 @@ const PostesPage = (props) => {
     prevScrollpos = currentScrollPos;
   };
 
-  useEffect(() => {
-    window.addEventListener("scroll", moveSubNav);
-  });
+  const fadeIn = () => {
+    gsap.fromTo(fade.current, 1, { opacity: 0 }, { opacity: 1 });
+  };
 
   return (
     <>
-      <div className="postes-header" ref={subNav}>
-        <div className="filters">
-          {/* Categories */}
-
-          {categories.map((category) => (
-            <p
-              id={category}
-              key={category}
-              onClick={handleFilter}
-              className={"category" + (isSelected == category ? " active" : "")}
-            >
-              {category}
-            </p>
-          ))}
-          <div className="search">
-            <input
-              type="text"
-              className="search-filter"
-              placeholder="Recherche..."
-              onChange={handleSearch}
-              value={search}
-            />
-            <button type="submit" className="searchButton">
-              <i className="fa fa-search"></i>
-            </button>
+      {isLoading && (
+        <div className="loader">
+          <div className="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
           </div>
         </div>
-      </div>
-
-      {/* Cards  */}
-      <div className="cards-container">
-        <div className="flex">
-          {(paginatedPostes.length > 0 &&
-            paginatedPostes.map((poste) => (
-              <div
-                key={poste.id}
-                className="card-poste"
-                onClick={() => console.log(poste)}
+      )}
+      <div className="fade" ref={fade}>
+        <div className="postes-header" ref={subNav}>
+          {/* Desktop */}
+          <div className="filters">
+            {/* Categories */}
+            {categories.map((category) => (
+              <p
+                id={category}
+                key={category}
+                onClick={handleFilter}
+                className={
+                  "category" + (isSelected == category ? " active" : "")
+                }
               >
-                <div className="card-top">
-                  <Link to={"/postes/show/" + poste.id}>
-                    <img
-                      src={UrlFilter.ytUrlToThumbnail(poste.href)}
-                      className="card-img-top"
-                      alt="..."
-                    />
-                  </Link>
-                </div>
-                <div className="card-bottom">
-                  <div className="flex-bottom">
-                    <div className="card-right">
-                      <div className="user-picture">
-                        <img src={poste.user.picture} alt="" />
+                {category}
+              </p>
+            ))}
+            <div className="search">
+              <input
+                type="text"
+                className="search-filter"
+                placeholder="Recherche..."
+                onChange={handleSearch}
+                value={search}
+              />
+              <button type="submit" className="searchButton">
+                <i className="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+          {/* End desktop */}
+
+          {/* Responsive */}
+          <div className="filters-sm filters">
+            {/* Categories */}
+            <div className="dropdown">
+              {isSelected} <i className="fa fa-caret-down"></i>
+              <ul>
+                {categories.map((category) => (
+                  <li
+                    id={category}
+                    key={category}
+                    onClick={handleFilter}
+                    className={
+                      "category" + (isSelected == category ? " active" : "")
+                    }
+                  >
+                    {category}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="search">
+              <input
+                type="text"
+                className="search-filter"
+                placeholder="Recherche..."
+                onChange={handleSearch}
+                value={search}
+              />
+              <button type="submit" className="searchButton">
+                <i className="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Cards  */}
+        <div className="cards-container cards-container-postes">
+          <div className="flex">
+            {(paginatedPostes.length > 0 &&
+              paginatedPostes.map((poste) => (
+                <div
+                  key={poste.id}
+                  className="card-poste"
+                  onClick={() => console.log(poste)}
+                >
+                  <div className="card-top">
+                    <Link to={"/postes/show/" + poste.id}>
+                      <img
+                        src={UrlFilter.ytUrlToThumbnail(poste.href)}
+                        className="card-img-top"
+                        alt="..."
+                      />
+                    </Link>
+                  </div>
+                  <div className="card-bottom">
+                    <div className="flex-bottom">
+                      <div className="card-right">
+                        <div className="user-picture">
+                          <img src={poste.user.picture} alt="" />
+                        </div>
                       </div>
-                    </div>
-                    <div className="card-left">
-                      <div className="title">{poste.title}</div>
-                      <div className="detail">
-                        <div className="pseudo">{poste.user.pseudo}</div>
-                        <div className="createdAt">
-                          {DateFilter.formatDate(poste.creadtedAt)}
+                      <div className="card-left">
+                        <div className="title">{poste.title}</div>
+                        <div className="detail">
+                          <div className="pseudo">{poste.user.pseudo}</div>
+                          <div className="createdAt">
+                            {DateFilter.formatDate(poste.creadtedAt)}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))) || (
-            <p className="text-center workSans">
-              Aucun poste ne correspond à votre Recherche
-            </p>
-          )}
-        </div>
+              ))) || (
+              <p className="text-center workSans">
+                Aucun poste ne correspond à votre Recherche
+              </p>
+            )}
+          </div>
 
-        <div onClick={scroll(event)} className="center-text">
-          <Pagination
-            currentPage={currentPage}
-            itemPerPage={itemsPerPage}
-            setCurrentPage={setCurrentPage}
-            length={filteredPostes.length}
-          />
+          <div onClick={scroll(event)} className="center-text">
+            <Pagination
+              currentPage={currentPage}
+              itemPerPage={itemsPerPage}
+              setCurrentPage={setCurrentPage}
+              length={filteredPostes.length}
+            />
+          </div>
         </div>
       </div>
     </>

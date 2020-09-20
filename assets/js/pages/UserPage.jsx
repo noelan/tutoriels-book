@@ -54,7 +54,7 @@ const UserPage = (props) => {
       return;
     }
 
-    if (userId === 1) {
+    if (user.email !== "invite@invite.invite") {
       try {
         await userAPI.edit(user, userId);
         toast.success("Vos identifiants ont bien été modifié");
@@ -68,7 +68,8 @@ const UserPage = (props) => {
         setErrors(ApiErrors);
       }
     } else {
-      toast.error("Ce compte n'est pas modifiable");
+      toast.error("Ce compte n'est pas modifiable !!!!!");
+      fetchUser();
     }
   };
 

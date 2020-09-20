@@ -9,6 +9,11 @@
     width: 600px;
     height: 300px;
 
+    @include s-d {
+      height: 300px;
+      width: 90%;
+    }
+
     .card {
       box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
         0 10px 10px rgba(0, 0, 0, 0.22);
@@ -117,6 +122,13 @@
         color: $blue;
         font-size: $title-s;
         font-weight: bold;
+      }
+
+      .sub-title {
+        color: $grey-light;
+        font-size: $sub-s + 2;
+        text-align: center;
+        padding: 5px 0px;
       }
 
       .sub-text {
