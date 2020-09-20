@@ -91,6 +91,13 @@ const HomePage = () => {
 
                 <div className="row">
                   <div className="text">
+                    Du faux contenu généré pour pouvoir tester le site en
+                    situation réel.
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="text">
                     Un site qui s'adapte sur différente taille d'écran
                     mobile,tablette ou desktop.
                   </div>
