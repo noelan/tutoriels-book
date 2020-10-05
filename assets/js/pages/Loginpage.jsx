@@ -26,7 +26,7 @@ const LoginPage = (props) => {
       setError("");
       setIsAuthenticated(true);
       toast.success("Vous êtes maintenant connecté");
-      props.history.push("/");
+      props.history.push("/postes");
     } catch (error) {
       console.log(error.response);
       toast.error("Connexion échoué");
@@ -54,7 +54,7 @@ const LoginPage = (props) => {
               <div className="left">
                 <p className="title">Se connecter</p>
                 <p className="sub-title">
-                  un compte invité est à disposition mais rien ne vous empêche
+                  Un compte invité est à disposition mais rien ne vous empêche
                   d'avoir votre propre compte !
                 </p>
                 <form onSubmit={handleSubmit}>

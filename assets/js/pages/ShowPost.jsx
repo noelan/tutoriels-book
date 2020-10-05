@@ -226,6 +226,7 @@ const ShowPage = (props) => {
   };
 
   const handleConfirm = (event) => {
+    event.preventDefault;
     const id = event.currentTarget.value;
 
     confirmAlert({

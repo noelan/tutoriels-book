@@ -21,7 +21,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
             $comment->setComment($faker->sentence())
                 ->setUser($this->getReference('user' . rand(0, 9)))
                 ->setCreatedAt($faker->dateTimeBetween('-1 years'))
-                ->setPost($this->getReference("post" . rand(0, 90)));
+                ->setPost($this->getReference("post" . rand(0, 99)));
             $this->addReference("comment" . $k, $comment);
             $manager->persist($comment);
         }
