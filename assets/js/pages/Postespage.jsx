@@ -26,7 +26,7 @@ const PostesPage = (props) => {
       const data = await PosteAPI.findAll();
       setPostes(data);
       setIsLoading(false);
-      fadeIn();
+      // fadeIn();
     } catch (error) {
       toast.error("Erreur lors du chargement des postes !");
     }
@@ -75,6 +75,7 @@ const PostesPage = (props) => {
    */
   const handleFilter = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
     const filter = event.currentTarget.id;
     setIsSelected(filter);
     event.currentTarget.classList.add("active");
@@ -85,6 +86,7 @@ const PostesPage = (props) => {
     }
     try {
       const data = await PosteAPI.findByFilter(filter);
+      setIsLoading(false);
       setPostes(data);
     } catch (error) {
       error.response;
