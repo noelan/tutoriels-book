@@ -28,7 +28,7 @@
     "@babel/preset-react": "^7.0.0",
     "axios": "^0.19.0",
     "dotenv": "^8.2.0",
-    "gsap": "^3.5.1",
+    "gsap": "^3.6.0",
     "hash": "^0.2.1",
     "is-image-url": "^1.1.8",
     "jquery": "^3.4.1",
