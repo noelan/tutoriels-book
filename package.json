@@ -35,7 +35,7 @@
     "jquery-parallax.js": "^1.5.0",
     "jwt-decode": "^2.2.0",
     "modali": "^1.2.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "react-awesome-slider": "^2.4.0",
     "react-confirm-alert": "^2.4.1",
     "react-gsap": "^2.2.1",
